@@ -1,0 +1,22 @@
+#!/bin/sh
+
+rm -f /mnt/SDCARD/update.log # stock pollution
+
+SDCARD_PATH="/mnt/SDCARD"
+LAUNCH_PATH="$SDCARD_PATH/.system/paks/MiniUI.pak/launch.sh"
+INSTALL_ZIP="$SDCARD_PATH/MiniUI.zip"
+
+# install
+if [ ! -f "$LAUNCH_PATH" ] && [ -f "$INSTALL_ZIP" ] ; then
+	unzip -o "$INSTALL_ZIP" -d "$SDCARD_PATH"
+	if [ -f "$LAUNCH_PATH" ] ; then
+		rm -f "$INSTALL_ZIP"
+	fi
+fi
+
+# or launch (and keep launched)
+while [ -f "$LAUNCH_PATH" ] ; do
+	"$LAUNCH_PATH"
+done
+
+reboot # under no circumstances should stock be allowed to touch this card

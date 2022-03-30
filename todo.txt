@@ -1,0 +1,66 @@
+BUGS
+
+only copy libs on aarch64 platforms
+	or if gcc version == 9.2
+
+get this mf into a repo
+	don't forget to submodule the third-party folder
+
+write readme
+
+prepare dated download
+	MiniUI-yyyymmdd-HMS.zip
+		.tmp_update/
+			updater
+		Bios/
+		MiniUI.zip
+		README.txt
+		Roms/
+		Saves/
+
+merge neonloops judder fixes
+
+make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
+
+design settings
+
+Settings
+	Version	(2022-02-22 12:34:56)
+	Automatic Update (when present on SD card)
+		Disabled
+		Enabled
+	Automatic Sleep (only while in menus)
+		Disabled
+		30 seconds
+		60 seconds
+	Automatic Power Off (while sleeping)
+		Disabled
+		1 minute
+		5 minutes
+	Automatic Save (before sleep and poweroff)
+		Disabled
+		Enabled
+	Scaling (may affect emulator performance)
+		Pixel Perfectionist
+		Aspect Aficionado
+		Fullscreen Fiend
+	Advanced
+		Files (Commander.pak)
+
+figure out what's slowing down boot
+
+INSTALL/UPDATE
+	MiniUI.zip (containing just .system) is unzipped at the root of the card
+
+AUTOSAVE
+	still a little bit of a tangle (libmmenu.c and common.c call reboot)
+	emulator provides an autosave function and requests a state (menu, sleep, or power off)
+	libmmenu will handle the emulator requested state as well as any state changes it itself initiates
+	what if we could signal to keymon to shut it all down?
+
+
+UPDATER
+	# TODO: this is working kinda, except awk doesn't recieve the output of unzip until it's finished unzipping all files
+	# total=`unzip -l ${INSTALL_ZIP} | grep -o -E '[0-9]+\s+files$' | grep -o -E '[0-9]+'`
+	# total=$((total+1))
+	# unzip -o "$INSTALL_ZIP" -d "$TMP_UPDATE_DIR" | awk -v total="$total" -v out="/tmp/update_progress.txt" 'function bname(file,a,n){cmd=sprintf("basename %s",file);cmd | getline name; return name}BEGIN{cnt=0}{printf "">out;cnt+=1;printf "%d Unzipping %s\n",cnt*100/total,bname($2)>>out;close(out);fflush(out)}'
