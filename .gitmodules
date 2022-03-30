@@ -1,0 +1,3 @@
+[submodule "third-party/DinguxCommander"]
+	path = third-party/DinguxCommander
+	url = git@github.com:shauninman/DinguxCommander.git
