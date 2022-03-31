@@ -1106,7 +1106,6 @@ int main (int argc, char *argv[]) {
 			charge_start = now;
 		}
 		
-		
 		if (power_start && now-power_start>=1000) {
 			powerOff();
 			return 0;
@@ -1121,7 +1120,7 @@ int main (int argc, char *argv[]) {
 		if (now-cancel_start>=kSleepDelay || Input_justReleased(kButtonSleep) || Input_justPressed(kButtonMenu))
 		{
 			fauxSleep();
-			cancel_start = now;
+			cancel_start = SDL_GetTicks();
 			power_start = 0;
 			dirty = 1;
 		}

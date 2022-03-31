@@ -427,7 +427,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 		
 		if (now-cancel_start>=kSleepDelay || Input_justReleased(kButtonSleep) || Input_justPressed(kButtonMenu)) {
 			SystemRequest(kRequestSleep);
-			cancel_start = now;
+			cancel_start = SDL_GetTicks();
 			power_start = 0;
 			dirty = 1;
 		}
