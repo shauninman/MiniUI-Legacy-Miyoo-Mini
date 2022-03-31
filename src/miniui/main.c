@@ -1117,7 +1117,7 @@ int main (int argc, char *argv[]) {
 		#define kSleepDelay 30000
 		if (now-cancel_start>=kSleepDelay && preventAutosleep()) cancel_start = now;
 		
-		if (now-cancel_start>=kSleepDelay || Input_justReleased(kButtonSleep) || Input_justPressed(kButtonMenu))
+		if (now-cancel_start>=kSleepDelay || Input_justReleased(kButtonSleep)) // || Input_justPressed(kButtonMenu))
 		{
 			fauxSleep();
 			cancel_start = SDL_GetTicks();

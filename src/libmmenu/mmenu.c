@@ -352,7 +352,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			// printf("bmp_path: %s (%i)\n", bmp_path, preview_exists);
 		}
 		
-		if (Input_justPressed(kButtonB)) {
+		if (Input_justPressed(kButtonB) || Input_justPressed(kButtonMenu)) {
 			status = kStatusContinue;
 			quit = 1;
 		}
@@ -425,7 +425,8 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 		#define kSleepDelay 30000
 		if (now-cancel_start>=kSleepDelay && preventAutosleep()) cancel_start = now;
 		
-		if (now-cancel_start>=kSleepDelay || Input_justReleased(kButtonSleep) || Input_justPressed(kButtonMenu)) {
+		if (now-cancel_start>=kSleepDelay || Input_justReleased(kButtonSleep)) // || Input_justPressed(kButtonMenu)) 
+		{
 			SystemRequest(kRequestSleep);
 			cancel_start = SDL_GetTicks();
 			power_start = 0;

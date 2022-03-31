@@ -1,13 +1,13 @@
 BUGS
 
+write readme
+
 ignore and remove binaries from repo
 	add elf extensions for easier ignore?
 	strip extension when copying to PAYLOAD?
 
 only copy libs on aarch64 platforms
 	or if gcc version == 9.2
-
-write readme
 
 prepare dated download
 	MiniUI-yyyymmdd-HMS.zip
