@@ -6,7 +6,7 @@ SYSTEM_PATH="/mnt/SDCARD/.system"
 
 progressui &
 
-progress 0 Preparing update
+progress 0 Installing update
 sleep 1
 
 NUM=0
@@ -21,18 +21,17 @@ do
 	unzip -q -o "$INSTALL_ZIP" "$FILE_PATH" -d "$TMP_UPDATE_DIR" 
 done
 
-progress 98 Installing update
-sleep 1
-
 mv "$SYSTEM_PATH" "$TMP_UPDATE_DIR/.system-old"
 mv "$TMP_UPDATE_DIR/.system" "$SYSTEM_PATH"
 
-progress 99 Update complete
+progress 100 Update complete
 rm -f "$INSTALL_ZIP"
 sleep 1
 
-progress 100 Powering off
+progress quit
 
+killall keymon
+killall lumon
 rm -rf "$TMP_UPDATE_DIR/.system-old"
 
-sync && reboot
+killall launch.sh
