@@ -1,6 +1,3 @@
-add support for .system/postupdate.sh if present
-	for replacing .tmp_update/updater or moving .userdata
-
 write readme
 
 only copy libs on aarch64 platforms

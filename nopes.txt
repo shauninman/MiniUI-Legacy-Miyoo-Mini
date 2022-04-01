@@ -1,0 +1,23 @@
+design settings
+
+Settings
+	Version	(2022-02-22 12:34:56)
+	Automatic Update (when present on SD card)
+		Disabled
+		Enabled
+	Automatic Sleep (only while in menus)
+		Disabled
+		30 seconds
+		60 seconds
+	Automatic Power Off (while sleeping)
+		Disabled
+		1 minute
+		5 minutes
+	Automatic Save (before sleep and poweroff)
+		Disabled
+		Enabled
+	Scaling (may affect emulator performance)
+		Pixel Perfectionist
+		Aspect Aficionado
+		Fullscreen Fiend
+	File Browser.pak (DinguxCommander)
