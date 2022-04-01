@@ -1,6 +1,12 @@
 for some reason my submodules aren't pointed at the correct branches?
 	wtf
- 
+	I guess I hadn't checked them in?
+
+add pak to install MiniUI boot logo?
+
+remove ignored files
+	zip repo first just in case
+
 prepare instructions for restoring data from MiniUI alpha
 	which means I need to install the alpha on a card :sweat_smile:
 	

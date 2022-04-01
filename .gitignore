@@ -1,6 +1,5 @@
 build/
 releases/
-pulled/
 
 .DS_Store
 *.o
