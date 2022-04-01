@@ -18,7 +18,7 @@ BUILD_TIME!=date "+%Y-%m-%d %H:%M:%S"
 BUILD_REPO=https://github.com/shauninman/MiniUI
 
 RELEASE_TIME!=date +%Y%m%d
-RELEASE_BASE=MiniUI-$(RELEASE_TIME)
+RELEASE_BASE=MiniUI-beta-$(RELEASE_TIME)
 RELEASE_DOT!=find ./release/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
 RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
 
