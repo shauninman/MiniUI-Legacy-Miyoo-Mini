@@ -19,13 +19,13 @@ BUILD_REPO=https://github.com/shauninman/MiniUI
 
 RELEASE_TIME!=date +%Y%m%d
 RELEASE_BASE=MiniUI-beta-$(RELEASE_TIME)
-RELEASE_DOT!=find ./release/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
+RELEASE_DOT!=find ./releases/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
 RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
 
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 PAYLOAD_LIB=
 
-all: lib sdl core emu payload zip
+all: lib sdl core emu payload $(BUILD_ARCH) zip
 
 lib:
 	cd ./src/libmsettings && make
@@ -51,17 +51,6 @@ payload:
 	mkdir -p ./releases
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libc.so.6 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libcrypt.so.1 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libdl.so.2 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libgcc_s.so.1 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libm.so.6 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libpcprofile.so ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libpthread.so.0 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libresolv.so.2 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/librt.so.1 ./build/PAYLOAD/.system/lib/
-	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libstdc++.so.6 ./build/PAYLOAD/.system/lib/
 	cd ./build && find . -type f -name '.keep' -delete
 	cd ./build && find . -type f -name '.DS_Store' -delete
 	cp ./src/libmsettings/libmsettings.so ./build/PAYLOAD/.system/lib/
@@ -78,8 +67,24 @@ payload:
 	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Settings/Files.pak/
 	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
 
+x86_64:
+	echo "Nothing to do for x86_64"
+	
+aarm64:
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libc.so.6 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libcrypt.so.1 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libdl.so.2 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libgcc_s.so.1 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libm.so.6 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libpcprofile.so ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libpthread.so.0 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libresolv.so.2 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/librt.so.1 ./build/PAYLOAD/.system/lib/
+	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libstdc++.so.6 ./build/PAYLOAD/.system/lib/
+
 zip:
-	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)" > version.txt
+	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)\nArch   $(BUILD_ARCH)" > version.txt
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip .tmp_update Bios Roms Saves MiniUI.zip README.txt
 
