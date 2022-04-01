@@ -1,5 +1,9 @@
 write readme
 
+auto install updates
+
+make sure updater doesn't clobber unofficial Emu paks
+
 only copy libs on aarch64 platforms
 	or if gcc version == 9.2
 

@@ -17,6 +17,8 @@ BUILD_HASH!=git rev-parse --short HEAD
 BUILD_TIME!=date "+%Y-%m-%d %H:%M:%S"
 BUILD_REPO=https://github.com/shauninman/MiniUI
 
+RELEASE_TIME!= date "+%Y%m%d-%H%M%S"
+
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 PAYLOAD_LIB=
 
@@ -43,6 +45,7 @@ emu:
 # 	cd ./third-party/DinguxCommander && make -j
 
 payload:
+	mkdir -p ./releases
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
@@ -75,6 +78,7 @@ payload:
 zip:
 	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)" > version.txt
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system
+	cd ./build/PAYLOAD && zip -r ../../releases/MiniUI-$(RELEASE_TIME).zip .tmp_update Bios Roms Saves MiniUI.zip README.txt
 
 clean:
 	rm -rf ./build

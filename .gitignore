@@ -1,9 +1,10 @@
 build/
+releases/
+pulled/
+
 .DS_Store
 *.o
 *.so
-pulled/
-
 
 batmon
 keymon

@@ -6,7 +6,7 @@ Source: https://github.com/shauninman/MiniUI
 Features
 
 - No settings or configuration
-- Simple file browser backd by a
+- Simple file browser backed by a
   sensible SD card layout
 - No button combinations to remember
 - Consistent in-emulator menu with
@@ -25,7 +25,7 @@ Features
   created save state by pressing X in 
   the file browser instead of A
 - Streamlined emulator front end (picoarch)
-  backed by familiar emulator cores 
+  backed by libretro cores 
 
 ----------------------------------------
 Roms
@@ -35,12 +35,12 @@ Included in this zip is a Roms folder containing folders for each console MiniUI
 ----------------------------------------
 Bios
 
-A lot of emulators require or perform much better with official bios. MiniUI is strictly BYOB. Place the bios for each system in a folder that matches the tag in the corresponding Roms folder name (eg. bios for "Sony PlayStation (PS)" roms gos in "/Bios/PS/").
+A lot of emulators require or perform much better with official bios. MiniUI is strictly BYOB. Place the bios for each system in a folder that matches the tag in the corresponding Roms folder name (eg. bios for "Sony PlayStation (PS)" roms goes in "/Bios/PS/").
 
 ----------------------------------------
 Disc-based games
 
-To streamline launching disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MinUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MinUI will just display Disc 1, Disc2, etc.
+To streamline launching disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MiniUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will just display Disc 1, Disc2, etc.
 
 ----------------------------------------
 Install
@@ -66,6 +66,8 @@ Check out neonloop's repos: https://git.crowdedwood.com
 To Jim Gray (and the entire Onion crew) for taking a joke, running with it, and turning a stop-gap into a beloved launcher and community, it's been amazing to watch.
 
 Check out Onion for a more full-bodied Miyoo Mini experience: https://github.com/jimgraygit/Onion/
+
+To the creators of the Trimui Model S and Miyoo Mini for making some nice (now hard to find) hardware and simple interfaces in a market crowded with bloated, ugly front ends that require entirely too much work to setup properly.
 
 And to the entire Retro Game Handhelds Miyoo Mini and dev Discord community for their enthusiasm and encouragement. 
 
