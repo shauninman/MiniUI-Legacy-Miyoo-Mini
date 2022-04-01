@@ -1,7 +1,30 @@
+for some reason my submodules aren't pointed at the correct branches?
+	wtf
+ 
 prepare instructions for restoring data from MiniUI alpha
 	which means I need to install the alpha on a card :sweat_smile:
+	
+	delete:
+		.system/
+		.tmp_update/
+	rename:
+		.userdata/ to .userdata-old/
+	create:
+		.userdata-new/
+	move the contents of
+		.userdata-old/miyoomini/ into .userdata-new/
+	move
+		.userdata-old/shared/datetime.txt into .userdata-old/shared/.minui/
+	move
+		.userdata-old/shared/.minui/ to .userdata-new/
+	delete
+		.userdata-old/
+	rename
+		.userdata-new/ to .userdata/
 
 auto install updates?
+
+do another pass at default
 
 make sure updater doesn't clobber unofficial Emu paks
 
