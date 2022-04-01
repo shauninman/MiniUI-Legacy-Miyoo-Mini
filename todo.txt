@@ -1,21 +1,12 @@
-write readme
+prepare instructions for restoring data from MiniUI alpha
+	which means I need to install the alpha on a card :sweat_smile:
 
-auto install updates
+auto install updates?
 
 make sure updater doesn't clobber unofficial Emu paks
 
 only copy libs on aarch64 platforms
 	or if gcc version == 9.2
-
-prepare dated download
-	MiniUI-yyyymmdd-HMS.zip
-		.tmp_update/
-			updater
-		Bios/
-		MiniUI.zip
-		README.txt
-		Roms/
-		Saves/
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 

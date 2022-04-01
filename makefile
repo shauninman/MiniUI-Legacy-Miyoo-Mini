@@ -17,7 +17,10 @@ BUILD_HASH!=git rev-parse --short HEAD
 BUILD_TIME!=date "+%Y-%m-%d %H:%M:%S"
 BUILD_REPO=https://github.com/shauninman/MiniUI
 
-RELEASE_TIME!= date "+%Y%m%d-%H%M%S"
+RELEASE_TIME!=date +%Y%m%d
+RELEASE_BASE=MiniUI-$(RELEASE_TIME)
+RELEASE_DOT!=find ./release/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
+RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
 
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 PAYLOAD_LIB=
@@ -76,9 +79,9 @@ payload:
 	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
 
 zip:
-	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)" > version.txt
+	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)" > version.txt
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system
-	cd ./build/PAYLOAD && zip -r ../../releases/MiniUI-$(RELEASE_TIME).zip .tmp_update Bios Roms Saves MiniUI.zip README.txt
+	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip .tmp_update Bios Roms Saves MiniUI.zip README.txt
 
 clean:
 	rm -rf ./build
