@@ -17,7 +17,7 @@ BUILD_TIME!=date "+%Y-%m-%d %H:%M:%S"
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 PAYLOAD_LIB=
 
-all: lib sdl core emu settings payload zip
+all: lib sdl core emu payload zip
 
 lib:
 	cd ./src/libmsettings && make
@@ -36,8 +36,8 @@ core:
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
 
-settings:
-	cd ./third-party/DinguxCommander && make -j
+# settings:
+# 	cd ./third-party/DinguxCommander && make -j
 
 payload:
 	mkdir -p ./build
@@ -66,8 +66,8 @@ payload:
 	cp ./src/miniui/MiniUI ./build/PAYLOAD/.system/paks/MiniUI.pak/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Settings/Files.pak/
-	cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
+	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Settings/Files.pak/
+	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
 
 zip:
 	cd ./build/PAYLOAD/.system && echo $(BUILD_TIME) > version.txt
@@ -84,4 +84,4 @@ clean:
 	cd ./src/progressui && make clean
 	cd ./src/miniui && make clean
 	cd ./third-party/picoarch && make platform=miyoomini clean
-	cd ./third-party/DinguxCommander && make clean
+	# cd ./third-party/DinguxCommander && make clean
