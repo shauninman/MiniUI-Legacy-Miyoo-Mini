@@ -6,7 +6,12 @@ releases/
 *.so
 
 batmon
+!batmon/
 keymon
+!keymon/
 lumon
+!lumon/
 MiniUI
+!MiniUI/
 progressui
+!progressui/
