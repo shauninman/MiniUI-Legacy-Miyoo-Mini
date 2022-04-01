@@ -972,6 +972,28 @@ int main (int argc, char *argv[]) {
 		int select_was_pressed = Input_isPressed(kButtonSelect); // rs90-only
 		
 		Input_poll();
+		
+		// if (Input_justPressed(kButtonMenu)) {
+		// 	// TODO: this isn't great because it preempts sleep...
+		// 	SDL_FillRect(screen, NULL, 0);
+		// 	char version[256];
+		// 	getFile("/mnt/SDCARD/.system/version.txt", version, 256); // TODO: move to Paths? or at least a constant
+		// 	trimTrailingNewlines(version);
+		// 	GFX_blitBodyCopy(screen, version,0,0,Screen.width,Screen.height);
+		// 	SDL_Flip(screen);
+		//
+		// 	Input_reset();
+		// 	int dismiss = 0;
+		// 	SDL_Event event;
+		// 	while (!dismiss) {
+		// 		while (SDL_PollEvent(&event)) {
+		// 			if (event.type==SDL_KEYDOWN) {
+		// 				dismiss = 1;
+		// 			}
+		// 		}
+		// 	}
+		// 	dirty = 1;
+		// }
 			
 		int selected = top->selected;
 		int total = top->entries->count;
