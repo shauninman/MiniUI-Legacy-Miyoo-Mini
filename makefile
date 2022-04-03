@@ -25,7 +25,7 @@ RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 PAYLOAD_LIB=
 
-all: lib sdl core emu payload $(BUILD_ARCH) zip
+all: lib sdl core emu tools payload $(BUILD_ARCH) zip
 
 lib:
 	cd ./src/libmsettings && make
@@ -44,8 +44,8 @@ core:
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
 
-# settings:
-# 	cd ./third-party/DinguxCommander && make -j
+tools:
+	cd ./third-party/DinguxCommander && make -j
 
 payload:
 	mkdir -p ./releases
@@ -64,8 +64,8 @@ payload:
 	cp ./src/miniui/MiniUI ./build/PAYLOAD/.system/paks/MiniUI.pak/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
-	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Settings/Files.pak/
-	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
+	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
+	cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Tools/Files.pak/
 
 x86_64:
 	echo "Nothing to do for x86_64"
