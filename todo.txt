@@ -1,15 +1,10 @@
-for some reason my submodules aren't pointed at the correct branches?
-	wtf
-	I guess I hadn't checked them in?
+export JUST_INSTALLED and use that to run a post-install script from MiniUI.pak/launch.sh
 
 add pak to install MiniUI boot logo?
-
-remove ignored files
-	zip repo first just in case
+add Version.pak?
+auto install updates?
 
 prepare instructions for restoring data from MiniUI alpha
-	which means I need to install the alpha on a card :sweat_smile:
-	
 	delete:
 		.system/
 		.tmp_update/
@@ -27,15 +22,13 @@ prepare instructions for restoring data from MiniUI alpha
 		.userdata-old/
 	rename
 		.userdata-new/ to .userdata/
+	then install as normal
 
-auto install updates?
 
-do another pass at default
+do another pass at defaults
 
 make sure updater doesn't clobber unofficial Emu paks
-
-only copy libs on aarch64 platforms
-	or if gcc version == 9.2
+	add a copy of any missing paks from .system-old/paks/Emus before deleting?
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 

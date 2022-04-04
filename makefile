@@ -25,15 +25,12 @@ RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 BUNDLE_LIBS=
 
-GCC_VER_GTE9 := $(shell echo `gcc -dumpversion | cut -f1-2 -d.` \>= 9.0 | bc )
-ifeq "$(GCC_GTEQ_472)" "1"
+GCC_VER_GTE9_0 := $(shell echo `gcc -dumpversion | cut -f1-2 -d.` \>= 9.0 | bc )
+ifeq "$(GCC_VER_GTE9_0)" "1"
   BUNDLE_LIBS=bundle
 endif
 
-all: lib sdl core emu payload $(PAYLOAD_LIB) zip
-
-version:
-	$(CROSS_COMPILE)gcc -dumpfullversion -dumpversion
+all: lib sdl core emu payload $(BUNDLE_LIBS) zip
 
 lib:
 	cd ./src/libmsettings && make
@@ -52,8 +49,8 @@ core:
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
 
-# settings:
-# 	cd ./third-party/DinguxCommander && make -j
+tools:
+	cd ./third-party/DinguxCommander && make -j
 
 payload:
 	mkdir -p ./releases
@@ -72,8 +69,8 @@ payload:
 	cp ./src/miniui/MiniUI ./build/PAYLOAD/.system/paks/MiniUI.pak/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
-	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Settings/Files.pak/
-	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
+	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
+	cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Tools/Files.pak/
 
 bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/

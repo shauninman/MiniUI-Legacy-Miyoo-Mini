@@ -11,6 +11,7 @@ if [ ! -f "$LAUNCH_PATH" ] && [ -f "$INSTALL_ZIP" ] ; then
 	unzip -o "$INSTALL_ZIP" -d "$SDCARD_PATH"
 	if [ -f "$LAUNCH_PATH" ] ; then
 		rm -f "$INSTALL_ZIP"
+		export JUST_INSTALLED=1
 	fi
 fi
 
