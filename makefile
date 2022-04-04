@@ -16,6 +16,7 @@ BUILD_ARCH!=uname -m
 BUILD_HASH!=git rev-parse --short HEAD
 BUILD_TIME!=date "+%Y-%m-%d %H:%M:%S"
 BUILD_REPO=https://github.com/shauninman/MiniUI
+BUILD_GCC:=$(shell $(CROSS_COMPILE)gcc -dumpfullversion -dumpversion)
 
 RELEASE_TIME!=date +%Y%m%d
 RELEASE_BASE=MiniUI-beta-$(RELEASE_TIME)
@@ -86,7 +87,7 @@ bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libstdc++.so.6 ./build/PAYLOAD/.system/lib/
 
 zip:
-	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)\nArch   $(BUILD_ARCH)" > version.txt
+	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)\nArch   $(BUILD_ARCH)\nGCC    $(BUILD_GCC)" > version.txt
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip .tmp_update Bios Roms Saves MiniUI.zip README.txt
 
