@@ -23,9 +23,17 @@ RELEASE_DOT!=find ./releases/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
 RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
 
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
-PAYLOAD_LIB=
+BUNDLE_LIBS=
 
-all: lib sdl core emu payload $(BUILD_ARCH) zip
+GCC_VER_GTE9 := $(shell echo `gcc -dumpversion | cut -f1-2 -d.` \>= 9.0 | bc )
+ifeq "$(GCC_GTEQ_472)" "1"
+  BUNDLE_LIBS=bundle
+endif
+
+all: lib sdl core emu payload $(PAYLOAD_LIB) zip
+
+version:
+	$(CROSS_COMPILE)gcc -dumpfullversion -dumpversion
 
 lib:
 	cd ./src/libmsettings && make
@@ -67,10 +75,7 @@ payload:
 	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Settings/Files.pak/
 	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Settings/Files.pak/
 
-x86_64:
-	echo "Nothing to do for x86_64"
-	
-aarch64:
+bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libc.so.6 ./build/PAYLOAD/.system/lib/
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libcrypt.so.1 ./build/PAYLOAD/.system/lib/
