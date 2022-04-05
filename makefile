@@ -102,4 +102,4 @@ clean:
 	cd ./src/progressui && make clean
 	cd ./src/miniui && make clean
 	cd ./third-party/picoarch && make platform=miyoomini clean
-	# cd ./third-party/DinguxCommander && make clean
+	cd ./third-party/DinguxCommander && make clean
