@@ -63,6 +63,6 @@ progress quit
 
 killall keymon
 killall lumon
-rm -rf "$TMP_UPDATE_DIR/.system-old"
+rm -rf "$OLD_SYSTEM_PATH"
 
 killall launch.sh
