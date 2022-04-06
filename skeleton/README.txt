@@ -8,7 +8,6 @@ Features
 - No settings or configuration
 - Simple file browser backed by a
   sensible SD card layout
-- No button combinations to remember
 - Consistent in-emulator menu with
   quick access to save states, disc
   changing, and emulator options

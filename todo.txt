@@ -1,3 +1,6 @@
+picoarch doesn't bind MENU to release anymore?
+	try building on intel mac to make sure it's not related to the gcc I built
+
 export JUST_INSTALLED and use that to run a post-install script from MiniUI.pak/launch.sh
 
 add pak to install MiniUI boot logo?
@@ -26,9 +29,6 @@ prepare instructions for restoring data from MiniUI alpha
 
 
 do another pass at defaults
-
-make sure updater doesn't clobber unofficial Emu paks
-	add a copy of any missing paks from .system-old/paks/Emus before deleting?
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 

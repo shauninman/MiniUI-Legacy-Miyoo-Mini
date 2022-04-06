@@ -1,4 +1,5 @@
 #!/bin/sh
+# MiniUI.pak
 
 # init_lcd
 cat /proc/ls

@@ -1,4 +1,5 @@
 #!/bin/sh
+# Update.pak
 
 TMP_UPDATE_DIR="/mnt/SDCARD/.tmp_update"
 INSTALL_ZIP="/mnt/SDCARD/MiniUI.zip"
@@ -24,9 +25,30 @@ done
 progress 99 Cleaning up
 sleep 1
 
-mv "$SYSTEM_PATH" "$TMP_UPDATE_DIR/.system-old"
-mv "$TMP_UPDATE_DIR/.system" "$SYSTEM_PATH"
 rm -f "$INSTALL_ZIP"
+
+OLD_SYSTEM_PATH="/mnt/SDCARD/.tmp_update/.system-old"
+
+mv "$SYSTEM_PATH" "$OLD_SYSTEM_PATH"
+mv "$TMP_UPDATE_DIR/.system" "$SYSTEM_PATH"
+
+# preserve any unoffical Emus and Tools paks
+for SRC_PATH in `find $OLD_SYSTEM_PATH -type d -name "*.pak"` ; do
+	REL_PATH=${SRC_PATH/$OLD_SYSTEM_PATH/}
+	DST_PATH=$SYSTEM_PATH$REL_PATH
+	if [ ! -d "$DST_PATH" ]; then
+		mv $SRC_PATH $DST_PATH
+	fi
+done
+
+#preserve any unofficial libretro cores
+for SRC_PATH in `find $OLD_SYSTEM_PATH -type f -name "*_libretro.so"` ; do
+	REL_PATH=${SRC_PATH/$OLD_SYSTEM_PATH/}
+	DST_PATH=$SYSTEM_PATH$REL_PATH
+	if [ ! -f "$DST_PATH" ]; then
+		mv $SRC_PATH $DST_PATH
+	fi
+done
 
 # perform post-update actions if present in updated .system folder
 if [ -f "$SYSTEM_PATH/post-update.sh" ]; then
