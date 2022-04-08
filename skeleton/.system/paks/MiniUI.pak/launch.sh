@@ -26,6 +26,8 @@ export LOGS_PATH=/mnt/SDCARD/.userdata/logs
 export CORES_PATH=/mnt/SDCARD/.system/cores
 export RES_PATH=/mnt/SDCARD/.system/res
 
+rm -f "$SDCARD_PATH/update.log"
+
 export LD_LIBRARY_PATH="/mnt/SDCARD/.system/lib:$LD_LIBRARY_PATH"
 export PATH="/mnt/SDCARD/.system/bin:$PATH"
 
@@ -83,3 +85,5 @@ while [ -f "$EXEC_PATH" ]; do
 		sync
 	fi
 done
+
+reboot # just in case
