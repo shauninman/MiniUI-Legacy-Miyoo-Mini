@@ -34,17 +34,20 @@ static char* items[kItemCount];
 
 #define kSlotCount 8
 static int slot = 0;
+static int is_simple = 0;
 
 __attribute__((constructor)) static void init(void) {
 	void* librt = dlopen("librt.so.1", RTLD_LAZY | RTLD_GLOBAL); // shm
 	void* libmsettings = dlopen("libmsettings.so", RTLD_LAZY | RTLD_GLOBAL);
 	InitSettings();
 	
+	is_simple = exists(kEnableSimpleModePath);
+	
 	items[kItemContinue] 	= "Continue";
 	items[kItemSave] 		= "Save";
 	items[kItemLoad] 		= "Load";
-	items[kItemAdvanced] 	= "Advanced";
-	items[kItemExitGame] 	= "Exit Game";
+	items[kItemAdvanced] 	= is_simple ? "Reset" : "Advanced";
+	items[kItemExitGame] 	= "Quit";
 	
 	GFX_init();
 	
@@ -418,7 +421,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 					status = kStatusLoadSlot + slot;
 				break;
 				case kItemAdvanced:
-					status = kStatusOpenMenu;
+					status = is_simple ? kStatusResetGame : kStatusOpenMenu;
 				break;
 				case kItemExitGame:
 					status = kStatusExitGame;

@@ -562,9 +562,11 @@ static Array* getRoot(void) {
 		closedir(dh);
 	}
 	
-	char tools_path[256];
-	sprintf(tools_path, "%s/Tools", Paths.paksDir);
-	Array_push(entries, Entry_new(tools_path, kEntryDir));
+	if (!exists(kEnableSimpleModePath)) {
+		char tools_path[256];
+		sprintf(tools_path, "%s/Tools", Paths.paksDir);
+		Array_push(entries, Entry_new(tools_path, kEntryDir));
+	}
 
 	if (has_update) Array_push(entries, Entry_new("/mnt/SDCARD/.system/paks/Update.pak", kEntryPak));
 	

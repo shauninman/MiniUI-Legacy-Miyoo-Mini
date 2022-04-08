@@ -88,6 +88,7 @@ typedef struct UnionPaths {
 #define kResumeSlotPath "/tmp/mmenu_slot.txt"
 #define kAutoResumePath "/mnt/SDCARD/.userdata/.miniui/auto_resume.txt"
 #define kAutoResumeSlot "9"
+#define kEnableSimpleModePath "/mnt/SDCARD/.userdata/enable-simple-mode"
 
 // NOTE: this was a huge, dumb refactor
 typedef struct UnionScreen {

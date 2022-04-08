@@ -7,6 +7,7 @@ typedef enum MenuReturnStatus {
 	kStatusLoadSlot = 11,
 	kStatusOpenMenu = 23,
 	kStatusChangeDisc = 24,
+	kStatusResetGame = 25,
 	kStatusExitGame = 31,
 } MenuReturnStatus;
 
