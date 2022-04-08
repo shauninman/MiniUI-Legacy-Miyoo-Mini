@@ -1,5 +1,3 @@
-
-
 auto update next before anything else
 	I keep adding an update then forgetting to run it :facepalm:
 
@@ -9,34 +7,10 @@ enable open/resuming from m3u hosted folder
 	but leave the disc listing logic in place in case I need to revert
 	
 
-
-after disc change
-	Recently Played shows both discs until you load another game
-		the new one has /mnt/SDCARD in the path, all the others don't
-	doesn't let you resume from new disc even if you create a save
-		this might be because that save overwrites the slot on the previous disc?
-
-shared states across multi-disc
-	mmenu bmp are named after the m3u file
-		has txt pair that holds the disc path for that state
-	miniui
-		can_resume
-		should_resume
-		Entry_open
-
-
 add secret default state to libmmenu/picoarch
-	
 
 update.log is back
 	
-mmenu doesn't know a disc has changed
-	I think picoarch doesn't update its paths when that happens which causes the confusion
-	disc_replace_index() core.c needs to update (might need to happen in main.c)
-		should disc_replace_index return the new content struct instead of freeing it?
-		content->path
-		save_template_path -> content_based_name(content, save_template_path, MAX_PATH, config_dir, NULL, ".st%i");
-
 wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 	or store the result in a var then quote the var when using
 change all logging from &> log to > log 2>&1
