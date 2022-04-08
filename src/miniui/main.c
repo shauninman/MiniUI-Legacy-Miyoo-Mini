@@ -442,9 +442,10 @@ static int hasRecents(void) {
 	
 	Array* parent_paths = Array_new();
 	if (exists(kChangeDiscPath)) {
-		char disc_path[256];
-		getFile(kChangeDiscPath, disc_path, 256);
-		if (exists(disc_path)) {
+		char sd_path[256];
+		getFile(kChangeDiscPath, sd_path, 256);
+		if (exists(sd_path)) {
+			char* disc_path = sd_path + strlen(Paths.rootDir); // makes path platform agnostic
 			Recent* recent = Recent_new(disc_path);
 			if (recent->available) has += 1;
 			Array_push(recents, recent);
@@ -672,6 +673,7 @@ static int hasCue(char* dir_path, char* cue_path) {
 ///////////////////////////////////////
 
 static void readyResumePath(char* rom_path, int type) {
+	char* tmp;
 	can_resume = 0;
 	char path[256];
 	strcpy(path, rom_path);
@@ -680,21 +682,34 @@ static void readyResumePath(char* rom_path, int type) {
 	
 	char auto_path[256];
 	if (type==kEntryDir) {
-		if (!hasCue(path, auto_path)) return;
+		int has_cue = hasCue(path, auto_path);
+		if (!has_cue) return;
+		// TODO: enable resuming from an m3u parent folder
 		strcpy(path, auto_path);
+	}
+	
+	// is cue
+	if (suffixMatch(".cue", path)) {
+		// TODO: move this to common.h, eg. getM3uPath(path, m3u_path);
+		// construct m3u path based on parent directory
+		char m3u_path[256];
+		getM3uPath(path, m3u_path);
+		
+		// has m3u
+		if (exists(m3u_path)) {
+			// change path to m3u path
+			strcpy(path, m3u_path);
+		}
 	}
 	
 	char emu_name[256];
 	getEmuName(path, emu_name);
 	
-	char* tmp;
 	char rom_file[256];
 	tmp = strrchr(path, '/') + 1;
 	strcpy(rom_file, tmp);
 	
-	char mmenu_dir[256];
-	sprintf(mmenu_dir, "%s/.mmenu/%s", Paths.userdataDir, emu_name); // /.userdata/<platform>/.mmenu/<EMU>
-	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file); // /.userdata/<platform>/.mmenu/<EMU>/<romname>.ext.txt
+	sprintf(slot_path, "%s/.mmenu/%s/%s.txt", Paths.userdataDir, emu_name, rom_file); // /.userdata/.mmenu/<EMU>/<romname>.ext.txt
 	
 	can_resume = exists(slot_path);
 }
@@ -759,19 +774,43 @@ static void openPak(char* path) {
 	queueNext(cmd);
 }
 static void openRom(char* path, char* last) {
+	if (should_resume) {
+		char slot[16];
+		getFile(slot_path, slot, 16);
+		putFile(kResumeSlotPath, slot);
+		should_resume = 0;
+
+		// if cue
+		if (suffixMatch(".cue", path)) {
+			char m3u_path[256];
+			getM3uPath(path, m3u_path);
+		
+			// has m3u
+			if (exists(m3u_path)) {
+				char emu_name[256];
+				getEmuName(m3u_path, emu_name);
+				
+				char rom_file[256];
+				strcpy(rom_file, strrchr(m3u_path, '/') + 1);
+				
+				// get disc for state
+				char disc_path_path[256];
+				sprintf(disc_path_path, "%s/.mmenu/%s/%s.%s.txt", Paths.userdataDir, emu_name, rom_file, slot); // /.userdata/.mmenu/<EMU>/<romname>.ext.0.txt
+
+				if (exists(disc_path_path)) {
+					// switch to disc path
+					getFile(disc_path_path, path, 256);
+				}
+			}
+		}
+	}
+	
 	char emu_name[256];
 	getEmuName(path, emu_name);
 	
 	char cmd[256];
 	sprintf(cmd, "\"%s/Emus/%s.pak/launch.sh\" \"%s\"", Paths.paksDir, emu_name, path);
 
-	if (should_resume) {
-		char slot[16];
-		getFile(slot_path, slot, 16);
-		putFile(kResumeSlotPath, slot);
-		should_resume = 0;
-	}
-	
 	addRecent(path);
 	saveLast(last==NULL ? path : last);
 	queueNext(cmd);
@@ -963,8 +1002,6 @@ int main (int argc, char *argv[]) {
 	int select_was_locked = 0;
 	int delay_start = 0;
 	int delay_select = 0;
-	int allow_resume = 1;
-	// int allow_favorite = 1;
 	unsigned long cancel_start = SDL_GetTicks();
 	unsigned long power_start = 0;
 	while (!quit) {
@@ -1066,12 +1103,11 @@ int main (int argc, char *argv[]) {
 		if (dirty) readyResume(top->entries->items[top->selected]);
 
 		if (Input_justReleased(kButtonResume)) {
-			if (allow_resume && can_resume) {
+			if (can_resume) {
 				should_resume = 1;
 				Entry_open(top->entries->items[top->selected]);
 				dirty = 1;
 			}
-			allow_resume = 1;
 		}
 		// else if (Input_justPressed(kButtonAltEmu)) {
 		// 	if (Entry_toggleAlt(top->entries->items[top->selected])) dirty = 1;

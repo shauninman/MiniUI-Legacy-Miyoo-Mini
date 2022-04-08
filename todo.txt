@@ -1,42 +1,56 @@
-picoarch doesn't bind MENU to release anymore?
-	try building on intel mac to make sure it's not related to the gcc I built
 
-export JUST_INSTALLED and use that to run a post-install script from MiniUI.pak/launch.sh
 
+auto update next before anything else
+	I keep adding an update then forgetting to run it :facepalm:
+
+remove post-install.sh when updating
+
+enable open/resuming from m3u hosted folder 
+	but leave the disc listing logic in place in case I need to revert
+	
+
+
+after disc change
+	Recently Played shows both discs until you load another game
+		the new one has /mnt/SDCARD in the path, all the others don't
+	doesn't let you resume from new disc even if you create a save
+		this might be because that save overwrites the slot on the previous disc?
+
+shared states across multi-disc
+	mmenu bmp are named after the m3u file
+		has txt pair that holds the disc path for that state
+	miniui
+		can_resume
+		should_resume
+		Entry_open
+
+
+add secret default state to libmmenu/picoarch
+	
+
+update.log is back
+	
+mmenu doesn't know a disc has changed
+	I think picoarch doesn't update its paths when that happens which causes the confusion
+	disc_replace_index() core.c needs to update (might need to happen in main.c)
+		should disc_replace_index return the new content struct instead of freeing it?
+		content->path
+		save_template_path -> content_based_name(content, save_template_path, MAX_PATH, config_dir, NULL, ".st%i");
+
+wrap all $(dirname "$0") in quotes to properly escape paths with spaces
+	or store the result in a var then quote the var when using
+change all logging from &> log to > log 2>&1
+
+add Time Limit.pak
+	set duration
+	auto-save and power off
+	snooze option?
 add pak to install MiniUI boot logo?
 add Version.pak?
+	requires some sort of simple show or rather say command
 auto install updates?
-
-prepare instructions for restoring data from MiniUI alpha
-	delete:
-		.system/
-		.tmp_update/
-	rename:
-		.userdata/ to .userdata-old/
-	create:
-		.userdata-new/
-	move the contents of
-		.userdata-old/miyoomini/ into .userdata-new/
-	move
-		.userdata-old/shared/datetime.txt into .userdata-old/shared/.minui/
-	move
-		.userdata-old/shared/.minui/ to .userdata-new/
-	delete
-		.userdata-old/
-	rename
-		.userdata-new/ to .userdata/
-	then install as normal
-
+	introduce in the last beta?
 
 do another pass at defaults
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
-
-INSTALL/UPDATE
-	MiniUI.zip (containing just .system) is unzipped at the root of the card
-
-AUTOSAVE
-	still a little bit of a tangle (libmmenu.c and common.c call reboot)
-	emulator provides an autosave function and requests a state (menu, sleep, or power off)
-	libmmenu will handle the emulator requested state as well as any state changes it itself initiates
-	what if we could signal to keymon to shut it all down?

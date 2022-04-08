@@ -66,6 +66,8 @@ To Jim Gray (and the entire Onion crew) for taking a joke, running with it, and 
 
 Check out Onion for a more full-bodied Miyoo Mini experience: https://github.com/jimgraygit/Onion/
 
+To Evil_Rob for gently and regularly nudging me towards a better understanding of how all the Linux-y bits (are supposed to) work under the hood.
+
 To the creators of the Trimui Model S and Miyoo Mini for making some nice (now hard to find) hardware and simple interfaces in a market crowded with bloated, ugly front ends that require entirely too much work to setup properly.
 
 And to the entire Retro Game Handhelds Miyoo Mini and dev Discord community for their enthusiasm and encouragement. 

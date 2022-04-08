@@ -18,7 +18,7 @@ do
 	NUM=`expr $NUM + 1`
 	PERCENT=`expr $NUM \* 99 \/ $TOTAL`
 	BASENAME=$(basename $FILE_PATH)
-	progress $PERCENT Unzipping $BASENAME
+	progress $PERCENT Extracting $BASENAME
 	unzip -q -o "$INSTALL_ZIP" "$FILE_PATH" -d "$TMP_UPDATE_DIR" 
 done
 

@@ -132,7 +132,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	
 	getEmuName(rom_path, emu_name);
 	sprintf(mmenu_dir, "%s/.mmenu/%s", getenv("USERDATA_PATH"), emu_name);
-	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file);
 	mkdir(mmenu_dir, 0755);
 
 	// does this game have an m3u?
@@ -148,8 +147,9 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 		ext[i] = tolower(ext[i]);
 	}
 	// only check for m3u if rom is a cue
-	if (strncmp(ext, ".cue", 8)==0) {
+	if (suffixMatch(".cue", rom_path)) {
 		// construct m3u path based on parent directory
+		// essentially getM3uPath() from common but we use the building blocks as well
 		char m3u_path[256];
 		strcpy(m3u_path, rom_path);
 		tmp = strrchr(m3u_path, '/') + 1;
@@ -173,6 +173,11 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	
 		// add extension
 		tmp = m3u_path + strlen(m3u_path);
+		strcpy(tmp, ".m3u");
+		
+		// share saves across multi-disc games
+		strcpy(rom_file, dir_name);
+		tmp = rom_file + strlen(rom_file);
 		strcpy(tmp, ".m3u");
 	
 		if (exists(m3u_path)) {
@@ -213,6 +218,10 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			}
 		}
 	}
+	
+	// m3u path may change rom_file
+	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file);
+	
 	
 	// cache static elements
 	
@@ -275,6 +284,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	
 	char save_path[256];
 	char bmp_path[324];
+	char txt_path[256];
 	int save_exists = 0;
 	int preview_exists = 0;
 	
@@ -345,6 +355,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 		if (dirty && (selected==kItemSave || selected==kItemLoad)) {
 			sprintf(save_path, save_path_template, slot);
 			sprintf(bmp_path, "%s/%s.%d.bmp", mmenu_dir, rom_file, slot);
+			sprintf(txt_path, "%s/%s.%d.txt", mmenu_dir, rom_file, slot);
 		
 			save_exists = exists(save_path);
 			preview_exists = save_exists && exists(bmp_path);
@@ -362,12 +373,14 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				if (total_discs && rom_disc!=disc) {
 						status = kStatusChangeDisc;
 						char* disc_path = disc_paths[disc];
+						putFile(kChangeDiscPath, disc_path);
+
+						// TODO: what is this logic?
 						char last_path[256];
 						getFile(kLastPath, last_path, 256);
 						if (!exactMatch(last_path, Paths.fauxRecentDir)) {
 							putFile(kLastPath, disc_path);
 						}
-						putFile(kChangeDiscPath, disc_path);
 					}
 					else {
 						status = kStatusContinue;
@@ -377,10 +390,31 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 					status = kStatusSaveSlot + slot;
 					SDL_Surface* preview = createThumbnail(optional_snapshot ? optional_snapshot : copy);
 					SDL_RWops* out = SDL_RWFromFile(bmp_path, "wb");
+					if (total_discs) {
+						char* disc_path = disc_paths[disc];
+						putFile(txt_path, disc_path);
+						
+						sprintf(bmp_path, "%s/%s.%d.bmp", mmenu_dir, rom_file, slot);
+					}
 					SDL_SaveBMP_RW(preview, out, 1);
 					SDL_FreeSurface(preview);
 				break;
 				case kItemLoad:
+					if (save_exists && total_discs) {
+						char slot_disc_path[256];
+						getFile(txt_path, slot_disc_path, 256);
+						char* disc_path = disc_paths[disc];
+						if (!exactMatch(slot_disc_path, disc_path)) {
+							putFile(kChangeDiscPath, slot_disc_path);
+
+							// TODO: what is this logic?
+							char last_path[256];
+							getFile(kLastPath, last_path, 256);
+							if (!exactMatch(last_path, Paths.fauxRecentDir)) {
+								putFile(kLastPath, slot_disc_path);
+							}
+						}
+					}
 					status = kStatusLoadSlot + slot;
 				break;
 				case kItemAdvanced:
@@ -466,7 +500,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			SDL_Surface* text;
 			for (int i=0; i<kItemCount; i++) {
 				char* item = items[i];
-				
 				int color = 1; // gold
 				if (i==selected) {
 					SDL_FillRect(screen, &(SDL_Rect){Screen.menu.window.x,Screen.menu.list.y+(i*Screen.menu.list.line_height)-((Screen.menu.list.row_height-Screen.menu.list.line_height)/2),Screen.menu.window.width,Screen.menu.list.row_height}, gold_rgb);
