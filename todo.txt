@@ -1,5 +1,16 @@
+picoarch
+	only switch disc if path actually changed
+
+enable open/resuming from m3u hosted folder 
+	but leave the disc listing logic in place in case I need to revert
+
 auto update next before anything else
+	TODO: Update isn't restoring custom paks with spaces in the name
+	update should be a two phase process (so the update logic comes from the updated Update.pak not the out of date one)
+		extract system if zip is present
+		continue updating from the new system if no zip is present
 	I keep adding an update then forgetting to run it :facepalm:
+	remove post-install.sh after updating too
 
 add simple mode
 	.userdata/enable-simple-mode
@@ -8,10 +19,7 @@ add simple mode
 	add Tools/Enable Simple Mode.pak
 		requires bin/confirm
 
-remove post-install.sh when updating
 
-enable open/resuming from m3u hosted folder 
-	but leave the disc listing logic in place in case I need to revert
 	
 
 add secret default state to libmmenu/picoarch

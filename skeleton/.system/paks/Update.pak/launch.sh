@@ -7,7 +7,7 @@ SYSTEM_PATH="/mnt/SDCARD/.system"
 
 progressui &
 
-progress 0 Installing update
+progress 0 Unzipping update
 sleep 1
 
 NUM=0
@@ -32,6 +32,7 @@ OLD_SYSTEM_PATH="/mnt/SDCARD/.tmp_update/.system-old"
 mv "$SYSTEM_PATH" "$OLD_SYSTEM_PATH"
 mv "$TMP_UPDATE_DIR/.system" "$SYSTEM_PATH"
 
+# TODO: this might break for paks name containing spaces
 # preserve any unoffical Emus and Tools paks
 for SRC_PATH in `find $OLD_SYSTEM_PATH -type d -name "*.pak"` ; do
 	REL_PATH=${SRC_PATH/$OLD_SYSTEM_PATH/}
