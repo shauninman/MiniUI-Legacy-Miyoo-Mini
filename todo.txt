@@ -1,8 +1,6 @@
-picoarch
-	only switch disc if path actually changed
-
-enable open/resuming from m3u hosted folder 
+enable open/resuming from m3u hosted folder
 	but leave the disc listing logic in place in case I need to revert
+	kinda working, changing discs breaks the last path...
 
 auto update next before anything else
 	TODO: Update isn't restoring custom paks with spaces in the name
@@ -12,17 +10,12 @@ auto update next before anything else
 	I keep adding an update then forgetting to run it :facepalm:
 	remove post-install.sh after updating too
 
-add simple mode
+simple mode
 	.userdata/enable-simple-mode
-	hides Tools
-	changes Advanced to Reset
-	add Tools/Enable Simple Mode.pak
+	create Tools/Enable Simple Mode.pak
 		requires bin/confirm
 
-
-	
-
-add secret default state to libmmenu/picoarch
+add secret default state to libmmenu/picoarch for Evil_Rob
 
 update.log is back
 	

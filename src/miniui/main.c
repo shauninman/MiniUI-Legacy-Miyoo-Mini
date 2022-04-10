@@ -623,6 +623,31 @@ static Array* getDiscs(char* path){
 	}
 	return entries;
 }
+static int getFirstDisc(char* m3u_path, char* disc_path) { // based on getDiscs() natch
+	int found = 0;
+
+	char base_path[256];
+	strcpy(base_path, m3u_path);
+	char* tmp = strrchr(base_path, '/') + 1;
+	tmp[0] = '\0';
+	
+	FILE* file = fopen(m3u_path, "r");
+	if (file) {
+		char line[256];
+		while (fgets(line,256,file)!=NULL) {
+			normalizeNewline(line);
+			trimTrailingNewlines(line);
+			if (strlen(line)==0) continue; // skip empty lines
+			
+			sprintf(disc_path, "%s%s", base_path, line);
+						
+			if (exists(disc_path)) found = 1;
+			break;
+		}
+		fclose(file);
+	}
+	return found;
+}
 static Array* getEntries(char* path){
 	Array* entries = Array_new();
 	DIR *dh = opendir(path);
@@ -684,10 +709,12 @@ static void readyResumePath(char* rom_path, int type) {
 	
 	char auto_path[256];
 	if (type==kEntryDir) {
-		int has_cue = hasCue(path, auto_path);
-		if (!has_cue) return;
-		// TODO: enable resuming from an m3u parent folder
-		strcpy(path, auto_path);
+		if (!hasCue(path, auto_path)) { // no cue?
+			tmp = strrchr(auto_path, '.') + 1; // extension
+			strcpy(tmp, "m3u"); // replace with m3u
+			if (!exists(auto_path)) return; // no m3u
+		}
+		strcpy(path, auto_path); // cue or m3u if one exists
 	}
 	
 	// is cue
@@ -847,10 +874,17 @@ static void openDirectory(char* path, int auto_launch) {
 		return;
 	}
 
-	char* tmp = strrchr(auto_path, '.') + 1; // extension
+	char m3u_path[256];
+	strcpy(m3u_path, auto_path);
+	char* tmp = strrchr(m3u_path, '.') + 1; // extension
 	strcpy(tmp, "m3u"); // replace with m3u
-	if (exists(auto_path)) {
-		path = auto_path;
+	if (exists(m3u_path) && auto_launch) {
+		auto_path[0] = '\0';
+		if (getFirstDisc(m3u_path, auto_path)) {
+			openRom(auto_path, path);
+			return;
+		}
+		// TODO: we don't handle an empty m3u
 	}
 	
 	int selected = 0;
