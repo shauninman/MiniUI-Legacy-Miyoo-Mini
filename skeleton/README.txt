@@ -39,7 +39,7 @@ A lot of emulators require or perform much better with official bios. MiniUI is 
 ----------------------------------------
 Disc-based games
 
-To streamline launching disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MiniUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will just display Disc 1, Disc2, etc.
+To streamline launching disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MiniUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will launch the appropriate cue file.
 
 ----------------------------------------
 Install
