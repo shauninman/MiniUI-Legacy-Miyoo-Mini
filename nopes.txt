@@ -1,3 +1,10 @@
+add Time Limit.pak
+	set duration
+	auto-save and power off
+	snooze option?
+		would require deep integration, not worth it
+
+
 design settings
 
 Settings
@@ -17,7 +24,6 @@ Settings
 		Disabled
 		Enabled
 	Scaling (may affect emulator performance)
-		Pixel Perfectionist
+		Pixel Purist
 		Aspect Aficionado
 		Fullscreen Fiend
-	File Browser.pak (DinguxCommander)

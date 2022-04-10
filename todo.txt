@@ -1,32 +1,21 @@
-enable open/resuming from m3u hosted folder
-	but leave the disc listing logic in place in case I need to revert
-	kinda working, changing discs breaks the last path...
-
 auto update next before anything else
-	TODO: Update isn't restoring custom paks with spaces in the name
 	update should be a two phase process (so the update logic comes from the updated Update.pak not the out of date one)
 		extract system if zip is present
 		continue updating from the new system if no zip is present
 	I keep adding an update then forgetting to run it :facepalm:
 	remove post-install.sh after updating too
 
+add secret default state to libmmenu/picoarch for Evil_Rob
+
 simple mode
 	.userdata/enable-simple-mode
 	create Tools/Enable Simple Mode.pak
 		requires bin/confirm
 
-add secret default state to libmmenu/picoarch for Evil_Rob
-
-update.log is back
-	
 wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 	or store the result in a var then quote the var when using
 change all logging from &> log to > log 2>&1
 
-add Time Limit.pak
-	set duration
-	auto-save and power off
-	snooze option?
 add pak to install MiniUI boot logo?
 add Version.pak?
 	requires bin/show or bin/say
