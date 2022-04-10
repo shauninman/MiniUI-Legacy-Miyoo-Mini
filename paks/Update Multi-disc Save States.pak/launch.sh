@@ -15,14 +15,14 @@ else
 		TAG_NAME=${TAG_PATH#*(}
 		TAG_NAME=${TAG_NAME%)*}
 		M3U_FILE=$(basename "$M3U_PATH")
-		while IFS= read -r CUE_FILE || [[ -n "$CUE_FILE" ]]; do
-			find "$MMENU_PATH/$TAG_NAME" -type f -name "$CUE_FILE.*" | while read SRC_PATH ; do
-				DST_PATH=${SRC_PATH/$CUE_FILE/$M3U_FILE}
+		while IFS= read -r ROM_FILE || [[ -n "$ROM_FILE" ]]; do
+			find "$MMENU_PATH/$TAG_NAME" -type f -name "$ROM_FILE.*" | while read SRC_PATH ; do
+				DST_PATH=${SRC_PATH/$ROM_FILE/$M3U_FILE}
 				SRC_EXT="${SRC_PATH##*.}"
 				mv -f "$SRC_PATH" "$DST_PATH" # later disc saves overwrite earlier disc saves
 				if [ "$SRC_EXT" = "bmp" ]; then
 					TXT_PATH=${DST_PATH/bmp/txt}
-					echo -n "$ROM_PATH/$CUE_FILE" > "$TXT_PATH"
+					echo -n "$ROM_PATH/$ROM_FILE" > "$TXT_PATH"
 				fi
 			done
 		done < "$M3U_PATH"
