@@ -5,6 +5,7 @@ releases/
 *.o
 *.so
 
+# thanks I hate it
 batmon
 !batmon/
 keymon
@@ -15,3 +16,8 @@ MiniUI
 !MiniUI/
 progressui
 !progressui/
+show
+!show/
+confirm
+!confirm/
+

@@ -47,7 +47,7 @@ find "$OLD_SYSTEM_PATH" -type f -name '*_libretro.so' | while read SRC_PATH ; do
 	REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
 	DST_PATH="$SYSTEM_PATH$REL_PATH"
 	if [ ! -f "$DST_PATH" ]; then
-		progress 99 "Keeping $(basename "$REL_PATH")"
+		progress 99 "Restoring $(basename "$REL_PATH")"
 		mv "$SRC_PATH" "$DST_PATH"
 	fi
 done
