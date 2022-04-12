@@ -333,7 +333,7 @@ static int restore_end = 0;
 
 ///////////////////////////////////////
 
-#define kMaxRecents 60 // a multiple of all menu rows
+#define kMaxRecents 24 // a multiple of all menu rows
 static void saveRecents(void) {
 	FILE* file = fopen(Paths.recentPath, "w");
 	if (file) {
@@ -383,6 +383,42 @@ static int hasAlt(char* emu_name) {
 	sprintf(pak_path, "%s/Emus/%s.pak/has-alt", Paths.paksDir, emu_name);
 	return exists(pak_path);
 }
+static int hasCue(char* dir_path, char* cue_path) { // NOTE: dir_path not rom_path
+	char* tmp = strrchr(dir_path, '/') + 1; // folder name
+	sprintf(cue_path, "%s/%s.cue", dir_path, tmp);
+	return exists(cue_path);
+}
+static int hasM3u(char* rom_path, char* m3u_path) { // NOTE: rom_path not dir_path
+	char* tmp;
+	
+	strcpy(m3u_path, rom_path);
+	tmp = strrchr(m3u_path, '/') + 1;
+	tmp[0] = '\0';
+	
+	// path to parent directory
+	char base_path[256];
+	strcpy(base_path, m3u_path);
+	
+	tmp = strrchr(m3u_path, '/');
+	tmp[0] = '\0';
+	
+	// get parent directory name
+	char dir_name[256];
+	tmp = strrchr(m3u_path, '/');
+	strcpy(dir_name, tmp);
+	
+	// dir_name is also our m3u file name
+	tmp = m3u_path + strlen(m3u_path); 
+	strcpy(tmp, dir_name);
+
+	// add extension
+	tmp = m3u_path + strlen(m3u_path);
+	strcpy(tmp, ".m3u");
+	
+	return exists(m3u_path);
+}
+
+
 
 static int Entry_hasAlt(Entry* self) {
 	// has_alt can be set by getEntries()
@@ -471,7 +507,9 @@ static int hasRecents(void) {
 			sprintf(sd_path, "%s%s", Paths.rootDir, line);
 			if (exists(sd_path)) {
 				if (recents->count<kMaxRecents) {
-					if (suffixMatch(".cue", line)) {
+					// this logic replaces an existing disc from a multi-disc game with the last used
+					char m3u_path[256];
+					if (hasM3u(sd_path, m3u_path)) { // TODO: this might tank launch speed
 						char parent_path[256];
 						strcpy(parent_path, line);
 						char* tmp = strrchr(parent_path, '/') + 1;
@@ -691,12 +729,6 @@ static void queueNext(char* cmd) {
 	quit = 1;
 }
 
-static int hasCue(char* dir_path, char* cue_path) {
-	char* tmp = strrchr(dir_path, '/') + 1; // folder name
-	sprintf(cue_path, "%s/%s.cue", dir_path, tmp);
-	return exists(cue_path);
-}
-
 ///////////////////////////////////////
 
 static void readyResumePath(char* rom_path, int type) {
@@ -717,15 +749,9 @@ static void readyResumePath(char* rom_path, int type) {
 		strcpy(path, auto_path); // cue or m3u if one exists
 	}
 	
-	// is cue
-	if (suffixMatch(".cue", path)) {
-		// TODO: move this to common.h, eg. getM3uPath(path, m3u_path);
-		// construct m3u path based on parent directory
+	if (!suffixMatch(".m3u", path)) {
 		char m3u_path[256];
-		getM3uPath(path, m3u_path);
-		
-		// has m3u
-		if (exists(m3u_path)) {
+		if (hasM3u(path, m3u_path)) {
 			// change path to m3u path
 			strcpy(path, m3u_path);
 		}
@@ -809,27 +835,21 @@ static void openRom(char* path, char* last) {
 		putFile(kResumeSlotPath, slot);
 		should_resume = 0;
 
-		// if cue
-		if (suffixMatch(".cue", path)) {
-			char m3u_path[256];
-			getM3uPath(path, m3u_path);
-		
-			// has m3u
-			if (exists(m3u_path)) {
-				char emu_name[256];
-				getEmuName(m3u_path, emu_name);
-				
-				char rom_file[256];
-				strcpy(rom_file, strrchr(m3u_path, '/') + 1);
-				
-				// get disc for state
-				char disc_path_path[256];
-				sprintf(disc_path_path, "%s/.mmenu/%s/%s.%s.txt", Paths.userdataDir, emu_name, rom_file, slot); // /.userdata/.mmenu/<EMU>/<romname>.ext.0.txt
+		char m3u_path[256];
+		if (hasM3u(path, m3u_path)) {
+			char emu_name[256];
+			getEmuName(m3u_path, emu_name);
+			
+			char rom_file[256];
+			strcpy(rom_file, strrchr(m3u_path, '/') + 1);
+			
+			// get disc for state
+			char disc_path_path[256];
+			sprintf(disc_path_path, "%s/.mmenu/%s/%s.%s.txt", Paths.userdataDir, emu_name, rom_file, slot); // /.userdata/.mmenu/<EMU>/<romname>.ext.0.txt
 
-				if (exists(disc_path_path)) {
-					// switch to disc path
-					getFile(disc_path_path, path, 256);
-				}
+			if (exists(disc_path_path)) {
+				// switch to disc path
+				getFile(disc_path_path, path, 256);
 			}
 		}
 	}
@@ -884,7 +904,7 @@ static void openDirectory(char* path, int auto_launch) {
 			openRom(auto_path, path);
 			return;
 		}
-		// TODO: we don't handle an empty m3u
+		// TODO: doesn't handle an empty m3u files
 	}
 	
 	int selected = 0;

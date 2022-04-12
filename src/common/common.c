@@ -329,34 +329,6 @@ void getEmuName(const char* in_name, char* out_name) {
 		tmp[0] = '\0';
 	}
 }
-void getM3uPath(const char* in_path, char* out_path) {
-	// construct m3u path based on parent directory
-	char* tmp;
-	
-	strcpy(out_path, in_path);
-	tmp = strrchr(out_path, '/') + 1;
-	tmp[0] = '\0';
-
-	// path to parent directory
-	char base_path[256];
-	strcpy(base_path, out_path);
-
-	tmp = strrchr(out_path, '/');
-	tmp[0] = '\0';
-
-	// get parent directory name
-	char dir_name[256];
-	tmp = strrchr(out_path, '/');
-	strcpy(dir_name, tmp);
-
-	// dir_name is also our m3u file name
-	tmp = out_path + strlen(out_path); 
-	strcpy(tmp, dir_name);
-
-	// add extension
-	tmp = out_path + strlen(out_path);
-	strcpy(tmp, ".m3u");
-}
 
 void normalizeNewline(char* line) {
 	int len = strlen(line);

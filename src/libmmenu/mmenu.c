@@ -143,82 +143,74 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	int total_discs = 0;
 	char disc_name[16];
 	char* disc_paths[9]; // up to 9 paths, Arc the Lad Collection is 7 discs
-	char ext[8];
-	tmp = strrchr(rom_path, '.');
-	strncpy(ext, tmp, 8);
-	for (int i=0; i<4; i++) {
-		ext[i] = tolower(ext[i]);
-	}
-	// only check for m3u if rom is a cue
-	if (suffixMatch(".cue", rom_path)) {
-		// construct m3u path based on parent directory
-		// essentially getM3uPath() from common but we use the building blocks as well
-		char m3u_path[256];
-		strcpy(m3u_path, rom_path);
-		tmp = strrchr(m3u_path, '/') + 1;
-		tmp[0] = '\0';
+
+	// construct m3u path based on parent directory
+	// essentially hasM3u() from MiniUI but we use the building blocks as well
+	char m3u_path[256];
+	strcpy(m3u_path, rom_path);
+	tmp = strrchr(m3u_path, '/') + 1;
+	tmp[0] = '\0';
+
+	// path to parent directory
+	char base_path[256];
+	strcpy(base_path, m3u_path);
+
+	tmp = strrchr(m3u_path, '/');
+	tmp[0] = '\0';
+
+	// get parent directory name
+	char dir_name[256];
+	tmp = strrchr(m3u_path, '/');
+	strcpy(dir_name, tmp);
+
+	// dir_name is also our m3u file name
+	tmp = m3u_path + strlen(m3u_path); 
+	strcpy(tmp, dir_name);
+
+	// add extension
+	tmp = m3u_path + strlen(m3u_path);
+	strcpy(tmp, ".m3u");
 	
-		// path to parent directory
-		char base_path[256];
-		strcpy(base_path, m3u_path);
-	
-		tmp = strrchr(m3u_path, '/');
-		tmp[0] = '\0';
-	
-		// get parent directory name
-		char dir_name[256];
-		tmp = strrchr(m3u_path, '/');
-		strcpy(dir_name, tmp);
-	
-		// dir_name is also our m3u file name
-		tmp = m3u_path + strlen(m3u_path); 
-		strcpy(tmp, dir_name);
-	
-		// add extension
-		tmp = m3u_path + strlen(m3u_path);
-		strcpy(tmp, ".m3u");
-		
-		// share saves across multi-disc games
-		strcpy(rom_file, dir_name);
-		tmp = rom_file + strlen(rom_file);
-		strcpy(tmp, ".m3u");
-	
-		if (exists(m3u_path)) {
-			//read m3u file
-			FILE* file = fopen(m3u_path, "r");
-			if (file) {
-				char line[256];
-				while (fgets(line,256,file)!=NULL) {
-					int len = strlen(line);
-					if (len>0 && line[len-1]=='\n') {
-						line[len-1] = 0; // trim newline
+	// share saves across multi-disc games
+	strcpy(rom_file, dir_name);
+	tmp = rom_file + strlen(rom_file);
+	strcpy(tmp, ".m3u");
+
+	if (exists(m3u_path)) {
+		//read m3u file
+		FILE* file = fopen(m3u_path, "r");
+		if (file) {
+			char line[256];
+			while (fgets(line,256,file)!=NULL) {
+				int len = strlen(line);
+				if (len>0 && line[len-1]=='\n') {
+					line[len-1] = 0; // trim newline
+					len -= 1;
+					if (len>0 && line[len-1]=='\r') {
+						line[len-1] = 0; // trim Windows newline
 						len -= 1;
-						if (len>0 && line[len-1]=='\r') {
-							line[len-1] = 0; // trim Windows newline
-							len -= 1;
-						}
-					}
-					if (len==0) continue; // skip empty lines
-			
-					char disc_path[256];
-					strcpy(disc_path, base_path);
-					tmp = disc_path + strlen(disc_path);
-					strcpy(tmp, line);
-					
-					// found a valid disc path
-					if (exists(disc_path)) {
-						disc_paths[total_discs] = strdup(disc_path);
-						// matched our current disc
-						if (exactMatch(disc_path, rom_path)) {
-							rom_disc = total_discs;
-							disc = rom_disc;
-							sprintf(disc_name, "Disc %i", disc+1);
-						}
-						total_discs += 1;
 					}
 				}
-				fclose(file);
+				if (len==0) continue; // skip empty lines
+		
+				char disc_path[256];
+				strcpy(disc_path, base_path);
+				tmp = disc_path + strlen(disc_path);
+				strcpy(tmp, line);
+				
+				// found a valid disc path
+				if (exists(disc_path)) {
+					disc_paths[total_discs] = strdup(disc_path);
+					// matched our current disc
+					if (exactMatch(disc_path, rom_path)) {
+						rom_disc = total_discs;
+						disc = rom_disc;
+						sprintf(disc_name, "Disc %i", disc+1);
+					}
+					total_discs += 1;
+				}
 			}
+			fclose(file);
 		}
 	}
 	

@@ -277,7 +277,6 @@ int hide(char* file_name);
 
 void getDisplayName(const char* in_name, char* out_name);
 void getEmuName(const char* in_name, char* out_name);
-void getM3uPath(const char* in_path, char* out_path);
 
 void normalizeNewline(char* line);
 void trimTrailingNewlines(char* line);
