@@ -171,12 +171,12 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	tmp = m3u_path + strlen(m3u_path);
 	strcpy(tmp, ".m3u");
 	
-	// share saves across multi-disc games
-	strcpy(rom_file, dir_name);
-	tmp = rom_file + strlen(rom_file);
-	strcpy(tmp, ".m3u");
-
 	if (exists(m3u_path)) {
+		// share saves across multi-disc games
+		strcpy(rom_file, dir_name);
+		tmp = rom_file + strlen(rom_file);
+		strcpy(tmp, ".m3u");
+		
 		//read m3u file
 		FILE* file = fopen(m3u_path, "r");
 		if (file) {
@@ -256,9 +256,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	int status = kStatusContinue;
 	int selected = 0; // resets every launch
 	if (exists(slot_path)) {
-		char tmp[16];
-		getFile(slot_path, tmp, 16);
-		slot = atoi(tmp);
+		slot = getInt(slot_path);
 	}
 	
 	// inline functions? okay.
@@ -317,7 +315,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 		}
 		else if (Input_justPressed(kButtonDown)) {
 			selected += 1;
-			if (selected==kItemCount) selected -= kItemCount;
+			if (selected>=kItemCount) selected -= kItemCount;
 			dirty = 1;
 		}
 		else if (Input_justPressed(kButtonLeft)) {
@@ -342,7 +340,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			}
 			else if (selected==kItemSave || selected==kItemLoad) {
 				slot += 1;
-				if (slot==kSlotCount) slot -= kSlotCount;
+				if (slot>=kSlotCount) slot -= kSlotCount;
 				dirty = 1;
 			}
 		}
@@ -407,9 +405,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			}
 			
 			if (selected==kItemSave || selected==kItemLoad) {
-				char slot_str[8];
-				sprintf(slot_str, "%d", slot);
-				putFile(slot_path, slot_str);
+				putInt(slot_path, slot);
 			}
 			quit = 1;
 			break;
@@ -569,10 +565,9 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 int ResumeSlot(void) {
 	if (!exists(kResumeSlotPath)) return -1;
 	
-	char tmp[16];
-	getFile(kResumeSlotPath, tmp, 16);
+	slot = getInt(kResumeSlotPath);
 	unlink(kResumeSlotPath);
-	slot = atoi(tmp); // update slot so mmenu has it preselected as well
+
 	return slot;
 }
 

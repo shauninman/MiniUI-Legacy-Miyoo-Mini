@@ -851,7 +851,7 @@ static void openRom(char* path, char* last) {
 			}
 		}
 	}
-	else putInt(kResumeSlotPath,8);
+	else putInt(kResumeSlotPath,8); // resume hidden default state
 	
 	char emu_name[256];
 	getEmuName(path, emu_name);
