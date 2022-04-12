@@ -6,17 +6,15 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include <linux/input.h>
 
 int main(int argc , char* argv[]) {
 	if (argc<2) {
-		puts("Usage: show image.png [1]");
+		puts("Usage: show image.png");
 		return 0;
 	}
 	
 	char path[256];
 	strncpy(path,argv[1],256);
-	int await_input = argc>2;
 		
 	int fb0_fd = open("/dev/fb0", O_RDWR);
 	struct fb_var_screeninfo vinfo;
@@ -41,15 +39,6 @@ int main(int argc , char* argv[]) {
 		}
 	}
 	SDL_FreeSurface(img);
-	
-	if (await_input) {
-		int input_fd = open("/dev/input/event0", O_RDONLY);
-		struct input_event	event;
-		while (read(input_fd, &event, sizeof(event))==sizeof(event)) {
-			if (event.type!=EV_KEY || event.value>1) continue;
-			if (event.type==EV_KEY) break;
-		}
-	}
 	
 	return EXIT_SUCCESS;
 }

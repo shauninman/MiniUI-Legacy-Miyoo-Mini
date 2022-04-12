@@ -46,6 +46,8 @@ core:
 	cd ./src/lumon && make
 	cd ./src/progressui && make
 	cd ./src/miniui && make
+	cd ./src/show && make
+	cd ./src/confirm && make
 
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
@@ -68,6 +70,8 @@ payload:
 	cp ./src/progressui/progressui ./build/PAYLOAD/.system/bin/progressui
 	cp ./src/progressui/progress.sh ./build/PAYLOAD/.system/bin/progress
 	cp ./src/miniui/MiniUI ./build/PAYLOAD/.system/paks/MiniUI.pak/
+	cp ./src/show/show ./build/PAYLOAD/.system/bin/
+	cp ./src/confirm/confirm ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
@@ -101,5 +105,7 @@ clean:
 	cd ./src/lumon && make clean
 	cd ./src/progressui && make clean
 	cd ./src/miniui && make clean
+	cd ./src/show && make clean
+	cd ./src/confirm && make clean
 	cd ./third-party/picoarch && make platform=miyoomini clean
 	cd ./third-party/DinguxCommander && make clean
