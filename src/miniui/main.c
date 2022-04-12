@@ -418,8 +418,6 @@ static int hasM3u(char* rom_path, char* m3u_path) { // NOTE: rom_path not dir_pa
 	return exists(m3u_path);
 }
 
-
-
 static int Entry_hasAlt(Entry* self) {
 	// has_alt can be set by getEntries()
 	// but won't be set by getRecents()
@@ -853,6 +851,7 @@ static void openRom(char* path, char* last) {
 			}
 		}
 	}
+	else putInt(kResumeSlotPath,8);
 	
 	char emu_name[256];
 	getEmuName(path, emu_name);
