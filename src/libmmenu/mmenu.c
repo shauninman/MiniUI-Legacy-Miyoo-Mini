@@ -369,13 +369,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 						status = kStatusChangeDisc;
 						char* disc_path = disc_paths[disc];
 						putFile(kChangeDiscPath, disc_path);
-
-						// TODO: what is this logic?
-						// char last_path[256];
-						// getFile(kLastPath, last_path, 256);
-						// if (!exactMatch(last_path, Paths.fauxRecentDir)) {
-						// 	putFile(kLastPath, disc_path);
-						// }
 					}
 					else {
 						status = kStatusContinue;
@@ -401,13 +394,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 						char* disc_path = disc_paths[disc];
 						if (!exactMatch(slot_disc_path, disc_path)) {
 							putFile(kChangeDiscPath, slot_disc_path);
-
-							// TODO: what is this logic?
-							// char last_path[256];
-							// getFile(kLastPath, last_path, 256);
-							// if (!exactMatch(last_path, Paths.fauxRecentDir)) {
-							// 	putFile(kLastPath, slot_disc_path);
-							// }
 						}
 					}
 					status = kStatusLoadSlot + slot;

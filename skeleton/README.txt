@@ -6,25 +6,23 @@ Source: https://github.com/shauninman/MiniUI
 Features
 
 - No settings or configuration
-- Simple file browser backed by a
-  sensible SD card layout
+- Simple launcher, simple SD card
 - Consistent in-emulator menu with
   quick access to save states, disc
   changing, and emulator options
-- Auto-sleep after 30 seconds or
-  press POWER to sleep (and wake)
-- Auto-power off while sleeping after
-  1 minute or hold POWER for 1 second
-  to power off manually
-- Auto-save state when powering off,
-  both auto and manually
-- Auto-restore auto-save state the
-  next time you power on
-- Resume from your last used, manually
-  created save state by pressing X in 
-  the file browser instead of A
-- Streamlined emulator front end (picoarch)
-  backed by libretro cores 
+- Automatically sleeps after 30 seconds 
+  or press POWER to sleep (and wake)
+- Automatically powers off while asleep
+  after one minute or hold POWER for
+  one second
+- Automatically resumes right where
+  you left off if powered off while
+  in-game, manually or while asleep
+- Resume from manually created, last 
+  used save state by pressing X in 
+  the launcher instead of A
+- Streamlined emulator frontend 
+  (picoarch + libretro cores)
 
 ----------------------------------------
 Roms
@@ -39,7 +37,7 @@ A lot of emulators require or perform much better with official bios. MiniUI is 
 ----------------------------------------
 Disc-based games
 
-To streamline launching disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MiniUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will launch the appropriate cue file.
+To streamline launching multi-file disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MiniUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will launch the appropriate cue file. MiniUI also reportedly supports chd files and official pbp files.
 
 ----------------------------------------
 Install

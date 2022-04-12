@@ -787,7 +787,7 @@ int preventAutosleep(void) {
 void powerOff(void) {
 	SDL_FillRect(screen, NULL, 0);
 	char* msg;
-	if (exists(kAutoResumePath)) msg = "Auto-save created, powering off";
+	if (exists(kAutoResumePath)) msg = "Auto-resume state created,\npowering off";
 	else msg = "Powering off";
 	GFX_blitBodyCopy(screen, msg, 0,0,Screen.width,Screen.height);
 	SDL_Flip(screen);
