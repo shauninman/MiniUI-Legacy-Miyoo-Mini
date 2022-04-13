@@ -273,7 +273,7 @@ int suffixMatch(char* suf, char* str) {
 int exactMatch(char* str1, char* str2) {
 	int len1 = strlen(str1);
 	if (len1!=strlen(str2)) return 0;
-	return  (strncmp(str1,str2,len1)==0);
+	return (strncmp(str1,str2,len1)==0);
 }
 int hide(char* file_name) {
 	if (file_name[0]=='.') return 1;

@@ -12,12 +12,23 @@
 #define BUTTON_B KEY_LEFTCTRL
 
 int main(int argc , char* argv[]) {
+	int any  = 0;
+	int only = 0;
+	
 	if (argc<1) {
-		puts("Usage: confirm [any]");
-		puts("  A = confirm B = cancel, unless 'any' arg is provided, then any button confirms");
+		puts("Usage: confirm [any|only]");
+		puts("  default: only A button confirms, only B button cancels");
+		puts("      any: any button confirms, none cancel");
+		puts("     only: only the A button confirms, none cancel");
 		return 0;
 	}
-	int any = argc>1;
+	
+	if (argc>1) {
+		char mode[4];
+		strncpy(mode,argv[1],4);
+		any  = strncmp(mode, "any",  4)==0;
+		only = strncmp(mode, "only", 4)==0;
+	}
 	
 	int confirmed = 0; // true in shell
 
@@ -27,7 +38,7 @@ int main(int argc , char* argv[]) {
 		if (event.type!=EV_KEY || event.value>1) continue;
 		if (event.type==EV_KEY) {
 			if (any || event.code==BUTTON_A) break;
-			else if (event.code==BUTTON_B) {
+			else if (!only && event.code==BUTTON_B) {
 				confirmed = 1; // false in shell terms
 				break;
 			}

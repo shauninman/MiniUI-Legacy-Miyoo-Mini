@@ -48,6 +48,7 @@ core:
 	cd ./src/miniui && make
 	cd ./src/show && make
 	cd ./src/confirm && make
+	cd ./src/say && make
 
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
@@ -72,6 +73,7 @@ payload:
 	cp ./src/miniui/MiniUI ./build/PAYLOAD/.system/paks/MiniUI.pak/
 	cp ./src/show/show ./build/PAYLOAD/.system/bin/
 	cp ./src/confirm/confirm ./build/PAYLOAD/.system/bin/
+	cp ./src/say/say ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
@@ -92,6 +94,7 @@ bundle:
 
 zip:
 	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)\nArch   $(BUILD_ARCH)\nGCC    $(BUILD_GCC)" > version.txt
+	cd ./build/PAYLOAD/.system/paks/Tools/Version.pak && echo "$(RELEASE_NAME).zip\nCommit $(BUILD_HASH)" > version.txt
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip .tmp_update Bios Roms Saves MiniUI.zip README.txt
 
@@ -107,5 +110,6 @@ clean:
 	cd ./src/miniui && make clean
 	cd ./src/show && make clean
 	cd ./src/confirm && make clean
+	cd ./src/say && make clean
 	cd ./third-party/picoarch && make platform=miyoomini clean
 	cd ./third-party/DinguxCommander && make clean
