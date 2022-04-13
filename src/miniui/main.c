@@ -364,10 +364,6 @@ static void addRecent(char* path) {
 	saveRecents();
 }
 
-#define kUpdatePath "/mnt/SDCARD/MiniUI.zip"
-static int hasUpdate(void) {
-	return exists(kUpdatePath);
-}
 static int hasPak(char* pak_name) {
 	char pak_path[256];
 	sprintf(pak_path, "%s/%s.pak/launch.sh", Paths.paksDir, pak_name);
@@ -570,7 +566,6 @@ static Array* getRoot(void) {
 	Array* entries = Array_new();
 	
 	int has_recents = hasRecents();
-	int has_update = hasUpdate();
 	
 	if (has_recents) Array_push(entries, Entry_new(Paths.fauxRecentDir, kEntryDir));
 	
@@ -604,8 +599,6 @@ static Array* getRoot(void) {
 		Array_push(entries, Entry_new(tools_path, kEntryDir));
 	}
 
-	if (has_update) Array_push(entries, Entry_new("/mnt/SDCARD/.system/paks/Update.pak", kEntryPak));
-	
 	return entries;
 }
 static Array* getRecents(void) {
