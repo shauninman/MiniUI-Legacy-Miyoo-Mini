@@ -13,6 +13,9 @@
 #define kTextLineLength 256
 #define kLineHeight 48
 
+#define kMiniUIFont "/mnt/SDCARD/.system/res/BPreplayBold-unhinted.otf"
+#define kStockFont "/customer/app/BPreplayBold.otf"
+
 static void blit(void* _dst, int dst_w, int dst_h, void* _src, int src_w, int src_h, int ox, int oy) {
 	uint8_t* dst = (uint8_t*)_dst;
 	uint8_t* src = (uint8_t*)_src;
@@ -35,8 +38,13 @@ static void blit(void* _dst, int dst_w, int dst_h, void* _src, int src_w, int sr
 int main(int argc , char* argv[]) {
 	if (argc<2) {
 		puts("Usage: say \"message\"");
-		return 0;
+		return EXIT_SUCCESS;
 	}
+	
+	char* path = NULL;
+	if (access(kMiniUIFont, F_OK)==0) path = kMiniUIFont;
+	else if (access(kStockFont, F_OK)==0) path = kStockFont;
+	if (!path) return 0;
 	
 	char str[kTextBoxMaxRows*kTextLineLength];
 	strncpy(str,argv[1],kTextBoxMaxRows*kTextLineLength);
@@ -48,8 +56,7 @@ int main(int argc , char* argv[]) {
 	char* fb0_map = (char*)mmap(0, map_size, PROT_READ | PROT_WRITE, MAP_SHARED, fb0_fd, 0);
 
 	TTF_Init();
-	// TODO: check a few places for this font or fallback to stock font?
-	TTF_Font* font = TTF_OpenFont("/mnt/SDCARD/.system/res/BPreplayBold-unhinted.otf", 32);
+	TTF_Font* font = TTF_OpenFont(path, 32);
 	
 	int ox = 0;
 	int oy = 0;
@@ -84,17 +91,20 @@ int main(int argc , char* argv[]) {
 			strcpy(line, rows[i]);
 		}
 		
-		
 		if (len) {
 			text = TTF_RenderUTF8_Blended(font, line, gold);
 			int x = ox;
 			x += (width - text->w) / 2;			
 			blit(fb0_map,640,480,text->pixels,text->w,text->h,x,y);
 			SDL_FreeSurface(text);
-			// break;
 		}
 		y += kLineHeight;
 	}
+	
+	TTF_CloseFont(font);
+	TTF_Quit();
+	munmap(fb0_map, map_size);
+	close(fb0_fd);
 	
 	return EXIT_SUCCESS;
 }

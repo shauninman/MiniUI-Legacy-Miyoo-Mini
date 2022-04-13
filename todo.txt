@@ -1,9 +1,6 @@
-show (and now say) don't free their fb memory (is that necessary?)
+Update.pak should kill keymon
 
-default save state support needs to recover from resuming slot 8
-
-create say and flipbook binary?
-	say "something" [bg.png]
+show, confirm, and say don't sleep (neither does Files.pak)
 
 add MENU+POWER force shutdown combo to readme
 add enable-simple-mode to readme
@@ -29,7 +26,6 @@ auto update next before anything else
 	I keep adding an update then forgetting to run it :facepalm:
 	remove post-install.sh after updating too
 
-
 settings bound to MENU button?
 
 wrap all $(dirname "$0") in quotes to properly escape paths with spaces
@@ -37,8 +33,6 @@ wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 change all logging from &> log to > log 2>&1
 
 add pak to install MiniUI boot logo?
-add Version.pak?
-	requires bin/show or bin/say
 auto install updates?
 	introduce in the last beta?
 

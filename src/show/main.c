@@ -40,5 +40,8 @@ int main(int argc , char* argv[]) {
 	}
 	SDL_FreeSurface(img);
 	
+	munmap(fb0_map, map_size);
+	close(fb0_fd);
+	
 	return EXIT_SUCCESS;
 }
