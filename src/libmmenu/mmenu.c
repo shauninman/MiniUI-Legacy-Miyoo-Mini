@@ -217,7 +217,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	// m3u path may change rom_file
 	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file);
 	
-	
 	// cache static elements
 	
 	// NOTE: original screen copying logic
@@ -255,9 +254,8 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	
 	int status = kStatusContinue;
 	int selected = 0; // resets every launch
-	if (exists(slot_path)) {
-		slot = getInt(slot_path);
-	}
+	if (exists(slot_path)) slot = getInt(slot_path);
+	if (slot==8) slot = 0;
 	
 	// inline functions? okay.
 	void SystemRequest(MenuRequestState request) {
