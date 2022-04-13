@@ -42,12 +42,12 @@ To streamline launching multi-file disc-based games with MiniUI place your bin/c
 ----------------------------------------
 Install
 
-Copy the contents of this archive to the root of a fresh SD card. Don't forget the hidden ".tmp_update" folder and don't unzip the "MiniUI.zip" archive. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 20 seconds. It may display the default boot logo or a black screen during this time. That's normal.
+Copy the contents of this archive to the root of a fresh SD card. Don't forget the "miyoo" folder. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 10 seconds.
 
 ----------------------------------------
 Update
 
-To install an update copy just the "MiniUI.zip" archive to the root of your SD card. Insert your SD card into the device and power it on. There will be a new "Update" entry at the bottom of the main menu (press up to jump to the bottom of the menu). Open the updater and allow the update to complete.
+To install an update copy just the "miyoo" folder to the root of your SD card. Insert your SD card into the device and power it on. MiniUI will update automatically and be ready to go in about 10 seconds.
 
 ----------------------------------------
 Thanks
@@ -60,7 +60,7 @@ To neonloop for putting together the Trimui toolchain from which I learned every
 
 Check out neonloop's repos: https://git.crowdedwood.com
 
-To Jim Gray (and the entire Onion crew) for taking a joke, running with it, and turning a stop-gap into a beloved launcher and community, it's been amazing to watch.
+To Jim Gray, Totofaki, and the entire Onion crew for taking a joke, running with it, and turning a stop-gap into a beloved launcher and community, it's been amazing to watch.
 
 Check out Onion for a more full-bodied Miyoo Mini experience: https://github.com/jimgraygit/Onion/
 
