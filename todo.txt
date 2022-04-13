@@ -1,30 +1,11 @@
-Update.pak should kill keymon
+update readme with new install/update instructions
+	mention to beta testers that this one time they'll need to delete .tmp_update
 
 show, confirm, and say don't sleep (neither does Files.pak)
 
 add MENU+POWER force shutdown combo to readme
 add enable-simple-mode to readme
 add supported bios to readme
-
-use miyoo folder to auto install/update?
-	instead of copying over the zip just copy the miyoo folder?
-		which contains the zip
-		and the miyoo folder is deleted after install/update
-	unzip bare minimum to update/install then launch progressui?
-		install just displays graphic
-		update setsup bin/lib paths to use existing progressui?
-			 but doesn't use progress because bin will move shortly there after?
-			 can I replace .tmp_update while .tmp_update/updater is running? (I'm guessing not, so I probably need to move it then unzip)
-	MainUI could install or update based on presence of .system
-	this way we bypass .tmp_update/updater until the install/update is complete
-
-auto update next before anything else
-	make sure pak and core retention is really working before enabling this!
-	update should be a two phase process (so the update logic comes from the updated Update.pak not the out of date one)
-		extract system if zip is present
-		continue updating from the new system if no zip is present
-	I keep adding an update then forgetting to run it :facepalm:
-	remove post-install.sh after updating too
 
 settings bound to MENU button?
 
