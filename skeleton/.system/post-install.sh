@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: remove me before "public" release
+
 # transfer alpha userdata to beta location
 if [ -d "/mnt/SDCARD/.userdata/miyoomini" ]; then
 	

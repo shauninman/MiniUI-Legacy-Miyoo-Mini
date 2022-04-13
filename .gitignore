@@ -22,4 +22,8 @@ confirm
 !confirm/
 say
 !say/
+blank
+!blank/
+
+# TODO: this eats miyoo/app/keymon, had to add extension then remove it in makefile
 

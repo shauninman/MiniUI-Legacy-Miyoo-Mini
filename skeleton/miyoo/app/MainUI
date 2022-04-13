@@ -1,0 +1,80 @@
+#!/bin/sh
+
+# {
+	
+DIR=/mnt/SDCARD/miyoo/app
+cd "$DIR"
+
+export LD_LIBRARY_PATH=/lib:/config/lib:/customer/lib
+SYSTEM_PATH=/mnt/SDCARD/.system
+OLD_SYSTEM_PATH=/mnt/SDCARD/.system_old
+
+# figure out what we're doing here
+if [ -d "$SYSTEM_PATH" ]; then
+	rm -rf "/mnt/SDCARD/.tmp_update"
+	mv "$SYSTEM_PATH" "$OLD_SYSTEM_PATH"
+	VERB=Updating
+	NOUN=Update
+	JUST_UPDATED=1
+else
+	VERB=Installing
+	NOUN=Installation
+	JUST_INSTALLED=1
+fi
+
+# then do it
+./say "$VERB MiniUI"
+unzip -o "/mnt/SDCARD/miyoo/app/MiniUI.zip" -d "/mnt/SDCARD"
+
+# post-install
+POST_INSTALL=/mnt/SDCARD/.system/post-install.sh
+if [ -f "$POST_INSTALL" ]; then
+	if [ -n "$JUST_INSTALLED" ]; then
+		"$POST_INSTALL"
+	fi
+	rm -f "$POST_INSTALL"
+fi
+
+# post-update
+if [ -n "$JUST_UPDATED" ]; then
+	./blank
+	./say "Cleaning up"
+
+	# preserve any unoffical Emus and Tools paks
+	find "$OLD_SYSTEM_PATH" -type d -name '*.pak' | while read SRC_PATH ; do
+		REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
+		DST_PATH="$SYSTEM_PATH$REL_PATH"
+		if [ ! -d "$DST_PATH" ]; then
+			mv "$SRC_PATH" "$DST_PATH"
+		fi
+	done
+
+	#preserve any unofficial libretro cores
+	find "$OLD_SYSTEM_PATH" -type f -name '*_libretro.so' | while read SRC_PATH ; do
+		REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
+		DST_PATH="$SYSTEM_PATH$REL_PATH"
+		if [ ! -f "$DST_PATH" ]; then
+			mv "$SRC_PATH" "$DST_PATH"
+		fi
+	done
+	
+	POST_UPDATE=/mnt/SDCARD/.system/post-update.sh
+	if [ -f "$POST_UPDATE" ]; then
+		"$POST_UPDATE"
+		rm -f "$POST_UPDATE"
+	fi
+fi
+
+# we're done here
+./blank
+./say "$NOUN complete"
+sleep 2
+./blank
+
+rm -rf "$OLD_SYSTEM_PATH"
+rm -rf /mnt/SDCARD/miyoo
+
+# } > /mnt/SDCARD/miyoo.txt 2>&1
+
+# let's do this
+/mnt/SDCARD/.tmp_update/updater
