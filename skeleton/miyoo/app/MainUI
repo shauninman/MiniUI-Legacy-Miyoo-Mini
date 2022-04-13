@@ -35,12 +35,8 @@ if [ -f "$POST_INSTALL" ]; then
 	rm -f "$POST_INSTALL"
 fi
 
-# post-update
+# retain any unofficial paks or cores
 if [ -n "$JUST_UPDATED" ]; then
-	./blank
-	./say "Cleaning up"
-
-	# preserve any unoffical Emus and Tools paks
 	find "$OLD_SYSTEM_PATH" -type d -name '*.pak' | while read SRC_PATH ; do
 		REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
 		DST_PATH="$SYSTEM_PATH$REL_PATH"
@@ -49,7 +45,6 @@ if [ -n "$JUST_UPDATED" ]; then
 		fi
 	done
 
-	#preserve any unofficial libretro cores
 	find "$OLD_SYSTEM_PATH" -type f -name '*_libretro.so' | while read SRC_PATH ; do
 		REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
 		DST_PATH="$SYSTEM_PATH$REL_PATH"
@@ -57,19 +52,20 @@ if [ -n "$JUST_UPDATED" ]; then
 			mv "$SRC_PATH" "$DST_PATH"
 		fi
 	done
-	
-	POST_UPDATE=/mnt/SDCARD/.system/post-update.sh
-	if [ -f "$POST_UPDATE" ]; then
+fi
+
+# post-update
+POST_UPDATE=/mnt/SDCARD/.system/post-update.sh
+if [ -f "$POST_UPDATE" ]; then
+	if [ -n "$JUST_UPDATED" ]; then
 		"$POST_UPDATE"
-		rm -f "$POST_UPDATE"
 	fi
+	rm -f "$POST_UPDATE"
 fi
 
 # we're done here
 ./blank
 ./say "$NOUN complete"
-sleep 2
-./blank
 
 rm -rf "$OLD_SYSTEM_PATH"
 rm -rf /mnt/SDCARD/miyoo

@@ -56,12 +56,6 @@ fi
 
 cd $(dirname "$0")
 
-POST_INSTALL=/mnt/SDCARD/.system/post-install.sh
-if [ -n "$JUST_INSTALLED" ] && [ -f "$POST_INSTALL" ]; then
-	"$POST_INSTALL"
-	rm -f "$POST_INSTALL"
-fi
-
 EXEC_PATH=/tmp/minui_exec
 touch "$EXEC_PATH"  && sync
 
