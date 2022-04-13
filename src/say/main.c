@@ -60,8 +60,6 @@ int main(int argc , char* argv[]) {
 	TTF_Init();
 	TTF_Font* font = TTF_OpenFont(path, 32);
 	
-	int ox = 0;
-	int oy = 0;
 	int width = 640;
 	int height = 480;
 	SDL_Color gold = {GOLD_TRIAD};
@@ -77,10 +75,10 @@ int main(int argc , char* argv[]) {
 	}
 	
 	int rendered_height = kLineHeight * row_count;
-	int y = oy;
-	y += (height - rendered_height) / 2;
+	int y = (height - rendered_height) / 2;
 	
 	char line[kTextLineLength];
+	
 	for (int i=0; i<row_count; i++) {
 		int len;
 		if (i+1<row_count) {
@@ -95,8 +93,7 @@ int main(int argc , char* argv[]) {
 		
 		if (len) {
 			text = TTF_RenderUTF8_Blended(font, line, gold);
-			int x = ox;
-			x += (width - text->w) / 2;			
+			int x = (width - text->w) / 2;
 			blit(fb0_map,640,480,text->pixels,text->w,text->h,x,y);
 			SDL_FreeSurface(text);
 		}
