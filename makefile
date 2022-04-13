@@ -74,6 +74,7 @@ payload:
 	cp ./src/show/show ./build/PAYLOAD/.system/bin/
 	cp ./src/confirm/confirm ./build/PAYLOAD/.system/bin/
 	cp ./src/say/say ./build/PAYLOAD/.system/bin/
+	cp ./src/say/say ./build/PAYLOAD/.tmp_update/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/

@@ -8,6 +8,8 @@ INSTALL_ZIP="$SDCARD_PATH/MiniUI.zip"
 
 # install
 if [ ! -f "$LAUNCH_PATH" ] && [ -f "$INSTALL_ZIP" ] ; then
+	cd $(dirname "$0")
+	./say "Installing MiniUI..."
 	unzip -o "$INSTALL_ZIP" -d "$SDCARD_PATH"
 	if [ -f "$LAUNCH_PATH" ] ; then
 		rm -f "$INSTALL_ZIP"

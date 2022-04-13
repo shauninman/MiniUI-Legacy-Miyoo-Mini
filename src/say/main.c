@@ -25,10 +25,12 @@ static void blit(void* _dst, int dst_w, int dst_h, void* _src, int src_w, int sr
 		uint8_t* src_row = src + ((y * src_w) * 4);
 		for (int x=0; x<src_w; x++) {
 			float a = *(src_row+3) / 255.0;
-			*(dst_row+0) = *(src_row+0) * a;
-			*(dst_row+1) = *(src_row+1) * a;
-			*(dst_row+2) = *(src_row+2) * a;
-			*(dst_row+3) = 0xff;
+			if (a>0.1) {
+				*(dst_row+0) = *(src_row+0) * a;
+				*(dst_row+1) = *(src_row+1) * a;
+				*(dst_row+2) = *(src_row+2) * a;
+				*(dst_row+3) = 0xff;
+			}
 			dst_row -= 4;
 			src_row += 4;
 		}
