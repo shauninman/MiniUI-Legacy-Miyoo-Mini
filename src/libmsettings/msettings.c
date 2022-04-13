@@ -17,15 +17,14 @@
 typedef struct Settings {
 	int version; // future proofing
 	int brightness;
-	int headphones;
+	int unused1;
 	int speaker;
 	int unused[4]; // for future use
 } Settings;
 static Settings DefaultSettings = {
 	.version = 1,
 	.brightness = 2,
-	.headphones = 4, // unused
-	.speaker = 8,
+	.speaker = 20,
 };
 static Settings* settings;
 
