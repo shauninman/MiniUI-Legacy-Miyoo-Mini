@@ -1,9 +1,14 @@
+Boot Logo.pak
+	risk of bricks too great
+
 add Time Limit.pak
 	set duration
 	auto-save and power off
 	snooze option?
 		would require deep integration, not worth it
 
+support paks in arbitrary folders?
+	eh, why?
 
 design settings
 

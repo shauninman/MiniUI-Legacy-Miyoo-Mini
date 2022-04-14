@@ -1,22 +1,18 @@
-update readme with new install/update instructions
-	mention to beta testers that this one time they'll need to delete .tmp_update
+version bound to MENU button?
+
+move Tools to root of SD card (optional, none available by default)
+
+add enable-simple-mode to readme
+
 
 show, confirm, and say don't sleep (neither does Files.pak)
-
-add MENU+POWER force shutdown combo to readme
-add enable-simple-mode to readme
-add supported bios to readme
-
-settings bound to MENU button?
+	thinking face
 
 wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 	or store the result in a var then quote the var when using
 change all logging from &> log to > log 2>&1
 
-add pak to install MiniUI boot logo?
-auto install updates?
-	introduce in the last beta?
-
 do another pass at defaults
+	disable audio
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings

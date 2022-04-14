@@ -32,8 +32,16 @@ Included in this zip is a Roms folder containing folders for each console MiniUI
 ----------------------------------------
 Bios
 
-A lot of emulators require or perform much better with official bios. MiniUI is strictly BYOB. Place the bios for each system in a folder that matches the tag in the corresponding Roms folder name (eg. bios for "Sony PlayStation (PS)" roms goes in "/Bios/PS/").
+Some emulators require or perform much better with official bios. MiniUI is strictly BYOB. Place the bios for each system in a folder that matches the tag in the corresponding Roms folder name (eg. bios for "Sony PlayStation (PS)" roms goes in "/Bios/PS/").
 
+File names (case-sensitive):
+
+ GB: gb_bios.bin
+GBA: gba_bios.bin
+GBC: gbc_bios.bin
+PKM: bios.min
+ PS: psxonpsp660.bin
+	
 ----------------------------------------
 Disc-based games
 
@@ -48,6 +56,13 @@ Copy the contents of this archive to the root of a fresh SD card. Don't forget t
 Update
 
 To install an update copy just the "miyoo" folder to the root of your SD card. Insert your SD card into the device and power it on. MiniUI will update automatically and be ready to go in about 10 seconds.
+
+----------------------------------------
+Shortcuts
+
+START + L or R: reduce/increase brightness
+SELECT + L or R: reduce/increase volume
+MENU+POWER: force power off (in case of hangs)
 
 ----------------------------------------
 Thanks

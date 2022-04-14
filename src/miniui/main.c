@@ -1027,13 +1027,6 @@ int main (int argc, char *argv[]) {
 	GFX_init();
 	GFX_ready();
 	
-	// TODO: uncomment once I sort out per-platform can-sleep setting
-	// // wake training
-	// SDL_FillRect(screen, NULL, 0);
-	// GFX_blitBodyCopy(screen, lang.wake,0,0,Screen.width,Screen.height);
-	// SDL_Flip(screen);
-	// waitForWake();
-	
 	SDL_Surface* logo = GFX_loadImage("logo.png");
 	
 	Menu_init();
