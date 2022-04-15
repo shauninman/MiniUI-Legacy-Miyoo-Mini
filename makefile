@@ -97,8 +97,7 @@ bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libstdc++.so.6 ./build/PAYLOAD/.system/lib/
 
 zip:
-	cd ./build/PAYLOAD/.system && echo "MiniUI\nBuild  $(BUILD_TIME) ($(RELEASE_NAME).zip)\nSource $(BUILD_REPO)\nCommit $(BUILD_HASH)\nArch   $(BUILD_ARCH)\nGCC    $(BUILD_GCC)" > version.txt
-	cd ./build/PAYLOAD/.system/paks/Tools/Version.pak && echo "$(RELEASE_NAME).zip\nCommit $(BUILD_HASH)" > version.txt
+	cd ./build/PAYLOAD/.system/paks/MiniUI.pak && echo "$(RELEASE_NAME).zip\n$(BUILD_HASH)" > version.txt
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system .tmp_update
 	mv ./build/PAYLOAD/MiniUI.zip ./build/PAYLOAD/miyoo/app/
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip Bios Roms Saves miyoo README.txt

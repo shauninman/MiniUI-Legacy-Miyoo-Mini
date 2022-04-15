@@ -1028,6 +1028,7 @@ int main (int argc, char *argv[]) {
 	GFX_ready();
 	
 	SDL_Surface* logo = GFX_loadImage("logo.png");
+	SDL_Surface* version = NULL;
 	
 	Menu_init();
 	
@@ -1035,6 +1036,7 @@ int main (int argc, char *argv[]) {
 	int dirty = 1;
 	int was_charging = isCharging();
 	unsigned long charge_start = SDL_GetTicks();
+	int show_version = 0;
 	int show_setting = 0; // 1=brightness,2=volume
 	int setting_value = 0;
 	int setting_min = 0;
@@ -1053,121 +1055,129 @@ int main (int argc, char *argv[]) {
 			
 		int selected = top->selected;
 		int total = top->entries->count;
-		if (Input_justRepeated(kButtonUp)) {
-			selected -= 1;
-			if (selected<0) {
-				selected = total-1;
-				int start = total - Screen.main.list.row_count;
-				top->start = (start<0) ? 0 : start;
-				top->end = total;
-			}
-			else if (selected<top->start) {
-				top->start -= 1;
-				top->end -= 1;
-			}
-		}
-		else if (Input_justRepeated(kButtonDown)) {
-			selected += 1;
-			if (selected>=total) {
-				selected = 0;
-				top->start = 0;
-				top->end = (total<Screen.main.list.row_count) ? total : Screen.main.list.row_count;
-			}
-			else if (selected>=top->end) {
-				top->start += 1;
-				top->end += 1;
-			}
-		}
-		if (Input_justRepeated(kButtonLeft)) {
-			selected -= Screen.main.list.row_count;
-			if (selected<0) {
-				selected = 0;
-				top->start = 0;
-				top->end = (total<Screen.main.list.row_count) ? total : Screen.main.list.row_count;
-			}
-			else if (selected<top->start) {
-				top->start -= Screen.main.list.row_count;
-				if (top->start<0) top->start = 0;
-				top->end = top->start + Screen.main.list.row_count;
-			}
-		}
-		else if (Input_justRepeated(kButtonRight)) {
-			selected += Screen.main.list.row_count;
-			if (selected>=total) {
-				selected = total-1;
-				int start = total - Screen.main.list.row_count;
-				top->start = (start<0) ? 0 : start;
-				top->end = total;
-			}
-			else if (selected>=top->end) {
-				top->end += Screen.main.list.row_count;
-				if (top->end>total) top->end = total;
-				top->start = top->end - Screen.main.list.row_count;
-			}
-		}
 		
-		// NOTE: && !Input_justReleased(kButtonSelect) is for RS90
-		if (!Input_isPressed(kButtonStart) && !Input_isPressed(kButtonSelect) && !Input_justReleased(kButtonSelect)) { 
-			if (Input_justRepeated(kButtonL)) { // previous alpha
-				Entry* entry = top->entries->items[selected];
-				int i = entry->alpha-1;
-				if (i>=0) {
-					selected = top->alphas->items[i];
-					if (total>Screen.main.list.row_count) {
-						top->start = selected;
-						top->end = top->start + Screen.main.list.row_count;
-						if (top->end>total) top->end = total;
-						top->start = top->end - Screen.main.list.row_count;
-					}
-				}
-			}
-			else if (Input_justRepeated(kButtonR)) { // next alpha
-				Entry* entry = top->entries->items[selected];
-				int i = entry->alpha+1;
-				if (i<top->alphas->count) {
-					selected = top->alphas->items[i];
-					if (total>Screen.main.list.row_count) {
-						top->start = selected;
-						top->end = top->start + Screen.main.list.row_count;
-						if (top->end>total) top->end = total;
-						top->start = top->end - Screen.main.list.row_count;
-					}
-				}
-			}
-		}
-		
-		if (selected!=top->selected) {
-			top->selected = selected;
-			dirty = 1;
-		}
-		
-		if (dirty) readyResume(top->entries->items[top->selected]);
-
-		if (Input_justReleased(kButtonResume)) {
-			if (can_resume) {
-				should_resume = 1;
-				Entry_open(top->entries->items[top->selected]);
+		if (show_version) {
+			if (Input_justPressed(kButtonB) || Input_justPressed(kButtonMenu)) {
+				show_version = 0;
 				dirty = 1;
 			}
 		}
-		// else if (Input_justPressed(kButtonAltEmu)) {
-		// 	if (Entry_toggleAlt(top->entries->items[top->selected])) dirty = 1;
-		// }
-		// else if (Input_justReleased(kButtonSelect) && !select_is_locked) { // TODO: kButtonFavorite?
-		// 	// TODO:
-		// 	allow_favorite = 1;
-		// }
-		else if (Input_justPressed(kButtonA)) {
-			Entry_open(top->entries->items[top->selected]);
-			dirty = 1;
+		else {
+			if (Input_justPressed(kButtonMenu)) {
+				show_version = 1;
+				dirty = 1;
+			}
+			
+			if (Input_justRepeated(kButtonUp)) {
+				selected -= 1;
+				if (selected<0) {
+					selected = total-1;
+					int start = total - Screen.main.list.row_count;
+					top->start = (start<0) ? 0 : start;
+					top->end = total;
+				}
+				else if (selected<top->start) {
+					top->start -= 1;
+					top->end -= 1;
+				}
+			}
+			else if (Input_justRepeated(kButtonDown)) {
+				selected += 1;
+				if (selected>=total) {
+					selected = 0;
+					top->start = 0;
+					top->end = (total<Screen.main.list.row_count) ? total : Screen.main.list.row_count;
+				}
+				else if (selected>=top->end) {
+					top->start += 1;
+					top->end += 1;
+				}
+			}
+			if (Input_justRepeated(kButtonLeft)) {
+				selected -= Screen.main.list.row_count;
+				if (selected<0) {
+					selected = 0;
+					top->start = 0;
+					top->end = (total<Screen.main.list.row_count) ? total : Screen.main.list.row_count;
+				}
+				else if (selected<top->start) {
+					top->start -= Screen.main.list.row_count;
+					if (top->start<0) top->start = 0;
+					top->end = top->start + Screen.main.list.row_count;
+				}
+			}
+			else if (Input_justRepeated(kButtonRight)) {
+				selected += Screen.main.list.row_count;
+				if (selected>=total) {
+					selected = total-1;
+					int start = total - Screen.main.list.row_count;
+					top->start = (start<0) ? 0 : start;
+					top->end = total;
+				}
+				else if (selected>=top->end) {
+					top->end += Screen.main.list.row_count;
+					if (top->end>total) top->end = total;
+					top->start = top->end - Screen.main.list.row_count;
+				}
+			}
+		
+			// NOTE: && !Input_justReleased(kButtonSelect) is for RS90
+			if (!Input_isPressed(kButtonStart) && !Input_isPressed(kButtonSelect) && !Input_justReleased(kButtonSelect)) { 
+				if (Input_justRepeated(kButtonL)) { // previous alpha
+					Entry* entry = top->entries->items[selected];
+					int i = entry->alpha-1;
+					if (i>=0) {
+						selected = top->alphas->items[i];
+						if (total>Screen.main.list.row_count) {
+							top->start = selected;
+							top->end = top->start + Screen.main.list.row_count;
+							if (top->end>total) top->end = total;
+							top->start = top->end - Screen.main.list.row_count;
+						}
+					}
+				}
+				else if (Input_justRepeated(kButtonR)) { // next alpha
+					Entry* entry = top->entries->items[selected];
+					int i = entry->alpha+1;
+					if (i<top->alphas->count) {
+						selected = top->alphas->items[i];
+						if (total>Screen.main.list.row_count) {
+							top->start = selected;
+							top->end = top->start + Screen.main.list.row_count;
+							if (top->end>total) top->end = total;
+							top->start = top->end - Screen.main.list.row_count;
+						}
+					}
+				}
+			}
+		
+			if (selected!=top->selected) {
+				top->selected = selected;
+				dirty = 1;
+			}
+		
+			if (dirty) readyResume(top->entries->items[top->selected]);
+
+			if (Input_justReleased(kButtonResume)) {
+				if (can_resume) {
+					should_resume = 1;
+					Entry_open(top->entries->items[top->selected]);
+					dirty = 1;
+				}
+			}
+			
+			else if (Input_justPressed(kButtonA)) {
+				Entry_open(top->entries->items[top->selected]);
+				dirty = 1;
 	
-			readyResume(top->entries->items[top->selected]);
-		}
-		else if (Input_justPressed(kButtonB) && stack->count>1) {
-			closeDirectory();
-			dirty = 1;
-			// can_resume = 0;
-			readyResume(top->entries->items[top->selected]);
+				readyResume(top->entries->items[top->selected]);
+			}
+			else if (Input_justPressed(kButtonB) && stack->count>1) {
+				closeDirectory();
+				dirty = 1;
+				// can_resume = 0;
+				readyResume(top->entries->items[top->selected]);
+			}
 		}
 		
 		unsigned long now = SDL_GetTicks();
@@ -1235,15 +1245,51 @@ int main (int argc, char *argv[]) {
 				GFX_blitBattery(screen, Screen.main.battery.x, Screen.main.battery.y);
 			}
 			GFX_blitRule(screen, Screen.main.rule.top_y);
-			
-			int selected_row = top->selected - top->start;
-			for (int i=top->start,j=0; i<top->end; i++,j++) {
-				Entry* entry = top->entries->items[i];
-				int has_alt = j==selected_row && Entry_hasAlt(entry);
-				int use_alt = has_alt && Entry_useAlt(entry);
-				GFX_blitMenu(screen, entry->name, entry->path, entry->conflict, j, selected_row, has_alt, use_alt);
+		
+			if (show_version) {
+				if (!version) {
+					char release[256];
+					getFile("./version.txt", release, 256);
+					
+					char *tmp,*commit;
+					commit = strrchr(release, '\n');
+					commit[0] = '\0';
+					commit = strrchr(release, '\n')+1;
+					tmp = strchr(release, '\n');
+					tmp[0] = '\0';
+					
+					SDL_Surface* release_txt = GFX_getText("Release", 2, 1);
+					SDL_Surface* version_txt = GFX_getText(release, 2, 0);
+					SDL_Surface* commit_txt = GFX_getText("Commit", 2, 1);
+					SDL_Surface* hash_txt = GFX_getText(commit, 2, 0);
+				
+					int x = release_txt->w + 12;
+					int w = x + version_txt->w;
+					int h = 96;
+					version = SDL_CreateRGBSurface(0,w,h,16,0,0,0,0);
+				
+					SDL_BlitSurface(release_txt, NULL, version, &(SDL_Rect){0,0});
+					SDL_BlitSurface(version_txt, NULL, version, &(SDL_Rect){x,0});
+					SDL_BlitSurface(commit_txt, NULL, version, &(SDL_Rect){0,48});
+					SDL_BlitSurface(hash_txt, NULL, version, &(SDL_Rect){x,48});
+	
+					SDL_FreeSurface(release_txt);
+					SDL_FreeSurface(version_txt);
+					SDL_FreeSurface(commit_txt);
+					SDL_FreeSurface(hash_txt);
+				}
+				SDL_BlitSurface(version, NULL, screen, &(SDL_Rect){(640-version->w)/2,200});
 			}
-			
+			else {
+				int selected_row = top->selected - top->start;
+				for (int i=top->start,j=0; i<top->end; i++,j++) {
+					Entry* entry = top->entries->items[i];
+					int has_alt = j==selected_row && Entry_hasAlt(entry);
+					int use_alt = has_alt && Entry_useAlt(entry);
+					GFX_blitMenu(screen, entry->name, entry->path, entry->conflict, j, selected_row, has_alt, use_alt);
+				}
+			}
+		
 			GFX_blitRule(screen, Screen.main.rule.bottom_y);
 			if (can_resume) {
 				if (strlen(HINT_RESUME)>1) GFX_blitPill(screen, HINT_RESUME, "RESUME", Screen.buttons.left, Screen.buttons.top);
@@ -1253,9 +1299,14 @@ int main (int argc, char *argv[]) {
 				GFX_blitPill(screen, HINT_SLEEP, "SLEEP", Screen.buttons.left, Screen.buttons.top);
 			}
 			
-			int button_width = GFX_blitButton(screen, "A", "OPEN", -Screen.buttons.right, Screen.buttons.top, Screen.button.text.ox_A);
-			if (stack->count>1) {
-				GFX_blitButton(screen, "B", "BACK", -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.buttons.top, Screen.button.text.ox_B);
+			if (show_version) {
+				GFX_blitButton(screen, "B", "BACK", -Screen.buttons.right, Screen.buttons.top, Screen.button.text.ox_B);
+			}
+			else {
+				int button_width = GFX_blitButton(screen, "A", "OPEN", -Screen.buttons.right, Screen.buttons.top, Screen.button.text.ox_A);
+				if (stack->count>1) {
+					GFX_blitButton(screen, "B", "BACK", -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.buttons.top, Screen.button.text.ox_B);
+				}
 			}
 			SDL_Flip(screen);
 		}
@@ -1270,6 +1321,7 @@ int main (int argc, char *argv[]) {
 	SDL_Flip(screen);
 				
 	SDL_FreeSurface(logo);
+	if (version) SDL_FreeSurface(version); 
 
 	Menu_quit();
 	GFX_quit();
