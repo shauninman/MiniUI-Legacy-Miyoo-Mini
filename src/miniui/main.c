@@ -593,11 +593,9 @@ static Array* getRoot(void) {
 		closedir(dh);
 	}
 	
-	if (!exists(kEnableSimpleModePath)) {
-		char tools_path[256];
-		sprintf(tools_path, "%s/Tools", Paths.paksDir);
-		Array_push(entries, Entry_new(tools_path, kEntryDir));
-	}
+	char tools_path[256];
+	sprintf(tools_path, "%s/Tools", Paths.rootDir);
+	if (exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
 
 	return entries;
 }
@@ -1268,7 +1266,7 @@ int main (int argc, char *argv[]) {
 					int h = 96;
 					version = SDL_CreateRGBSurface(0,w,h,16,0,0,0,0);
 				
-					SDL_BlitSurface(release_txt, NULL, version, &(SDL_Rect){0,0});
+					SDL_BlitSurface(release_txt, NULL, version, &(SDL_Rect){0, 0});
 					SDL_BlitSurface(version_txt, NULL, version, &(SDL_Rect){x,0});
 					SDL_BlitSurface(commit_txt, NULL, version, &(SDL_Rect){0,48});
 					SDL_BlitSurface(hash_txt, NULL, version, &(SDL_Rect){x,48});
