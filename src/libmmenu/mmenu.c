@@ -125,7 +125,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	char slot_path[256];
 	char emu_name[256];
 	char mmenu_dir[256];
-	getDisplayName(rom_path, rom_name);
 	
 	// filename
 	tmp = strrchr(rom_path,'/');
@@ -216,6 +215,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	
 	// m3u path may change rom_file
 	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file);
+	getDisplayName(rom_file, rom_name);
 	
 	// cache static elements
 	
