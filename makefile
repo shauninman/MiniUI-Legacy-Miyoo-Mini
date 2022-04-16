@@ -31,7 +31,7 @@ ifeq "$(GCC_VER_GTE9_0)" "1"
   BUNDLE_LIBS=bundle
 endif
 
-all: lib sdl core emu tools payload $(BUNDLE_LIBS) zip
+all: lib sdl core emu payload $(BUNDLE_LIBS) zip
 
 lib:
 	cd ./src/libmsettings && make
@@ -80,8 +80,8 @@ payload:
 	cp ./src/blank/blank ./build/PAYLOAD/miyoo/app/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
 	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
-	cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Tools/Files.pak/
+	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
+	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Tools/Files.pak/
 
 bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
@@ -117,4 +117,4 @@ clean:
 	cd ./src/say && make clean
 	cd ./src/blank && make clean
 	cd ./third-party/picoarch && make platform=miyoomini clean
-	cd ./third-party/DinguxCommander && make clean
+	# cd ./third-party/DinguxCommander && make clean
