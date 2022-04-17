@@ -1,9 +1,16 @@
-version bound to MENU button?
+make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
+	check totofaki's battery curves (last I checked mine were the same as stock)
 
-move Tools to root of SD card (optional, none available by default)
+make sure Recently Played and libmmenu display the m3u file name instead of the content name
+	libmmenu was easy
+	Recently Played will be much more involved...
+		because it is currently set to a specific disc
+		which maybe isn't necessary since resume works from the m3u dir in the console folder? 
+		but is that because open dir gets the specific disc?
+
+create an Also Rans.zip of additional cores
 
 add enable-simple-mode to readme
-
 
 show, confirm, and say don't sleep (neither does Files.pak)
 	thinking face
@@ -13,6 +20,10 @@ wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 change all logging from &> log to > log 2>&1
 
 do another pass at defaults
-	disable audio
+	disable audio adjust?	
 
-make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
+Native Games (PAK)
+	supports .pak/launch.sh
+		see Cave Story.pak (not great)
+	needs to disable SAVE/LOAD and auto power off (no auto-save messages on manual power off)
+	too much trouble
