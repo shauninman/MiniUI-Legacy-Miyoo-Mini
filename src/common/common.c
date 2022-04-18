@@ -791,6 +791,6 @@ void powerOff(void) {
 	else msg = "Powering off";
 	GFX_blitBodyCopy(screen, msg, 0,0,Screen.width,Screen.height);
 	SDL_Flip(screen);
-	system("sync & reboot");
-	sleep(2);
+	system("sync && reboot");
+	sleep(2); // required to prevent emulators from clearing screen?
 }
