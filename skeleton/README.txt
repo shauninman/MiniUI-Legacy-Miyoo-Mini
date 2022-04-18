@@ -36,11 +36,12 @@ Some emulators require or perform much better with official bios. MiniUI is stri
 
 File names (case-sensitive):
 
- GB: gb_bios.bin
+FC: disksys.rom
+GB: gb_bios.bin
 GBA: gba_bios.bin
 GBC: gbc_bios.bin
 PKM: bios.min
- PS: psxonpsp660.bin
+PS: psxonpsp660.bin
 	
 ----------------------------------------
 Disc-based games
@@ -67,7 +68,7 @@ MENU+POWER: force power off (in case of hangs)
 ----------------------------------------
 Thanks
 
-To eggs for his example middleware code, neon scalers, and patience in the face of my endless questions.
+To eggs for his example middleware code, countless bug fixes, neon scalers, and patience in the face of my endless questions.
 
 Check out eggs' releases: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AABtSOygIX_e4mio3rkLetWTa
 
