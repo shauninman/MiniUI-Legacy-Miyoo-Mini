@@ -370,6 +370,7 @@ static int hasPak(char* pak_name) {
 	return exists(pak_path);
 }
 static int hasEmu(char* emu_name) {
+	// if (exactMatch(emu_name, "PAK")) return 1;
 	char pak_path[256];
 	sprintf(pak_path, "%s/Emus/%s.pak/launch.sh", Paths.paksDir, emu_name);
 	return exists(pak_path);
@@ -810,8 +811,7 @@ static void openPak(char* path) {
 	char cmd[256];
 	sprintf(cmd, "\"%s/launch.sh\"", path);
 	
-	// TODO: revisit this path (will games even be supported? how?)
-	// if (prefixMatch(Paths.rootDir "/Games", path)) {
+	// if (prefixMatch(Paths.romsDir, path)) {
 	// 	addRecent(path);
 	// }
 	saveLast(path);
@@ -1193,7 +1193,7 @@ int main (int argc, char *argv[]) {
 		
 		if (power_start && now-power_start>=1000) {
 			powerOff();
-			return 0;
+			// return 0; // we should never reach this point
 		}
 		if (Input_justPressed(kButtonSleep)) {
 			power_start = now;
