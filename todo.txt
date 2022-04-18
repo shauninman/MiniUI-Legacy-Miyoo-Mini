@@ -1,3 +1,20 @@
+-------------------------------
+
+- added FC bios name to readme
+- removed superflous sync before reboot
+- now powers off after two minutes of sleep (instead of one)
+- Audio Adjust now defaults to Off
+- PlayStation: Dithering new defaults to enabled
+- PlayStation: fix for Policenauts
+
+-------------------------------
+
+
+
+start tracking a changelog
+
+add Version to version :sweat_smile:
+
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 	check totofaki's battery curves (last I checked mine were the same as stock)
 
@@ -20,10 +37,4 @@ wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 change all logging from &> log to > log 2>&1
 
 do another pass at defaults
-	disable audio adjust?	
-
-Native Games (PAK)
-	supports .pak/launch.sh
-		see Cave Story.pak (not great)
-	needs to disable SAVE/LOAD and auto power off (no auto-save messages on manual power off)
-	too much trouble
+	

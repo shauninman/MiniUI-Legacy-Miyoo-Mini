@@ -1,3 +1,10 @@
+Native Games (PAK)
+	supports .pak/launch.sh
+		see Cave Story.pak (not great)
+	needs to disable SAVE/LOAD and auto power off (and no auto-save messages on manual power off)
+	also the m3u must be named Cave Story.pak.m3u but then only the m3u extension is removed in getDisplayName()
+	too much trouble
+
 Boot Logo.pak
 	risk of bricks too great
 
