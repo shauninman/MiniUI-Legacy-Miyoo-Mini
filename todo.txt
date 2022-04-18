@@ -1,19 +1,10 @@
 -------------------------------
 
-- added FC bios name to readme
-- removed superflous sync before reboot
-- now powers off after two minutes of sleep (instead of one)
-- Audio Adjust now defaults to Off
-- PlayStation: Dithering new defaults to enabled
-- PlayStation: fix for Policenauts
+- fixed vertical alignment of install/update message
 
 -------------------------------
 
-
-
-start tracking a changelog
-
-add Version to version :sweat_smile:
+- add actual version number to version message
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 	check totofaki's battery curves (last I checked mine were the same as stock)

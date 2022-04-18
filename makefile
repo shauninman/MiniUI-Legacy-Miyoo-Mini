@@ -76,6 +76,7 @@ payload:
 	cp ./src/show/show ./build/PAYLOAD/.system/bin/
 	cp ./src/confirm/confirm ./build/PAYLOAD/.system/bin/
 	cp ./src/say/say ./build/PAYLOAD/.system/bin/
+	cp ./src/blank/blank ./build/PAYLOAD/.system/bin/
 	cp ./src/say/say ./build/PAYLOAD/miyoo/app/
 	cp ./src/blank/blank ./build/PAYLOAD/miyoo/app/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/

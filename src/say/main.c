@@ -20,6 +20,8 @@ static void blit(void* _dst, int dst_w, int dst_h, void* _src, int src_w, int sr
 	uint8_t* dst = (uint8_t*)_dst;
 	uint8_t* src = (uint8_t*)_src;
 	
+	oy += kLineHeight - src_h;
+	
 	for (int y=0; y<src_h; y++) {
 		uint8_t* dst_row = dst + (((((dst_h - 1 - oy) - y) * dst_w) - 1 - ox) * 4);
 		uint8_t* src_row = src + ((y * src_w) * 4);
