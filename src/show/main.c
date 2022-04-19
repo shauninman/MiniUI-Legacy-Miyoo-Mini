@@ -14,7 +14,10 @@ int main(int argc , char* argv[]) {
 	}
 	
 	char path[256];
-	strncpy(path,argv[1],256);
+	if (strchr(argv[1], '/')==NULL) sprintf(path, "/mnt/SDCARD/.system/res/%s", argv[1]);
+	else strncpy(path,argv[1],256);
+	
+	if (access(path, F_OK)!=0) return 0; // nothing to show :(
 		
 	int fb0_fd = open("/dev/fb0", O_RDWR);
 	struct fb_var_screeninfo vinfo;
