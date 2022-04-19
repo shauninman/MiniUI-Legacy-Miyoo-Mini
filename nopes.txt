@@ -1,3 +1,11 @@
+see if we can get access to the dmg grid color somehow
+	not seeing a clean way
+	what if I set a flag when we change an emu config
+	then on the next frame use a special version of the dmg scaler that tries to find the 4 colors and sets the grid color
+		yiiiikes
+	limit dmg to just gambatte and pokemini?
+
+
 Native Games (PAK)
 	supports .pak/launch.sh
 		see Cave Story.pak (not great)

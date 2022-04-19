@@ -713,8 +713,6 @@ static Array* getEntries(char* path){
 ///////////////////////////////////////
 
 static void queueNext(char* cmd) {
-	printf("queueNext in /tmp/next\n");
-	
 	putFile("/tmp/next", cmd);
 	quit = 1;
 }
