@@ -767,6 +767,7 @@ void enterSleep(void) {
 	trimTrailingNewlines(governor);
 
 	system("echo powersave > " GOVERNOR_PATH);
+	sync();
 }
 void exitSleep(void) {
 	SetVolume(GetVolume());
