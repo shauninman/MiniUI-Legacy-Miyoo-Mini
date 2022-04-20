@@ -75,6 +75,10 @@ while [ -f "$EXEC_PATH" ]; do
 		CMD=`cat $NEXT`
 		rm -f $NEXT
 		eval $CMD
+		if [ -f "/tmp/using-swap" ]; then
+			rm -f "/tmp/using-swap"
+			swapoff -a
+		fi
 		
 		echo `date +'%F %T'` > "$DATETIME_PATH"
 		sync
