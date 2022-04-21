@@ -1,10 +1,10 @@
 see if we can get access to the dmg grid color somehow
 	not seeing a clean way
 	what if I set a flag when we change an emu config
-	then on the next frame use a special version of the dmg scaler that tries to find the 4 colors and sets the grid color
+		then on the next frame use a special version of the dmg scaler that tries to find the 4 colors and sets the grid color
 		yiiiikes
 	limit dmg to just gambatte and pokemini?
-
+		would still available on GBC games 
 
 Native Games (PAK)
 	supports .pak/launch.sh
@@ -24,8 +24,6 @@ add Time Limit.pak
 
 support paks in arbitrary folders?
 	eh, why?
-
-design settings
 
 Settings
 	Version	(2022-02-22 12:34:56)

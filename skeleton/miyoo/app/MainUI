@@ -35,6 +35,7 @@ if [ -f "$POST_INSTALL" ]; then
 	rm -f "$POST_INSTALL"
 fi
 
+# TODO: this is going away in favor of Emus and Tools at the root of the SD card
 # retain any unofficial paks or cores
 if [ -n "$JUST_UPDATED" ]; then
 	find "$OLD_SYSTEM_PATH" -type d -name '*.pak' | while read SRC_PATH ; do
