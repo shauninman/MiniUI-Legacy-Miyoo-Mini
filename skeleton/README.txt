@@ -51,7 +51,7 @@ To streamline launching multi-file disc-based games with MiniUI place your bin/c
 ----------------------------------------
 Install
 
-Copy the contents of this archive to the root of a fresh SD card. Don't forget the "miyoo" folder. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 10 seconds.
+Copy the contents of this archive to the root of a fresh FAT32 formatted SD card. Don't forget the "miyoo" folder. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 10 seconds.
 
 ----------------------------------------
 Update

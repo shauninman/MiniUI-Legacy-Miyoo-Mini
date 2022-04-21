@@ -1,16 +1,21 @@
-Inform beta testers that the next update will remove preserving changes to .system
+-------------------------------
+
+- fixed truncated sub-folder listings
 
 -------------------------------
 
-- added support for custom emulator paks in /Emus/
-- updated to latest gpsp (reportedly improves Camelot games)
-- fixed issues arising from setting system time to the relative past (thanks eggs)
-
--------------------------------
-
-- BUG: subfolder list truncated (need reproduction steps)
+- handle new audioserver
+- flip the power off message a few times to prevent reverting to a previous frame during reboot
+- remove leading numbers from display name
+	what about games like 007 and 8 Eyes?
+	use parentheses, eg.
+		(01) Game Boy
+		(02) Game Boy Color
+		(03) Game Boy Advance
 - extract tag name in launch.sh?
-- clean out nopes
+- document extras
+	Emus
+	Tools
 
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
@@ -37,7 +42,8 @@ show, confirm, and say don't sleep (neither does Files.pak)
 
 wrap all $(dirname "$0") in quotes to properly escape paths with spaces
 	or store the result in a var then quote the var when using
+
 change all logging from &> log to > log 2>&1
 
-do another pass at defaults
+do another pass at defaults?
 	
