@@ -280,7 +280,6 @@ typedef struct Recent {
 	char* path; // NOTE: this is without the Paths.rootDir prefix!
 	int available;
 } Recent;
-static int hasPak(char* pak_name);
 static int hasEmu(char* emu_name);
 static Recent* Recent_new(char* path) {
 	Recent* self = malloc(sizeof(Recent));
@@ -364,16 +363,19 @@ static void addRecent(char* path) {
 	saveRecents();
 }
 
-static int hasPak(char* pak_name) {
-	char pak_path[256];
-	sprintf(pak_path, "%s/%s.pak/launch.sh", Paths.paksDir, pak_name);
-	return exists(pak_path);
-}
 static int hasEmu(char* emu_name) {
 	// if (exactMatch(emu_name, "PAK")) return 1;
 	char pak_path[256];
 	sprintf(pak_path, "%s/Emus/%s.pak/launch.sh", Paths.paksDir, emu_name);
+	if (exists(pak_path)) return 1;
+
+	sprintf(pak_path, "%s/Emus/%s.pak/launch.sh", Paths.rootDir, emu_name);
 	return exists(pak_path);
+}
+static void getEmuPath(char* emu_name, char* pak_path) {
+	sprintf(pak_path, "%s/Emus/%s.pak/launch.sh", Paths.rootDir, emu_name);
+	if (exists(pak_path)) return;
+	sprintf(pak_path, "%s/Emus/%s.pak/launch.sh", Paths.paksDir, emu_name);
 }
 static int hasAlt(char* emu_name) {
 	char pak_path[256];
@@ -845,8 +847,11 @@ static void openRom(char* path, char* last) {
 	char emu_name[256];
 	getEmuName(path, emu_name);
 	
+	char emu_path[256];
+	getEmuPath(emu_name, emu_path);
+	
 	char cmd[256];
-	sprintf(cmd, "\"%s/Emus/%s.pak/launch.sh\" \"%s\"", Paths.paksDir, emu_name, path);
+	sprintf(cmd, "\"%s\" \"%s\"", emu_path, path);
 
 	addRecent(path);
 	saveLast(last==NULL ? path : last);
