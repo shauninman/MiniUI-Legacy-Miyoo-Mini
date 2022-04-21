@@ -77,7 +77,7 @@ To eggs for his example middleware code, countless bug fixes, neon scalers, and 
 
 Check out eggs' releases: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AABtSOygIX_e4mio3rkLetWTa
 
-To neonloop for putting together the Trimui toolchain from which I learned everything I know about docker and buildroot and the basis for the Miyoo Mini toolchain I put together, and for picoarch, without which I might have given up entirely.
+To neonloop for putting together the Trimui toolchain from which I learned everything I know about docker and buildroot and is the basis for the Miyoo Mini toolchain I put together, and for picoarch, without which I might have given up entirely.
 
 Check out neonloop's repos: https://git.crowdedwood.com
 
