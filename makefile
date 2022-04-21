@@ -61,6 +61,7 @@ payload:
 	mkdir -p ./releases
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
+	fmt -w 40 -s ./skeleton//README.txt > ./build/PAYLOAD/README.txt
 	mv ./build/PAYLOAD/miyoo/app/keymon.sh ./build/PAYLOAD/miyoo/app/keymon
 	cd ./build && find . -type f -name '.keep' -delete
 	cd ./build && find . -type f -name '.DS_Store' -delete
@@ -103,6 +104,8 @@ zip:
 	mv ./build/PAYLOAD/MiniUI.zip ./build/PAYLOAD/miyoo/app/
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip Bios Roms Saves miyoo README.txt
 
+rezip: payload $(BUNDLE_LIBS) zip
+	
 clean:
 	rm -rf ./build
 	cd ./src/libmsettings && make clean

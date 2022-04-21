@@ -61,9 +61,14 @@ To install an update copy just the "miyoo" folder to the root of your SD card. I
 ----------------------------------------
 Shortcuts
 
-START + L or R: reduce/increase brightness
-SELECT + L or R: reduce/increase volume
-MENU+POWER: force power off (in case of hangs)
+Reduce/increase brightness:
+START + L or R
+
+Reduce/increase volume:
+SELECT + L or R
+
+Force power off (in case of hangs):
+MENU + POWER
 
 ----------------------------------------
 Thanks
