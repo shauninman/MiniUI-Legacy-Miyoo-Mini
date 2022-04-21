@@ -324,9 +324,8 @@ static int can_resume = 0;
 static int should_resume = 0; // set to 1 on kButtonResume but only if can_resume==1
 static char slot_path[256];
 
-// NOTE: I have no idea what to call these...
-static int restore_relative = -1; // root Directory
-static int restore_selected = 0; // Recently Played entry
+static int restore_depth = -1;
+static int restore_selected = 0;
 static int restore_start = 0;
 static int restore_end = 0;
 
@@ -904,7 +903,7 @@ static void openDirectory(char* path, int auto_launch) {
 	int start = selected;
 	int end = 0;
 	if (top && top->entries->count>0) {
-		if (top->selected==restore_relative) {
+		if (restore_depth==stack->count) {
 			selected = restore_selected;
 			start = restore_start;
 			end = restore_end;
@@ -922,8 +921,8 @@ static void closeDirectory(void) {
 	restore_start = top->start;
 	restore_end = top->end;
 	DirectoryArray_pop(stack);
+	restore_depth = stack->count;
 	top = stack->items[stack->count-1];
-	restore_relative = top->selected;
 }
 
 static void Entry_open(Entry* self) {
