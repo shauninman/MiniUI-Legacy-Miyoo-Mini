@@ -794,10 +794,14 @@ static int autoResume(void) {
 	// make sure emu still exists
 	char emu_name[256];
 	getEmuName(sd_path, emu_name);
-	if (!hasEmu(emu_name)) return 0;
+	
+	char emu_path[256];
+	getEmuPath(emu_name, emu_path);
+	
+	if (!exists(emu_path)) return 0;
 	
 	char cmd[256];
-	sprintf(cmd, "\"%s/Emus/%s.pak/launch.sh\" \"%s\"", Paths.paksDir, emu_name, sd_path);
+	sprintf(cmd, "\"%s\" \"%s\"", emu_path, sd_path);
 	putFile(kResumeSlotPath, kAutoResumeSlot);
 
 	queueNext(cmd);

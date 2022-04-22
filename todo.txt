@@ -1,17 +1,14 @@
 -------------------------------
 
 - fixed truncated sub-folder listings
-- attempts to fix framebuffer reverting during in-game power off (need confirmation)
+- fixed power off display issues on latest firmware
+- updated display name cruft trimmer logic
+- added trimming leading metadata from display name for better control over sort order
+- fixed auto-resume in user installed emulator paks
 
 -------------------------------
 
 - handle new audioserver
-- remove leading numbers from display name
-	what about games like 007 and 8 Eyes?
-	use parentheses, eg.
-		(01) Game Boy
-		(02) Game Boy Color
-		(03) Game Boy Advance
 - extract tag name in launch.sh?
 - document extras
 	Emus
