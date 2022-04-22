@@ -897,7 +897,7 @@ static void openDirectory(char* path, int auto_launch) {
 			openRom(auto_path, path);
 			return;
 		}
-		// TODO: doesn't handle an empty m3u files
+		// TODO: doesn't handle empty m3u files
 	}
 	
 	int selected = 0;

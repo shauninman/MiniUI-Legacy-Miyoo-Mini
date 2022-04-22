@@ -1,15 +1,12 @@
 #!/bin/sh
 
-SDCARD_PATH="/mnt/SDCARD"
-LAUNCH_PATH="$SDCARD_PATH/.system/paks/MiniUI.pak/launch.sh"
-INSTALL_DIR="$SDCARD_PATH/miyoo"
-
 # install
-if [ -d "$INSTALL_DIR" ] ; then
+if [ -d "/mnt/SDCARD/miyoo" ] ; then
 	exit 0
 fi
 
 # or launch (and keep launched)
+LAUNCH_PATH="/mnt/SDCARD/.system/paks/MiniUI.pak/launch.sh"
 while [ -f "$LAUNCH_PATH" ] ; do
 	"$LAUNCH_PATH"
 done

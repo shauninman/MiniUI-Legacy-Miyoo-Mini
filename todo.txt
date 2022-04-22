@@ -1,11 +1,11 @@
 -------------------------------
 
 - fixed truncated sub-folder listings
+- attempts to fix framebuffer reverting during in-game power off (need confirmation)
 
 -------------------------------
 
 - handle new audioserver
-- flip the power off message a few times to prevent reverting to a previous frame during reboot
 - remove leading numbers from display name
 	what about games like 007 and 8 Eyes?
 	use parentheses, eg.
