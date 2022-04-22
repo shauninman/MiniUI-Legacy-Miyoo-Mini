@@ -270,7 +270,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	
 	if (requested_state!=kRequestMenu) { // sleep or poweroff
 		SystemRequest(requested_state);
-		if (requested_state==kRequestPowerOff) return kStatusExitGame;
+		if (requested_state==kRequestPowerOff) return kStatusPowerOff;
 	}
 	
 	char save_path[256];
@@ -424,7 +424,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 
 		if (power_start && now-power_start>=1000) {
 			SystemRequest(kRequestPowerOff);
-			status = kStatusExitGame;
+			status = kStatusPowerOff;
 			quit = 1;
 		}
 		if (Input_justPressed(kButtonSleep)) {
@@ -544,9 +544,11 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	}
 	
 	// redraw original screen before returning
-	SDL_FillRect(screen, NULL, 0);
-	SDL_BlitSurface(copy, NULL, screen, NULL);
-	SDL_Flip(screen);
+	if (status!=kStatusPowerOff) {
+		SDL_FillRect(screen, NULL, 0);
+		SDL_BlitSurface(copy, NULL, screen, NULL);
+		SDL_Flip(screen);
+	}
 
 	SDL_FreeSurface(cache);
 	// NOTE: copy->pixels was manually malloc'd so it must be manually freed too
