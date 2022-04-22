@@ -1,22 +1,16 @@
 -------------------------------
 
-- fixed truncated sub-folder listings
-- fixed power off display issues on latest firmware
-- updated display name cruft trimmer logic
-- added trimming leading metadata from display name for better control over sort order
-- fixed auto-resume in user installed emulator paks
+- 
 
 -------------------------------
 
-- handle new audioserver
-- extract tag name in launch.sh?
 - document extras
 	Emus
 	Tools
 
+- extract tag name in launch.sh?
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
-- add actual version number to version message (or not?)
 - press L on a save state to lock/unlock it?
 
 picoarch should truncate the common parts of a group of options, not the (usually unique) ends
