@@ -296,6 +296,7 @@ void getDisplayName(const char* in_name, char* out_name) {
 	char safe_name[256];
 	strcpy(safe_name,out_name);
 	while ((tmp=strrchr(out_name, '('))!=NULL || (tmp=strrchr(out_name, '['))!=NULL) {
+		if (tmp==out_name) break;
 		tmp[0] = '\0';
 		tmp = out_name;
 	}
@@ -321,7 +322,7 @@ void getEmuName(const char* in_name, char* out_name) {
 	}
 
 	// finally extract pak name from parenths if present
-	tmp = strchr(tmp, '(');
+	tmp = strrchr(tmp, '(');
 	if (tmp) {
 		tmp += 1;
 		strcpy(out_name, tmp);
@@ -523,12 +524,29 @@ int GFX_blitButton(SDL_Surface* surface, char* btxt, char* htxt, int x, int y, i
 	SDL_FreeSurface(hint_text);
 	return total_width;
 }
+
+static void trimSortingMeta(char** str) { // eg. `001) `
+	char* safe = *str;
+	while(isdigit(**str)) *str += 1; // ignore leading numbers
+
+	if (*str[0]==')') { // then match a closing parenthesis
+		*str += 1;
+	}
+	else { //  or bail, restoring the string to its original value
+		*str = safe;
+		return;
+	}
+	
+	while(isblank(**str)) *str += 1; // ignore leading space
+}
+
 void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, int row, int selected_row, int has_alt, int use_alt) {
 	int max_width = Screen.width - (2 * Screen.main.list.ox);
 	SDL_Surface* text;
 	char* fullname = strrchr(path, '/')+1;
 	if (row==selected_row) {
 		char* display_name = conflict ? fullname : name;
+		trimSortingMeta(&display_name);
 
 		// bar
 		SDL_FillRect(surface, &(SDL_Rect){0,Screen.main.list.y+(row*Screen.main.list.row_height),Screen.width,Screen.main.list.row_height}, SDL_MapRGB(surface->format, GOLD_TRIAD));
@@ -546,11 +564,13 @@ void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, in
 	}
 	else {
 		if (conflict) {
+			trimSortingMeta(&fullname);
 			text = TTF_RenderUTF8_Blended(font_l, fullname, gray);
 			SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
 			SDL_FreeSurface(text);
 		}
-	
+
+		trimSortingMeta(&name);
 		text = TTF_RenderUTF8_Blended(font_l, name, white);
 		SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
 		SDL_FreeSurface(text);
