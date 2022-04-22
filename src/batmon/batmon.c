@@ -100,7 +100,10 @@ int main(void) {
 	munmap(fb0_map, map_size);
 	close(fb0_fd);
 	
-	if (!launch) system("reboot");
+	if (!launch) {
+		system("reboot");
+		while (1) pause();
+	}
 	
     return EXIT_SUCCESS;
 }

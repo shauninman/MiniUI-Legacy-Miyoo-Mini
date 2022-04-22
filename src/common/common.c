@@ -806,18 +806,10 @@ int preventAutosleep(void) {
 }
 
 void powerOff(void) {
-	int sleep_delay = 1;
-	char* msg = "Powering off";
-	if (exists(kAutoResumePath)) {
-		sleep_delay = 2;
-		msg = "Auto-resume state created,\npowering off";
-	}
-
-	for (int i=0; i<3; i++) {
-		SDL_FillRect(screen, NULL, 0);
-		GFX_blitBodyCopy(screen, msg, 0,0,Screen.width,Screen.height);
-		SDL_Flip(screen);
-	}
-	sleep(sleep_delay);
-	system("reboot"); // sync &&
+	char* msg = exists(kAutoResumePath) ? "Auto-resume state created,\npowering off" : "Powering off";
+	SDL_FillRect(screen, NULL, 0);
+	GFX_blitBodyCopy(screen, msg, 0,0,Screen.width,Screen.height);
+	SDL_Flip(screen);
+	system("reboot");
+	while (1) pause();
 }

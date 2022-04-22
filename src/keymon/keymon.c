@@ -194,7 +194,8 @@ int main (int argc, char *argv[]) {
 		
 		if (menu_pressed && power_pressed) {
 			menu_pressed = power_pressed = 0;
-			system("sync && reboot"); // works but overkill
+			system("reboot");
+			while (1) pause();
 		}
 	}
 	ERROR("Failed to read input event");

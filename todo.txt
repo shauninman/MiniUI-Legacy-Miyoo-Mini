@@ -1,6 +1,6 @@
 -------------------------------
 
-- 
+- fixed power off display issues on latest ofw fix
 
 -------------------------------
 
