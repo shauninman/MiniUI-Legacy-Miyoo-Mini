@@ -1,9 +1,11 @@
 -------------------------------
 
-- 
+- simplified emu launch.sh
+- moved Pokémon mini to Extras (barely an also ran)
 
 -------------------------------
 
+- add list of stock systems to readme
 - makefile copies all libretro cores from picoarch
 	manually copy the desired ones to either .system or extras
 - update EMU_DIR var name for easier swapping with CORES_PATH

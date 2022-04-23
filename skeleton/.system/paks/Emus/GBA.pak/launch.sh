@@ -1,10 +1,10 @@
 #!/bin/sh
 
-EMU_TAG=GBA
 EMU_EXE=gpsp
 
 #############################
 
+EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"
 mkdir -p "$BIOS_PATH/$EMU_TAG"
 mkdir -p "$SAVES_PATH/$EMU_TAG"

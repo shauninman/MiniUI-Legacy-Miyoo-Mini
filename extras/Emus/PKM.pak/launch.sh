@@ -1,10 +1,11 @@
 #!/bin/sh
 
-EMU_TAG=PKM
 EMU_EXE=pokemini
+CORES_PATH=$(dirname "$0")
 
 #############################
 
+EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"
 mkdir -p "$BIOS_PATH/$EMU_TAG"
 mkdir -p "$SAVES_PATH/$EMU_TAG"

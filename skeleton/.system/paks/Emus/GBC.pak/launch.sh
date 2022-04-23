@@ -1,10 +1,10 @@
 #!/bin/sh
 
-EMU_TAG=GBC
 EMU_EXE=gambatte
 
 #############################
 
+EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"
 mkdir -p "$BIOS_PATH/$EMU_TAG"
 mkdir -p "$SAVES_PATH/$EMU_TAG"

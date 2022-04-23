@@ -1,10 +1,10 @@
 #!/bin/sh
 
-EMU_TAG=PS
 EMU_EXE=pcsx_rearmed
 
 #############################
 
+EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"
 mkdir -p "$BIOS_PATH/$EMU_TAG"
 mkdir -p "$SAVES_PATH/$EMU_TAG"
