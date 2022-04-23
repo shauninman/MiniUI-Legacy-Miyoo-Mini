@@ -194,7 +194,7 @@ int main (int argc, char *argv[]) {
 		
 		if (menu_pressed && power_pressed) {
 			menu_pressed = power_pressed = 0;
-			system("reboot");
+			system("sync && reboot");
 			while (1) pause();
 		}
 	}
