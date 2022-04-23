@@ -25,6 +25,28 @@ Features
   (picoarch + libretro cores)
 
 ----------------------------------------
+Install
+
+Copy the contents of this archive to the root of a fresh FAT32 formatted SD card. Don't forget the "miyoo" folder. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 10 seconds.
+
+----------------------------------------
+Update
+
+To install an update copy just the "miyoo" folder to the root of your SD card. Insert your SD card into the device and power it on. MiniUI will update automatically and be ready to go in about 10 seconds.
+
+----------------------------------------
+Shortcuts
+
+Reduce/increase brightness:
+START + L or R
+
+Reduce/increase volume:
+SELECT + L or R
+
+Force power off (in case of hangs):
+MENU + POWER
+
+----------------------------------------
 Roms
 
 Included in this zip is a Roms folder containing folders for each console MiniUI currently supports. You can rename these folders but you must keep the uppercase tag name in parentheses in order to retain the mapping to the correct emulator (eg. "Nintendo Entertainment System (FC)" could be renamed to "Nintendo (FC)", "NES (FC)", or "Famicom (FC)"). You should probably preload these with roms and copy each folder to the Roms folder on your SD card before installing. Or not, I'm not the boss of you.
@@ -47,28 +69,6 @@ PS: psxonpsp660.bin
 Disc-based games
 
 To streamline launching multi-file disc-based games with MiniUI place your bin/cue (and/or iso/wav files) in a folder with the same name as the cue file. MiniUI will launch the cue file instead of navigating into the folder. For multi-disc games, put all the the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will launch the appropriate cue file. MiniUI also reportedly supports chd files and official pbp files.
-
-----------------------------------------
-Install
-
-Copy the contents of this archive to the root of a fresh FAT32 formatted SD card. Don't forget the "miyoo" folder. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 10 seconds.
-
-----------------------------------------
-Update
-
-To install an update copy just the "miyoo" folder to the root of your SD card. Insert your SD card into the device and power it on. MiniUI will update automatically and be ready to go in about 10 seconds.
-
-----------------------------------------
-Shortcuts
-
-Reduce/increase brightness:
-START + L or R
-
-Reduce/increase volume:
-SELECT + L or R
-
-Force power off (in case of hangs):
-MENU + POWER
 
 ----------------------------------------
 Thanks
