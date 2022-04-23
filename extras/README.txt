@@ -16,7 +16,7 @@ There are two kinds of emulator paks, both similar, both super simple. The first
 
 First create an "Emus" folder at the root of your SD card if one doesn't already exist. Then make sure your file browser is showing invisible files for this next step. Copy "/.system/paks/Emus/MD.pak/" into the Emus folder and rename it to GG.pak. GG is your emulator tag. The tag is used to map its roms folder to the pak. Open up the launch.sh file in a plain text editor. Find and replace `EMU_TAG=MD` with `EMU_TAG=GG` and save the file. You're done. You just created your first MiniUI emulator pak! Now create the corresponding roms folder "/Roms/Game Gear (GG)/" (see, there's that tag!) and load it up with a few roms. Boot up MiniUI and give it a shot. Easy, right? Let's do the next one.
 
-First download this smsplus-gx_libretro.so core and put it in your GG.pak. Then open launch.sh in a plain text editor again. We need to replace two things this time. Find and replace `EMU_EXE=picodrive` with `EMU_EXE=smsplus-gx`. Then on the last line replace `$CORES_PATH` with `$EMU_DIR`. Save and you're done. 
+First download this smsplus-gx_libretro.so core and put it in your GG.pak. Then open launch.sh in a plain text editor again. We need to replace two things this time. Find and replace `EMU_EXE=picodrive` with `EMU_EXE=smsplus-gx`. Then right below that line add `CORES_PATH=$(dirname "$0")`. Save and you're done. 
 
 ----------------------------------------
 Tool Paks

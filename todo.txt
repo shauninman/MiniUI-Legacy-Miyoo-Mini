@@ -1,17 +1,28 @@
 -------------------------------
 
-- fixed power off display issues on latest ofw fix
+- 
 
 -------------------------------
 
+- makefile copies all libretro cores from picoarch
+	manually copy the desired ones to either .system or extras
+- update EMU_DIR var name for easier swapping with CORES_PATH
+- prepare an MiniUI_Extras.zip?
+	- move pokemini to extras
+	- add game gear
+	- add master system
+	- add turbo grafx-16
+	- Pak Management
 - document extras
 	Emus
+		paks + cores
 	Tools
+		paks
 
-- extract tag name in launch.sh?
+- extract tag name from $EMU_DIR in launch.sh?
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
-- press L on a save state to lock/unlock it?
+- press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
 
 picoarch should truncate the common parts of a group of options, not the (usually unique) ends
 
@@ -24,7 +35,6 @@ make sure Recently Played and libmmenu display the m3u file name instead of the 
 		because it is currently set to a specific disc
 		which maybe isn't necessary since resume works from the m3u dir in the console folder? 
 		but is that because open dir gets the specific disc?
-
 
 add enable-simple-mode to readme
 
