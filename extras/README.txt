@@ -5,7 +5,7 @@ Source: https://github.com/shauninman/MiniUI
 ----------------------------------------
 Adding Paks
 
-A pak is a folder with the pak extension name containing a shell script named launch.sh. 
+A pak is a folder with a pak extension that contains a shell script named launch.sh. 
 
 There are two kinds of paks, emulators and tools. Emulator paks live in the Emus folder. Tool paks live in the Tools folder. Both of those folders live at the root of your SD card. If you're adding paks created by someone else (sharing is caring) just copy each pak into the corresponding folder. That's usually it but they may have additional steps (eg. additions to the Roms or Bios folders). Check for a readme or ask the original author if you're unsure.
 
@@ -22,6 +22,8 @@ One thing worth noting is that MiniUI doesn't enable swap by default (it can deg
 
 ----------------------------------------
 Bios files
+
+You'll need to BYOB for these emulator paks included in this zip file.
 
 PCE: syscard3.pce
 PKM: bios.min

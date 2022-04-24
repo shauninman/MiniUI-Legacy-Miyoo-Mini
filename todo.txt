@@ -2,18 +2,19 @@
 
 - simplified emu launch.sh
 - moved Pokémon mini to extras (barely an also ran)
+- removed unused cores (mgba and smsplus-gx snuck in at some point)
 - added Game Gear, Master System, and TurboGrafx-16 to extras
 - added Files and Screenshots to extras
 - added extras readme
 
 -------------------------------
 
+- remove -beta from release name?
 - eggs wants to update screenshot to use current binary or rom name
 - BUG: I think show et al need to make sure pan is set to 0,0?
 - BUG: rumble not working in gambatte (does work on Onion)
 - use smsplus-gx for SMS/GG?
 
-- extract tag name from $EMU_DIR in launch.sh?
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
 - press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
