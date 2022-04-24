@@ -822,46 +822,52 @@ static void openPak(char* path) {
 	queueNext(cmd);
 }
 static void openRom(char* path, char* last) {
-	char slot[16];
-	getFile(slot_path, slot, 16);
-
-	if (should_resume) {
-		putFile(kResumeSlotPath, slot);
-		should_resume = 0;
-	}
-	else putInt(kResumeSlotPath,8); // resume hidden default state
-
-	char emu_name[256];
-	getEmuName(path, emu_name);
-
+	char sd_path[256];
+	strcpy(sd_path, path);
+	
 	char m3u_path[256];
-	int has_m3u = hasM3u(path, m3u_path);
+	int has_m3u = hasM3u(sd_path, m3u_path);
 	
 	char recent_path[256];
-	strcpy(recent_path, has_m3u ? m3u_path : path);
-	if (has_m3u) {
-		
-		char rom_file[256];
-		strcpy(rom_file, strrchr(m3u_path, '/') + 1);
-		
-		// get disc for state
-		char disc_path_path[256];
-		sprintf(disc_path_path, "%s/.mmenu/%s/%s.%s.txt", Paths.userdataDir, emu_name, rom_file, slot); // /.userdata/.mmenu/<EMU>/<romname>.ext.0.txt
+	strcpy(recent_path, has_m3u ? m3u_path : sd_path);
+	
+	if (has_m3u && suffixMatch(".m3u", sd_path)) {
+		getFirstDisc(m3u_path, sd_path);
+	}
 
-		if (exists(disc_path_path)) {
-			// switch to disc path
-			getFile(disc_path_path, path, 256);
+	char emu_name[256];
+	getEmuName(sd_path, emu_name);
+
+	if (should_resume) {
+		char slot[16];
+		getFile(slot_path, slot, 16);
+		putFile(kResumeSlotPath, slot);
+		should_resume = 0;
+
+		if (has_m3u) {
+			char rom_file[256];
+			strcpy(rom_file, strrchr(m3u_path, '/') + 1);
+			
+			// get disc for state
+			char disc_path_path[256];
+			sprintf(disc_path_path, "%s/.mmenu/%s/%s.%s.txt", Paths.userdataDir, emu_name, rom_file, slot); // /.userdata/.mmenu/<EMU>/<romname>.ext.0.txt
+
+			if (exists(disc_path_path)) {
+				// switch to disc path
+				getFile(disc_path_path, sd_path, 256);
+			}
 		}
 	}
+	else putInt(kResumeSlotPath,8); // resume hidden default state
 	
 	char emu_path[256];
 	getEmuPath(emu_name, emu_path);
 	
 	char cmd[256];
-	sprintf(cmd, "\"%s\" \"%s\"", emu_path, path);
+	sprintf(cmd, "\"%s\" \"%s\"", emu_path, sd_path);
 
 	addRecent(recent_path);
-	saveLast(last==NULL ? path : last);
+	saveLast(last==NULL ? sd_path : last);
 	queueNext(cmd);
 }
 static int openRecent(void) {
