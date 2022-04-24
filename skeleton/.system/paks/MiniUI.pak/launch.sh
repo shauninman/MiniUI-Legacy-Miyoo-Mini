@@ -57,7 +57,7 @@ fi
 
 cd $(dirname "$0")
 
-EXEC_PATH=/tmp/minui_exec
+EXEC_PATH=/tmp/miniui_exec
 touch "$EXEC_PATH"  && sync
 
 CPU_PATH=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
