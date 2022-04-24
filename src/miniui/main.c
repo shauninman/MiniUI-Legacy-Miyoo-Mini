@@ -822,14 +822,19 @@ static void openPak(char* path) {
 	queueNext(cmd);
 }
 static void openRom(char* path, char* last) {
+	char m3u_path[256];
+	int has_m3u = hasM3u(path, m3u_path);
+	
+	char recent_path[256];
+	strcpy(recent_path, has_m3u ? m3u_path : path);
+	
 	if (should_resume) {
 		char slot[16];
 		getFile(slot_path, slot, 16);
 		putFile(kResumeSlotPath, slot);
 		should_resume = 0;
 
-		char m3u_path[256];
-		if (hasM3u(path, m3u_path)) {
+		if (has_m3u) {
 			char emu_name[256];
 			getEmuName(m3u_path, emu_name);
 			
@@ -857,7 +862,7 @@ static void openRom(char* path, char* last) {
 	char cmd[256];
 	sprintf(cmd, "\"%s\" \"%s\"", emu_path, path);
 
-	addRecent(path);
+	addRecent(recent_path);
 	saveLast(last==NULL ? path : last);
 	queueNext(cmd);
 }
