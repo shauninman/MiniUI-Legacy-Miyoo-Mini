@@ -1,19 +1,20 @@
 -------------------------------
 
-- simplified emu launch.sh
-- moved Pokémon mini to extras (barely an also ran)
-- removed unused cores (mgba and smsplus-gx snuck in at some point)
-- added Game Gear, Master System, and TurboGrafx-16 to extras
-- added Files and Screenshots to extras
-- added extras readme
+- changed default Game Gear Screen effect to LCD in extras
+- fixed Recently Played showing disc instead of m3u file for display name
 
 -------------------------------
+
+- BUG: multi-disc m3u-based games resume breaks if their path has changed
+	- the issue is in the full path being written in .mmenu/TAG/Game.m3u.0.txt
+	- path should be relative to the m3u
 
 - remove -beta from release name?
 - eggs wants to update screenshot to use current binary or rom name
 - BUG: I think show et al need to make sure pan is set to 0,0?
 - BUG: rumble not working in gambatte (does work on Onion)
 - use smsplus-gx for SMS/GG?
+- BUG: default st8 assumes first disc on multi-disc games
 
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
