@@ -62,7 +62,6 @@ FC: disksys.rom
 GB: gb_bios.bin
 GBA: gba_bios.bin
 GBC: gbc_bios.bin
-PKM: bios.min
 PS: psxonpsp660.bin
 	
 ----------------------------------------

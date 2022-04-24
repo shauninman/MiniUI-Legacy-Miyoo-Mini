@@ -19,5 +19,13 @@ First create an "Emus" folder at the root of your SD card if one doesn't already
 First download this smsplus-gx_libretro.so core and put it in your GG.pak. Then open launch.sh in a plain text editor again. We need to replace two things this time. Find and replace `EMU_EXE=picodrive` with `EMU_EXE=smsplus-gx`. Then right below that line add `CORES_PATH=$(dirname "$0")`. Save and you're done. 
 
 ----------------------------------------
+Bios files
+
+PCE: syscard3.pce
+PKM: bios.min
+
+
+
+----------------------------------------
 Tool Paks
 

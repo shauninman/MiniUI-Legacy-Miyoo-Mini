@@ -22,6 +22,7 @@ RELEASE_TIME!=date +%Y%m%d
 RELEASE_BASE=MiniUI-beta-$(RELEASE_TIME)
 RELEASE_DOT!=find ./releases/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
 RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
+EXTRAS_NAME=MiniUI-Extras-$(RELEASE_TIME)-$(RELEASE_DOT)
 
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 BUNDLE_LIBS=
@@ -32,6 +33,8 @@ ifeq "$(GCC_VER_GTE9_0)" "1"
 endif
 
 all: lib sdl core emu payload $(BUNDLE_LIBS) zip
+
+extras: emu
 
 lib:
 	cd ./src/libmsettings && make
@@ -61,7 +64,9 @@ payload:
 	mkdir -p ./releases
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
+	cp -R ./extras/. ./build/EXTRAS
 	fmt -w 40 -s ./skeleton//README.txt > ./build/PAYLOAD/README.txt
+	fmt -w 40 -s ./extras//README.txt > ./build/EXTRAS/README.txt
 	mv ./build/PAYLOAD/miyoo/app/keymon.sh ./build/PAYLOAD/miyoo/app/keymon
 	cd ./build && find . -type f -name '.keep' -delete
 	cd ./build && find . -type f -name '.DS_Store' -delete
@@ -81,9 +86,16 @@ payload:
 	cp ./src/say/say ./build/PAYLOAD/miyoo/app/
 	cp ./src/blank/blank ./build/PAYLOAD/miyoo/app/
 	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
-	cp ./third-party/picoarch/*.so ./build/PAYLOAD/.system/cores/
-	# cp ./third-party/DinguxCommander/output/DinguxCommander ./build/PAYLOAD/.system/paks/Tools/Files.pak/
-	# cp -r ./third-party/DinguxCommander/res ./build/PAYLOAD/.system/paks/Tools/Files.pak/
+	cp ./third-party/picoarch/fceumm_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/gambatte_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/gpsp_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/pcsx_rearmed_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/picodrive_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/snes9x2005_plus_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/EXTRAS/Tools/Files.pak/
+	cp -r ./third-party/DinguxCommander/res ./build/EXTRAS/Tools/Files.pak/
+	cp ./third-party/picoarch/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
+	cp ./third-party/picoarch/pokemini_libretro.so ./build/EXTRAS/Emus/PKM.pak/
 
 bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
@@ -103,6 +115,7 @@ zip:
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system .tmp_update
 	mv ./build/PAYLOAD/MiniUI.zip ./build/PAYLOAD/miyoo/app/
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip Bios Roms Saves miyoo README.txt
+	cd ./build/EXTRAS && zip -r ../../releases/$(EXTRAS_NAME).zip Bios Emus Roms Saves Tools README.txt
 
 rezip: payload $(BUNDLE_LIBS) zip
 	
@@ -121,4 +134,4 @@ clean:
 	cd ./src/say && make clean
 	cd ./src/blank && make clean
 	cd ./third-party/picoarch && make platform=miyoomini clean
-	# cd ./third-party/DinguxCommander && make clean
+	cd ./third-party/DinguxCommander && make clean

@@ -2,19 +2,22 @@
 
 - simplified emu launch.sh
 - moved Pokémon mini to Extras (barely an also ran)
+- 
 
 -------------------------------
 
+- BUG: rumble not working in gambatte (does work on Onion)
+- add eggs screenshot to third-party?
+- use smsplus-gx for SMS/GG?
 - add list of stock systems to readme
 - makefile copies all libretro cores from picoarch
-	manually copy the desired ones to either .system or extras
-- update EMU_DIR var name for easier swapping with CORES_PATH
+	manually copy (and rename if necessary) the desired ones to either .system or extras
 - prepare an MiniUI_Extras.zip?
 	- move pokemini to extras
 	- add game gear
 	- add master system
 	- add turbo grafx-16
-	- Pak Management
+	- Pak Management?
 - document extras
 	Emus
 		paks + cores
