@@ -73,8 +73,8 @@ while [ -f "$EXEC_PATH" ]; do
 	NEXT="/tmp/next"
 	if [ -f $NEXT ]; then
 		CMD=`cat $NEXT`
-		rm -f $NEXT
 		eval $CMD
+		rm -f $NEXT
 		if [ -f "/tmp/using-swap" ]; then
 			rm -f "/tmp/using-swap"
 			swapoff -a
