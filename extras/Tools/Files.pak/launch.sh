@@ -1,5 +1,4 @@
 #!/bin/sh
-# /.system/miyoomini/paks/Tools/Commander.pak/launch.sh
 
 cd $(dirname "$0")
 

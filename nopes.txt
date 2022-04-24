@@ -1,3 +1,7 @@
+Pak Management
+	installs/uninstalls paks?
+	nah, you have to do the SD card shuffle anyways to add roms and bios, just do it manually
+
 see if we can get access to the dmg grid color somehow
 	not seeing a clean way
 	what if I set a flag when we change an emu config

@@ -3,7 +3,7 @@
 EMU_EXE=pokemini
 CORES_PATH=$(dirname "$0")
 
-#############################
+###############################
 
 EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"

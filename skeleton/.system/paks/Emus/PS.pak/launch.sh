@@ -2,7 +2,7 @@
 
 EMU_EXE=pcsx_rearmed
 
-#############################
+###############################
 
 EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"

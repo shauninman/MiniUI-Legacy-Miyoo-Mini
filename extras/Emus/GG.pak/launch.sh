@@ -2,7 +2,7 @@
 
 EMU_EXE=picodrive
 
-#############################
+###############################
 
 EMU_TAG=$(basename "$(dirname "$0")" .pak)
 ROM="$1"
