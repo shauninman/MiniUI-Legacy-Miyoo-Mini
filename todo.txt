@@ -1,20 +1,24 @@
 -------------------------------
 
-- changed default Game Gear Screen effect to LCD in extras
+- changed extras default Game Gear Screen effect to LCD
 - fixed Recently Played showing disc instead of m3u file for display name
+- fixed multi-disc m3u-based games resume not working after path changes
+- updated extras Screenshots.pak, screenshots are now named based on the content of the screenshot (thanks eggs)
 
 -------------------------------
 
-- BUG: multi-disc m3u-based games resume breaks if their path has changed
-	- the issue is in the full path being written in .mmenu/TAG/Game.m3u.0.txt
-	- path should be relative to the m3u
-
+- get eggs screenshots source into the repo
+- look into supafaust
+	is it just the new hotness or an actual improvement over snes9x
+	it might have MSU-1 support, which, eh, is fine for extras but not essential
 - remove -beta from release name?
-- eggs wants to update screenshot to use current binary or rom name
 - BUG: I think show et al need to make sure pan is set to 0,0?
 - BUG: rumble not working in gambatte (does work on Onion)
+
 - use smsplus-gx for SMS/GG?
+
 - BUG: default st8 assumes first disc on multi-disc games
+	- leaving for now
 
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
@@ -24,13 +28,6 @@ picoarch should truncate the common parts of a group of options, not the (usuall
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 	check totofaki's battery curves (last I checked mine were the same as stock)
-
-make sure Recently Played and libmmenu display the m3u file name instead of the content name
-	libmmenu was easy
-	Recently Played will be much more involved...
-		because it is currently set to a specific disc
-		which maybe isn't necessary since resume works from the m3u dir in the console folder? 
-		but is that because open dir gets the specific disc?
 
 add enable-simple-mode to readme
 

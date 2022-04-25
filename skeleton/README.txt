@@ -13,7 +13,7 @@ Features
 - Automatically sleeps after 30 seconds 
   or press POWER to sleep (and wake)
 - Automatically powers off while asleep
-  after one minute or hold POWER for
+  after two minutes or hold POWER for
   one second
 - Automatically resumes right where
   you left off if powered off while

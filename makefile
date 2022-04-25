@@ -59,6 +59,7 @@ emu:
 
 tools:
 	cd ./third-party/DinguxCommander && make -j
+	cd ./third-party/screenshot && make
 
 payload:
 	mkdir -p ./releases
@@ -94,6 +95,7 @@ payload:
 	cp ./third-party/picoarch/snes9x2005_plus_libretro.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/EXTRAS/Tools/Files.pak/
 	cp -r ./third-party/DinguxCommander/res ./build/EXTRAS/Tools/Files.pak/
+	cp ./third-party/screenshot/screenshot ./build/EXTRAS/Tools/Screenshots.pak/
 	cp ./third-party/picoarch/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
 	cp ./third-party/picoarch/pokemini_libretro.so ./build/EXTRAS/Emus/PKM.pak/
 

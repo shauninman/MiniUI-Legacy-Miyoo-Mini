@@ -25,6 +25,8 @@ say
 !say/
 blank
 !blank/
+screenshot
+!screenshot/
 
 # TODO: this eats miyoo/app/keymon, had to add extension then remove it in makefile
 
