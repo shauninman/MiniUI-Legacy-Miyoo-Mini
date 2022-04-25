@@ -151,7 +151,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	tmp[0] = '\0';
 
 	// path to parent directory
-	char base_path[256];
+	char base_path[256]; // used below too when status==kItemSave
 	strcpy(base_path, m3u_path);
 
 	tmp = strrchr(m3u_path, '/');
@@ -376,8 +376,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 					SDL_RWops* out = SDL_RWFromFile(bmp_path, "wb");
 					if (total_discs) {
 						char* disc_path = disc_paths[disc];
-						putFile(txt_path, disc_path);
-						
+						putFile(txt_path, disc_path + strlen(base_path));
 						sprintf(bmp_path, "%s/%s.%d.bmp", mmenu_dir, rom_file, slot);
 					}
 					SDL_SaveBMP_RW(preview, out, 1);
@@ -385,8 +384,11 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				break;
 				case kItemLoad:
 					if (save_exists && total_discs) {
+						char slot_disc_name[256];
+						getFile(txt_path, slot_disc_name, 256);
 						char slot_disc_path[256];
-						getFile(txt_path, slot_disc_path, 256);
+						if (slot_disc_name[0]=='/') strcpy(slot_disc_path, slot_disc_name);
+						else sprintf(slot_disc_path, "%s%s", base_path, slot_disc_name);
 						char* disc_path = disc_paths[disc];
 						if (!exactMatch(slot_disc_path, disc_path)) {
 							putFile(kChangeDiscPath, slot_disc_path);

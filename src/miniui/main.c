@@ -854,7 +854,14 @@ static void openRom(char* path, char* last) {
 
 			if (exists(disc_path_path)) {
 				// switch to disc path
-				getFile(disc_path_path, sd_path, 256);
+				char disc_path[256];
+				getFile(disc_path_path, disc_path, 256);
+				if (disc_path[0]=='/') strcpy(sd_path, disc_path); // absolute
+				else { // relative
+					strcpy(sd_path, m3u_path);
+					char* tmp = strrchr(sd_path, '/') + 1;
+					strcpy(tmp, disc_path);
+				}
 			}
 		}
 	}
