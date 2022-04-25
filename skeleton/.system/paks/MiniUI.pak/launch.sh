@@ -60,6 +60,9 @@ cd $(dirname "$0")
 EXEC_PATH=/tmp/miniui_exec
 touch "$EXEC_PATH"  && sync
 
+MIYOO_VERSION=`/etc/fw_printenv miyoo_version`
+export MIYOO_VERSION=${MIYOO_VERSION#miyoo_version=}
+
 CPU_PATH=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 while [ -f "$EXEC_PATH" ]; do
 	echo ondemand > "$CPU_PATH"

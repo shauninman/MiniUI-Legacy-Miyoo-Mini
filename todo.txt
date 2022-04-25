@@ -1,18 +1,17 @@
 -------------------------------
 
-- changed extras default Game Gear Screen effect to LCD
-- fixed Recently Played showing disc instead of m3u file for display name
-- fixed multi-disc m3u-based games resume not working after path changes
-- updated extras Screenshots.pak, screenshots are now named based on the content of the screenshot (thanks eggs)
+- removed beta from release name
+- removed alpha- and beta-specific update features
+- added miyoo firmware to version info (thanks eggs)
 
 -------------------------------
 
-- get eggs screenshots source into the repo
 - look into supafaust
 	is it just the new hotness or an actual improvement over snes9x
 	it might have MSU-1 support, which, eh, is fine for extras but not essential
-- remove -beta from release name?
+
 - BUG: I think show et al need to make sure pan is set to 0,0?
+	using after progressui sometimes results in the image not showing
 - BUG: rumble not working in gambatte (does work on Onion)
 
 - use smsplus-gx for SMS/GG?

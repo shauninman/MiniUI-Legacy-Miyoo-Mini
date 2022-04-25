@@ -1288,23 +1288,30 @@ int main (int argc, char *argv[]) {
 					SDL_Surface* version_txt = GFX_getText(release, 2, 0);
 					SDL_Surface* commit_txt = GFX_getText("Commit", 2, 1);
 					SDL_Surface* hash_txt = GFX_getText(commit, 2, 0);
+					
+					SDL_Surface* firmware_txt = GFX_getText("Firmware", 2, 1);
+					SDL_Surface* date_txt = GFX_getText(getenv("MIYOO_VERSION"), 2, 0);
 				
-					int x = release_txt->w + 12;
+					int x = firmware_txt->w + 12;
 					int w = x + version_txt->w;
-					int h = 96;
+					int h = 96 * 2;
 					version = SDL_CreateRGBSurface(0,w,h,16,0,0,0,0);
 				
 					SDL_BlitSurface(release_txt, NULL, version, &(SDL_Rect){0, 0});
 					SDL_BlitSurface(version_txt, NULL, version, &(SDL_Rect){x,0});
 					SDL_BlitSurface(commit_txt, NULL, version, &(SDL_Rect){0,48});
 					SDL_BlitSurface(hash_txt, NULL, version, &(SDL_Rect){x,48});
+					SDL_BlitSurface(firmware_txt, NULL, version, &(SDL_Rect){0,144});
+					SDL_BlitSurface(date_txt, NULL, version, &(SDL_Rect){x,144});
 	
 					SDL_FreeSurface(release_txt);
 					SDL_FreeSurface(version_txt);
 					SDL_FreeSurface(commit_txt);
 					SDL_FreeSurface(hash_txt);
+					SDL_FreeSurface(firmware_txt);
+					SDL_FreeSurface(date_txt);
 				}
-				SDL_BlitSurface(version, NULL, screen, &(SDL_Rect){(640-version->w)/2,200});
+				SDL_BlitSurface(version, NULL, screen, &(SDL_Rect){(640-version->w)/2,(480-version->h)/2});
 			}
 			else {
 				if (total>0) {

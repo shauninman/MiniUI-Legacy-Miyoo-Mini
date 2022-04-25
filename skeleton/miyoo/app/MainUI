@@ -35,26 +35,6 @@ if [ -f "$POST_INSTALL" ]; then
 	rm -f "$POST_INSTALL"
 fi
 
-# TODO: this is going away in favor of Emus and Tools at the root of the SD card
-# retain any unofficial paks or cores
-if [ -n "$JUST_UPDATED" ]; then
-	find "$OLD_SYSTEM_PATH" -type d -name '*.pak' | while read SRC_PATH ; do
-		REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
-		DST_PATH="$SYSTEM_PATH$REL_PATH"
-		if [ ! -d "$DST_PATH" ]; then
-			mv "$SRC_PATH" "$DST_PATH"
-		fi
-	done
-
-	find "$OLD_SYSTEM_PATH" -type f -name '*_libretro.so' | while read SRC_PATH ; do
-		REL_PATH="${SRC_PATH#$OLD_SYSTEM_PATH}"
-		DST_PATH="$SYSTEM_PATH$REL_PATH"
-		if [ ! -f "$DST_PATH" ]; then
-			mv "$SRC_PATH" "$DST_PATH"
-		fi
-	done
-fi
-
 # post-update
 POST_UPDATE=/mnt/SDCARD/.system/post-update.sh
 if [ -f "$POST_UPDATE" ]; then
