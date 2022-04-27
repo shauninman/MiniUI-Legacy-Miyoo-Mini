@@ -18,7 +18,7 @@ First create an "Emus" folder at the root of your SD card if one doesn't already
 
 First download the smsplus-gx_libretro.so core and put it in your GG.pak. Then open launch.sh in a plain text editor (make sure this editor uses just `\n` for newlines, Linux is picky Windows friends). We need to change two things this time. Replace `EMU_EXE=picodrive` with `EMU_EXE=smsplus-gx` then right below that line add `CORES_PATH=$(dirname "$0")`. Save and you're done. Still pretty damn easy.
 
-One thing worth noting is that MiniUI doesn't enable swap by default (it can degrade performance of emulators that don't need it). For emulators that require more memory than is physically available on the Miyoo Mini, just call `needs-swap` before launching `picoarch` to enabled a 128MB swap image.
+There are two things to consider when creating your own emulator pak. If a core doesn't support save states, autoresume will not work. That means if a player manually powers off in game or it falls alseep while on the menu and automatically powers off, they will lose any unsaved progress. Please don't do this to people. It doesn't matter if you mention it in a readme (!), people won't read it and they will be angry at you (or more likely, me). Just don't. The other thing worth noting is that MiniUI doesn't enable swap by default (it can degrade performance of emulators that don't need it). For emulators that require more memory than is physically available on the Miyoo Mini, just call `needs-swap` before launching `picoarch` to enabled a 128MB swap image.
 
 ----------------------------------------
 Bios files

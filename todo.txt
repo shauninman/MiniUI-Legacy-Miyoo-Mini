@@ -1,18 +1,33 @@
 -------------------------------
 
-- removed beta from release name
-- removed alpha- and beta-specific update features
-- added miyoo firmware to version info (thanks eggs)
 
 -------------------------------
 
+- add support for user auto.sh
+- (A ) looks too far left in buttons
+- can picoarch detect if a core supports save states?
+	StupidHoroscope: From my messing around with it, there's a method in libretro cores called retro_serialize_size(), and if that returns zero, save-states aren't supported.
+	https://docs.libretro.com/development/cores/developing-cores/#retro_serialize_size-retro_serialize-and-retro_unserialize 
+	
+- BUG: repo doesn't checkout correct branch for submodules when cloned...
+- BUG: rumble not working in gambatte (does work on Onion)
+	- gambatte detects rumble support, not sure what's happening...
+- BUG: picoarch adds random prefix to rom names when zipped
+	- which results in a new save file every launch (game not state)
+	- only affects pokemini (and handy and ng pocket)
+	neonloop: Some libretro cores ignore libretro save method and core saves itself, maybe this is difference?
+- BUG: Sega CD might need a short delay to resume audio like pokemini
+	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
+
+- look into an audioserver-like approach to eliminating pop
+	- I think picoarch already has a resampler...
+	
 - look into supafaust
 	is it just the new hotness or an actual improvement over snes9x
 	it might have MSU-1 support, which, eh, is fine for extras but not essential
 
 - BUG: I think show et al need to make sure pan is set to 0,0?
 	using after progressui sometimes results in the image not showing
-- BUG: rumble not working in gambatte (does work on Onion)
 
 - use smsplus-gx for SMS/GG?
 
