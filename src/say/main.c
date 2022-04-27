@@ -96,7 +96,7 @@ int main(int argc , char* argv[]) {
 		if (len) {
 			text = TTF_RenderUTF8_Blended(font, line, gold);
 			int x = (width - text->w) / 2;
-			blit(fb0_map,640,480,text->pixels,text->w,text->h,x,y);
+			blit(fb0_map,width,height,text->pixels,text->w,text->h,x,y);
 			SDL_FreeSurface(text);
 		}
 		y += kLineHeight;

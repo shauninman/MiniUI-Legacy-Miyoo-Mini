@@ -634,6 +634,7 @@ void GFX_blitBodyCopy(SDL_Surface* surface, char* str, int ox, int oy, int width
 		y += Screen.body.line_height;
 	}
 }
+// this function is completely asinine, wtf was I thinking
 int GFX_blitText(SDL_Surface* surface, char* str, int size, int x, int y, int width, int color, int has_shadow) {
 	// size=0:small,1:medium,2:large width=0:left,>0:center,<0:right, color=0:white,1:gold, no multiline
 	SDL_Surface* text;

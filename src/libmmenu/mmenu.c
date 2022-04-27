@@ -473,6 +473,8 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				GFX_blitSettings(screen, Screen.menu.settings.x, Screen.menu.settings.y, show_setting==1?0:(setting_value>0?1:2), setting_value,setting_min,setting_max);
 			}
 			
+			int state_support = 1; // TODO: 
+			
 			// list
 			SDL_Surface* text;
 			for (int i=0; i<kItemCount; i++) {
@@ -485,7 +487,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				
 				GFX_blitText(screen, item, 2, Screen.menu.list.x, Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.list.oy, 0, color, i==selected);
 				
-				if (i==kItemSave || i==kItemLoad || (total_discs>1 && i==kItemContinue)) {
+				if ((state_support && (i==kItemSave || i==kItemLoad)) || (total_discs>1 && i==kItemContinue)) {
 					SDL_BlitSurface(i==selected?arrow_highlighted:arrow, NULL, screen, &(SDL_Rect){Screen.menu.window.x+Screen.menu.window.width-(arrow->w+Screen.menu.arrow.ox),Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.arrow.oy});
 				}
 			}
@@ -496,7 +498,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				GFX_blitText(screen, disc_name, 2, Screen.menu.preview.x+Screen.menu.disc.ox, Screen.menu.list.y+Screen.menu.list.oy, 0, 1, 0);
 			}
 			// slot preview
-			else if (selected==kItemSave || selected==kItemLoad) {
+			else if (state_support && (selected==kItemSave || selected==kItemLoad)) {
 				// preview window
 				SDL_Rect preview_rect = {Screen.menu.preview.x+Screen.menu.preview.inset,Screen.menu.preview.y+Screen.menu.preview.inset};
 				GFX_blitWindow(screen, Screen.menu.preview.x, Screen.menu.preview.y, Screen.menu.preview.width, Screen.menu.preview.height, 1);
