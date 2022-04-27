@@ -22,7 +22,7 @@ RELEASE_TIME!=date +%Y%m%d
 RELEASE_BASE=MiniUI-$(RELEASE_TIME)
 RELEASE_DOT!=find ./releases/. -name "$(RELEASE_BASE)*.zip" -printf '.' | wc -m
 RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
-EXTRAS_NAME=MiniUI-Extras-$(RELEASE_TIME)-$(RELEASE_DOT)
+EXTRAS_NAME=$(RELEASE_NAME)-extras
 
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 BUNDLE_LIBS=
