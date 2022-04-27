@@ -40,11 +40,10 @@ UnionScreen Screen = {
 		.size = 22*2,
 		.text = {
 			.oy		= -2,
-			.ox_A	= 0,
+			.ox_A	= 1,
 			.ox_B	= 2,
-			.ox_X	= 2,
+			.ox_X	= 1,
 			.ox_Y	= 2,
-			.ox_R	= 2, // = ox_X
 		},
 	},
 

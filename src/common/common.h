@@ -119,7 +119,6 @@ typedef struct UnionScreen {
 			int ox_B;
 			int ox_X;
 			int ox_Y;
-			int ox_R;
 		} text;
 	} button;
 	

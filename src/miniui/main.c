@@ -1331,7 +1331,7 @@ int main (int argc, char *argv[]) {
 			GFX_blitRule(screen, Screen.main.rule.bottom_y);
 			if (can_resume) {
 				if (strlen(HINT_RESUME)>1) GFX_blitPill(screen, HINT_RESUME, "RESUME", Screen.buttons.left, Screen.buttons.top);
-				else GFX_blitButton(screen, HINT_RESUME, "RESUME", Screen.buttons.left, Screen.buttons.top, Screen.button.text.ox_R);
+				else GFX_blitButton(screen, HINT_RESUME, "RESUME", Screen.buttons.left, Screen.buttons.top, Screen.button.text.ox_X);
 			}
 			else {
 				GFX_blitPill(screen, HINT_SLEEP, "SLEEP", Screen.buttons.left, Screen.buttons.top);
