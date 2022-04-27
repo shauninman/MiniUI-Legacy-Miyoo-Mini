@@ -598,7 +598,7 @@ static Array* getRoot(void) {
 	
 	char tools_path[256];
 	sprintf(tools_path, "%s/Tools", Paths.rootDir);
-	if (exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
+	if (!exists(kEnableSimpleModePath) && exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
 
 	return entries;
 }
