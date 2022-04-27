@@ -55,6 +55,11 @@ if [ -f "$DATETIME_PATH" ]; then
 	date -s "@$DATETIME"
 fi
 
+AUTO_PATH=$USERDATA_PATH/auto.sh
+if [ -f "$AUTO_PATH" ]; then
+	"$AUTO_PATH"
+fi
+
 cd $(dirname "$0")
 
 EXEC_PATH=/tmp/miniui_exec
