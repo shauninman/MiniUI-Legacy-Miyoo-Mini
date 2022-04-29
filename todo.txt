@@ -1,9 +1,13 @@
 -------------------------------
 
 - fixed scanlines on irregular vertical resolutions
+- added rumble toggle to PlayStation.pak
 
 -------------------------------
 
+- BUG: rumble not working in gambatte (does work on Onion)
+	- gambatte successfully detects rumble support
+	- not sure what's happening...
 - faqs
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
@@ -17,9 +21,6 @@
 	
 - BUG: say doesn't seem to respect extra line returns at end of msg
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
-- BUG: rumble not working in gambatte (does work on Onion)
-	- gambatte successfully detects rumble support
-	- not sure what's happening...
 
 - BUG: picoarch adds random prefix to rom names when zipped
 	- which results in a new save file every launch (game not state)
