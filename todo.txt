@@ -1,12 +1,16 @@
 -------------------------------
 
-- 
+- fixed scanlines on irregular vertical resolutions
 
 -------------------------------
 
 - faqs
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
+	trap "sync && reboot && sleep 10" ERR && set -E # NO
+	see https://stackoverflow.com/questions/29427364/non-bash-equivalent-to-trap-err
+	eggs: It should be noted that in the new FW, reboot will terminate and continue to run for some time afterwards.
+
 - can picoarch detect if a core supports save states?
 	StupidHoroscope: From my messing around with it, there's a method in libretro cores called retro_serialize_size(), and if that returns zero, save-states aren't supported.
 	https://docs.libretro.com/development/cores/developing-cores/#retro_serialize_size-retro_serialize-and-retro_unserialize 
@@ -14,7 +18,9 @@
 - BUG: say doesn't seem to respect extra line returns at end of msg
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
 - BUG: rumble not working in gambatte (does work on Onion)
-	- gambatte successfully detects rumble support, not sure what's happening...
+	- gambatte successfully detects rumble support
+	- not sure what's happening...
+
 - BUG: picoarch adds random prefix to rom names when zipped
 	- which results in a new save file every launch (game not state)
 	- only affects pokemini (and handy and ng pocket)
@@ -45,6 +51,7 @@ picoarch should truncate the common parts of a group of options, not the (usuall
 
 make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
 	check totofaki's battery curves (last I checked mine were the same as stock)
+	quicksave and poweroff at very low battery (I think Onion does <4%?)
 
 add enable-simple-mode to readme
 
