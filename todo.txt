@@ -1,10 +1,14 @@
 -------------------------------
 
 - fixed scanlines on irregular vertical resolutions
+- fixed multi-button bindings using L/L2/R/R2
 - added rumble toggle to PlayStation.pak
 
 -------------------------------
 
+- BUG: Emulator Controls MENU+ bindings are weird. R does nothing, R2 binds R
+- auto-adjust brightness based on screen effect?
+- measure sleep battery drain (at 2m, don't expect much)
 - BUG: rumble not working in gambatte (does work on Onion)
 	- gambatte successfully detects rumble support
 	- not sure what's happening...
