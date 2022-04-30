@@ -2,16 +2,17 @@
 
 - fixed scanlines on irregular vertical resolutions
 - fixed multi-button bindings using L/L2/R/R2
+- fixed certain cores creating separate sav data for each launch of a zipped rom 
 - added rumble toggle to PlayStation.pak
 
 -------------------------------
 
-- BUG: Emulator Controls MENU+ bindings are weird. R does nothing, R2 binds R
+maybe this is difference?
+- BUG: Sega CD might need a short delay to resume audio like pokemini
+	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
+
 - auto-adjust brightness based on screen effect?
 - measure sleep battery drain (at 2m, don't expect much)
-- BUG: rumble not working in gambatte (does work on Onion)
-	- gambatte successfully detects rumble support
-	- not sure what's happening...
 - faqs
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
@@ -22,16 +23,9 @@
 - can picoarch detect if a core supports save states?
 	StupidHoroscope: From my messing around with it, there's a method in libretro cores called retro_serialize_size(), and if that returns zero, save-states aren't supported.
 	https://docs.libretro.com/development/cores/developing-cores/#retro_serialize_size-retro_serialize-and-retro_unserialize 
-	
+
 - BUG: say doesn't seem to respect extra line returns at end of msg
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
-
-- BUG: picoarch adds random prefix to rom names when zipped
-	- which results in a new save file every launch (game not state)
-	- only affects pokemini (and handy and ng pocket)
-	neonloop: Some libretro cores ignore libretro save method and core saves itself, maybe this is difference?
-- BUG: Sega CD might need a short delay to resume audio like pokemini
-	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
 
 - look into an audioserver-like approach to eliminating pop
 	- I think picoarch already has a resampler...
