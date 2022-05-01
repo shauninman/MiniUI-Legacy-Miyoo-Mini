@@ -6,10 +6,10 @@
 - fixed certain cores creating separate sav data for each launch of a zipped rom 
 - added rumble toggle to PlayStation.pak
 
+- increased rumble strength for all supported systems
+
 -------------------------------
 
-- improve rumble support based on eggs ra
-	see sdl_miyoomini_joypad.c
 - BUG: Sega CD might need a short delay to resume audio like pokemini
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
 
