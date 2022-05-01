@@ -14,7 +14,6 @@
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
 
 - auto-adjust brightness based on screen effect?
-- measure sleep battery drain (at 2m, don't expect much)
 - faqs
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?

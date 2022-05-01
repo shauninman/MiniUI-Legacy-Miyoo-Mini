@@ -696,7 +696,7 @@ void waitForWake(void) {
 		}
 		SDL_Delay(200);
 		if (SDL_GetTicks()-sleep_ticks>=120000) { // increased to two minutes
-			if (isCharging()) sleep_ticks += 60000; // check again in a minute // TODO: test that this works
+			if (isCharging()) sleep_ticks += 60000; // check again in a minute
 			else powerOff();
 		}
 	}
