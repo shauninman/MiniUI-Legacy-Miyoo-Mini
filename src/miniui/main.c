@@ -14,7 +14,6 @@
 
 ///////////////////////////////////////
 
-// #define ENABLE_PREVIEWS
 #define dump(msg) puts((msg));fflush(stdout);
 
 ///////////////////////////////////////
@@ -324,9 +323,6 @@ static int quit = 0;
 static int can_resume = 0;
 static int should_resume = 0; // set to 1 on kButtonResume but only if can_resume==1
 static char slot_path[256];
-#ifdef ENABLE_PREVIEWS
-static char bmp_path[256];
-#endif
 
 static int restore_depth = -1;
 static int restore_relative = -1;
@@ -761,25 +757,6 @@ static void readyResumePath(char* rom_path, int type) {
 	sprintf(slot_path, "%s/.mmenu/%s/%s.txt", Paths.userdataDir, emu_name, rom_file); // /.userdata/.mmenu/<EMU>/<romname>.ext.txt
 	
 	can_resume = exists(slot_path);
-	
-	if (!can_resume) return;
-	
-#ifdef ENABLE_PREVIEWS
-	char userdata_dirname_path[256];
-	sprintf(userdata_dirname_path, "%s/.mmenu/%s/userdata.txt", Paths.userdataDir, emu_name);
-	if (!exists(userdata_dirname_path)) return;
-	
-	char userdata_dirname[256];
-	getFile(userdata_dirname_path, userdata_dirname, 256);
-	
-	char rom_name[256];
-	strcpy(rom_name, rom_file);
-	tmp = strrchr(rom_name, '.');
-	if (tmp) tmp[0] = '\0';
-	sprintf(bmp_path, "%s/%s/%s.st%i.bmp", Paths.userdataDir, userdata_dirname, rom_name, getInt(slot_path));
-	if (!exists(bmp_path)) bmp_path[0] = '\0';
-	// printf("file: %s bmp: %s\n", rom_file, bmp_path); fflush(stdout);
-#endif
 }
 // NOTE: this has been disabled, didn't feel right
 static void readyResumeRecent(void) {
@@ -1068,11 +1045,6 @@ int main (int argc, char *argv[]) {
 	InitSettings();
 	
 	SDL_Surface* screen = SDL_SetVideoMode(Screen.width, Screen.height, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
-#ifdef ENABLE_PREVIEWS
-	SDL_Surface* overlay = SDL_CreateRGBSurface(SDL_SWSURFACE, 640,328, 16, 0, 0, 0, 0);
-	SDL_SetAlpha(overlay, SDL_SRCALPHA, 0x80);
-	SDL_FillRect(overlay, NULL, 0);
-#endif
 	
 	GFX_init();
 	GFX_ready();
@@ -1290,14 +1262,6 @@ int main (int argc, char *argv[]) {
 			dirty = 0;
 
 			SDL_FillRect(screen, NULL, 0);
-#ifdef ENABLE_PREVIEWS
-			if (can_resume) {
-				SDL_Surface* preview = IMG_Load(bmp_path);
-				SDL_BlitSurface(preview, &(SDL_Rect){0,76,640,328}, screen, &(SDL_Rect){0,76});
-				SDL_BlitSurface(overlay, NULL, screen, &(SDL_Rect){0,76});
-				SDL_FreeSurface(preview);
-			}
-#endif
 			SDL_BlitSurface(logo, NULL, screen, &(SDL_Rect){Screen.main.logo.x,Screen.main.logo.y});
 
 			if (show_setting) {
@@ -1399,9 +1363,6 @@ int main (int argc, char *argv[]) {
 	SDL_FillRect(screen, NULL, 0);
 	SDL_Flip(screen);
 	
-#ifdef ENABLE_PREVIEWS
-	SDL_FreeSurface(overlay);
-#endif
 	SDL_FreeSurface(logo);
 	if (version) SDL_FreeSurface(version);
 
