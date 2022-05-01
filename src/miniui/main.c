@@ -324,7 +324,9 @@ static int quit = 0;
 static int can_resume = 0;
 static int should_resume = 0; // set to 1 on kButtonResume but only if can_resume==1
 static char slot_path[256];
+#ifdef ENABLE_PREVIEWS
 static char bmp_path[256];
+#endif
 
 static int restore_depth = -1;
 static int restore_relative = -1;
