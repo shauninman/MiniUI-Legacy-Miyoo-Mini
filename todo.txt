@@ -1,14 +1,12 @@
 -------------------------------
 
-- fixed scanlines on irregular vertical resolutions
-
-- fixed multi-button bindings using L/L2/R/R2
-- fixed certain cores creating separate sav data for each launch of a zipped rom 
-- added rumble toggle to PlayStation.pak
-
-- increased rumble strength for all supported systems
+- added Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
 
 -------------------------------
+
+- match Onion's battery reading?
+	https://github.com/jimgraygit/Onion/blob/main/src/ADC/main.c#L112
+	ease towards the current value by 1% every check
 
 - BUG: Sega CD might need a short delay to resume audio like pokemini
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
@@ -48,10 +46,6 @@
 - press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
 
 picoarch should truncate the common parts of a group of options, not the (usually unique) ends
-
-make keymon write averaged/smoothed and scaled values to /tmp/adc or better yet msettings
-	check totofaki's battery curves (last I checked mine were the same as stock)
-	quicksave and poweroff at very low battery (I think Onion does <4%?)
 
 add enable-simple-mode to readme
 
