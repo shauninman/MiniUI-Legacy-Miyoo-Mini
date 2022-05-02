@@ -1,9 +1,11 @@
 -------------------------------
 
 - added Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
+- fixed swapfile disabled after use
 
 -------------------------------
 
+- run boot logo paks by eggs/evil rob?
 - match Onion's battery reading?
 	https://github.com/jimgraygit/Onion/blob/main/src/ADC/main.c#L112
 	ease towards the current value by 1% every check
