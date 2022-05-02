@@ -84,8 +84,8 @@ while [ -f "$EXEC_PATH" ]; do
 		eval $CMD
 		rm -f $NEXT
 		if [ -f "/tmp/using-swap" ]; then
+			swapoff $USERDATA_PATH/swapfile
 			rm -f "/tmp/using-swap"
-			swapoff -a
 		fi
 		
 		echo `date +'%F %T'` > "$DATETIME_PATH"
