@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EXPECT1_MD5=32bfc3839b8fa8a0816030554506487f
+EXPECT1_MD5=32bfc3839b8fa8a0816030554506487f # MiniUI
 
 DIR=$(dirname "$0")
 cd "$DIR"

@@ -5,10 +5,24 @@
 
 -------------------------------
 
-- run boot logo paks by eggs/evil rob?
 - match Onion's battery reading?
 	https://github.com/jimgraygit/Onion/blob/main/src/ADC/main.c#L112
 	ease towards the current value by 1% every check
+
+- picoarch
+	check emulator Player Controls for Fast Fwd and remove if present and doesn't work
+
+- boot logo paks
+	is there a way to consolidate them? I don't like having the same source in two locations
+		maybe duped by the makefile?
+		need to insert unique md5sums for image1.jpg, (just the hash on macOS)
+		get just the hash
+			on Linux
+				MD5=($(md5sum ./image1.jpg)); echo $MD5 
+			on macOS
+				md5 -q ./image1.jpg
+
+- integrate picoarch cheat support into MiniUI
 
 - BUG: Sega CD might need a short delay to resume audio like pokemini
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch

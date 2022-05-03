@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EXPECT1_MD5=61bfac86f630ddbdf70e14c5b0be7af9
+EXPECT1_MD5=61bfac86f630ddbdf70e14c5b0be7af9 # Miyoo
 
 DIR=$(dirname "$0")
 cd "$DIR"
