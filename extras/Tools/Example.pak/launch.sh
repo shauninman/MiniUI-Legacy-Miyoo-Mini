@@ -33,6 +33,6 @@ if confirm; then
 else
 	show okay.png
 	say "Nah, I'm good"$'\n'
-	sleep 2
+	sleep 0.1
 	confirm only
 fi
