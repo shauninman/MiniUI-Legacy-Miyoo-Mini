@@ -12,12 +12,17 @@ EXPECT3_MD5=6c0f4834b754a19ad578b39b3da03c95
 SUPPORTED_VERSION="202205010000"
 MAX_SUM=129732 # 12KB minus 1340b header
 
-if [ $MIYOO_VERSION -gt $SUPPORTED_VERSION ]; then
+bail()
+{
 	show okay.png
-	say "Unknown firmware version"$'\n\n'"Please update this pak"$'\n'"and try again."$'\n'
+	say "$1"$'\n'
 	sleep 0.1
 	confirm only
 	exit 1
+}
+
+if [ $MIYOO_VERSION -gt $SUPPORTED_VERSION ]; then
+	bail "Unknown firmware version"$'\n\n'"Please update this pak"$'\n'"and try again."$'\n'
 fi
 
 show confirm.png
@@ -37,22 +42,12 @@ if confirm; then
 	echo $IMAGE2_MD5
 	echo $IMAGE3_MD5
 	
-	blank
 	if [[ "$IMAGE1_MD5" != "$EXPECT1_MD5" ]]; then
-		say "Image 1 failed verification"$'\n\n'"Aborted"$'\n'
-		sleep 0.1
-		confirm only
-		exit 1
+		bail "Image 1 failed verification"$'\n\n'"Aborted"$'\n'
 	elif [[ "$IMAGE2_MD5" != "$EXPECT2_MD5" ]]; then
-		say "Image 2 failed verification"$'\n\n'"Aborted"$'\n'
-		sleep 0.1
-		confirm only
-		exit 1
+		bail "Image 2 failed verification"$'\n\n'"Aborted"$'\n'
 	elif [[ "$IMAGE3_MD5" != "$EXPECT3_MD5" ]]; then
-		say "Image 3 failed verification"$'\n\n'"Aborted"$'\n'
-		sleep 0.1
-		confirm only
-		exit 1
+		bail "Image 3 failed verification"$'\n\n'"Aborted"$'\n'
 	fi
 	
 	IMAGE1_SIZE=$(stat -c%s ./image1.jpg)
@@ -68,21 +63,22 @@ if confirm; then
 	echo $SUM
 	
 	if [ $SUM -gt $MAX_SUM ]; then
-		show okay.png
-		say "Sum of image file sizes"$'\n'"is greater than 128KB"$'\n\n'"Aborted"$'\n'
-		sleep 0.1
-		confirm only
-		exit 1
+		bail "Sum of image file sizes"$'\n'"is greater than 128KB"$'\n\n'"Aborted"$'\n'
 	fi
 	
+	blank
 	say "Preparing logo"
 	sleep 1
-	./logomake
+	if ! ./logomake; then
+		bail "Preparing logo failed"$'\n\n'"Aborted"$'\n'
+	fi
 
 	blank
 	say "Flashing logo"
 	sleep 1
-	./logowrite
+	if ! ./logowrite; then
+		bail "Flashing logo failed"$'\n\n'"Aborted"$'\n'
+	fi
 	
 	blank
 	say "Done"
