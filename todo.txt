@@ -2,12 +2,16 @@
 
 - added Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
 - fixed swapfile disabled after use
+- updated battery icon logic (thanks Totofaki!)
 
 -------------------------------
 
-- match Onion's battery reading?
-	https://github.com/jimgraygit/Onion/blob/main/src/ADC/main.c#L112
-	ease towards the current value by 1% every check
+- check me_bind_action in overrides to make sure we're mapping all buttons by name
+	eg. gambatte is mapped, pokemini is not
+		because pokemini hasn't defined any :face_palm:
+		beetle-pce-fast might be looking for the wrong name because it's named mednafen_pce_fast_libretro.so
+
+- add Virtual Boy to extras?
 
 - picoarch
 	check emulator Player Controls for Fast Fwd and remove if present and doesn't work
@@ -27,7 +31,6 @@
 - BUG: Sega CD might need a short delay to resume audio like pokemini
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
 
-- auto-adjust brightness based on screen effect?
 - faqs
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
@@ -42,17 +45,17 @@
 - BUG: say doesn't seem to respect extra line returns at end of msg
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
 
-- look into an audioserver-like approach to eliminating pop
-	- I think picoarch already has a resampler...
-	
-- look into supafaust
-	is it just the new hotness or an actual improvement over snes9x
-	it might have MSU-1 support, which, eh, is fine for extras but not essential
-
 - BUG: I think show et al need to make sure pan is set to 0,0?
 	using after progressui sometimes results in the image not showing
 
 - use smsplus-gx for SMS/GG?
+- look into supafaust
+	is it just the new hotness or an actual improvement over snes9x
+	it might have MSU-1 support, which, eh, is fine for extras but not essential
+
+
+- look into an audioserver-like approach to eliminating pop
+	- I think picoarch already has a resampler...
 
 - BUG: default st8 assumes first disc on multi-disc games
 	- leaving for now
@@ -61,17 +64,14 @@
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
 - press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
 
-picoarch should truncate the common parts of a group of options, not the (usually unique) ends
+- picoarch should truncate the common parts of a group of options, not the (usually unique) ends
 
-add enable-simple-mode to readme
-
-show, confirm, and say don't sleep (neither does Files.pak)
-	thinking face
-
-wrap all $(dirname "$0") in quotes to properly escape paths with spaces
-	or store the result in a var then quote the var when using
+- do another pass at defaults?
+	
+- help entry for confirm is inaccessible (args are optional so there's no good way to provide without testing for something like -h or --help)
+- auto-adjust brightness based on screen effect?
 
 change all logging from &> log to > log 2>&1
 
-do another pass at defaults?
-	
+- show, confirm, and say don't sleep (neither does Files.pak)
+	thinking face

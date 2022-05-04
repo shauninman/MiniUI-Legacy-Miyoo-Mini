@@ -61,7 +61,9 @@ typedef struct {
 #define IOCTL_SAR_INIT                       _IO(SARADC_IOC_MAGIC, 0)
 #define IOCTL_SAR_SET_CHANNEL_READ_VALUE     _IO(SARADC_IOC_MAGIC, 1)
 
-static SAR_ADC_CONFIG_READ  adcCfg = {0,0};
+static SAR_ADC_CONFIG_READ  adc_config = {0,0};
+static int is_charging = 0;
+static int eased_charge = 0;
 static int sar_fd = 0;
 static struct input_event	ev;
 static int	input_fd = 0;
@@ -77,19 +79,63 @@ void quit(int exitcode) {
 	exit(exitcode);
 }
 
+static int isCharging(void) {
+    int i = 0;
+    FILE *file = fopen("/sys/devices/gpiochip0/gpio/gpio59/value", "r");
+    if (file!=NULL) {
+        fscanf(file, "%i", &i);
+        fclose(file);
+    }
+	return i;
+}
+
 static void initADC(void) {
 	sar_fd = open("/dev/sar", O_WRONLY);
 	ioctl(sar_fd, IOCTL_SAR_INIT, NULL);
 }
 static void checkADC(void) {
-	ioctl(sar_fd, IOCTL_SAR_SET_CHANNEL_READ_VALUE, &adcCfg);
+	int was_charging = is_charging;
+	is_charging = isCharging();
+
+	ioctl(sar_fd, IOCTL_SAR_SET_CHANNEL_READ_VALUE, &adc_config);
 	
-	int adc_fd = open("/tmp/adc", O_CREAT | O_WRONLY);
-	if (adc_fd>0) {
-		char val[8];
-		sprintf(val, "%d", adcCfg.adc_value);
-		write(adc_fd, val, strlen(val));
-		close(adc_fd);
+	// TODO: this needs to be recalcuated after sleep too (not just charging) :thinking_face:
+	// TODO: in a STOP signal handler?
+	int current_charge = 0;
+	if (adc_config.adc_value>=528) {
+		current_charge = adc_config.adc_value - 478;
+	}
+	else if (adc_config.adc_value>=512){
+		current_charge = adc_config.adc_value * 2.125 - 1068;
+	}
+	else if (adc_config.adc_value>=480){
+		current_charge = adc_config.adc_value * 0.51613 - 243.742;
+	}
+	
+	if (current_charge<0) current_charge = 0;
+	else if (current_charge>100) current_charge = 100;
+	
+	static int first_run = 1;
+	if (first_run || (was_charging && !is_charging)) {
+		first_run = 0;
+		eased_charge = current_charge;
+	}
+	else if (eased_charge<current_charge) {
+		eased_charge += 1;
+		if (eased_charge>100) eased_charge = 100;
+	}
+	else if (eased_charge>current_charge) {
+		eased_charge -= 1;
+		if (eased_charge<0) eased_charge = 0;
+	}
+	
+	// new implementation
+	int bat_fd = open("/tmp/battery", O_CREAT | O_WRONLY);
+	if (bat_fd>0) {
+		char value[3];
+		sprintf(value, "%d", eased_charge);
+		write(bat_fd, value, strlen(value));
+		close(bat_fd);
 	}
 }
 static void* runADC(void *arg) {

@@ -306,10 +306,8 @@ void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, i
 
 void waitForWake(void);
 void fauxSleep(void);
-int getSmoothBatteryLevel(void);
 
 int isCharging(void);
-int getBatteryLevel(void);
 
 void powerOff(void);
 

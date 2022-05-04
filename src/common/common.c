@@ -408,8 +408,11 @@ static SDL_Color gray = {GRAY_TRIAD};
 static SDL_Color shadow25 = {SHADOW25_TRIAD};
 static SDL_Color shadow50 = {SHADOW50_TRIAD};
 
-#define BATTERY_IMAGE_COUNT 7
-static SDL_Surface* battery[BATTERY_IMAGE_COUNT];
+static SDL_Surface* battery_charging;
+static SDL_Surface* battery_fill;
+static SDL_Surface* battery_line;
+static SDL_Surface* battery_fill_bad;
+static SDL_Surface* battery_line_bad;
 void GFX_init(void) {
 	char font_path[256];
 	sprintf(font_path, "%s/%s", Paths.resDir, "BPreplayBold-unhinted.otf");
@@ -432,14 +435,13 @@ void GFX_init(void) {
 	settings_volume = GFX_loadImage("settings-volume.png");
 	settings_mute = GFX_loadImage("settings-mute.png");
 		
-	char battery_path[256];
-	for (int i=0; i<BATTERY_IMAGE_COUNT; i++) {
-		sprintf(battery_path, "battery-%i.png", i);
-		battery[i] = GFX_loadImage(battery_path);
-	}
+	battery_charging = GFX_loadImage("battery-charging.png");
+	battery_fill = GFX_loadImage("battery-fill.png");
+	battery_line = GFX_loadImage("battery-line.png");
+	battery_fill_bad = GFX_loadImage("bad-battery-fill.png");
+	battery_line_bad = GFX_loadImage("bad-battery-line.png");
 	
-	puts("GFX_init");
-	fflush(stdout);
+	puts("GFX_init"); fflush(stdout);
 }
 void GFX_ready(void) {
 	screen = SDL_GetVideoSurface(); // :cold_sweat:
@@ -454,6 +456,8 @@ SDL_Surface* GFX_loadImage(char* path) {
 }
 
 void GFX_quit(void) {
+	puts("GFX_quit"); fflush(stdout);
+	
 	SDL_FreeSurface(rule);
 	SDL_FreeSurface(button);
 	SDL_FreeSurface(bg_white);
@@ -464,9 +468,11 @@ void GFX_quit(void) {
 	SDL_FreeSurface(settings_volume);
 	SDL_FreeSurface(settings_mute);
 	
-	for (int i=0; i<BATTERY_IMAGE_COUNT; i++) {
-		SDL_FreeSurface(battery[i]);
-	}
+	SDL_FreeSurface(battery_charging);
+	SDL_FreeSurface(battery_fill);
+	SDL_FreeSurface(battery_line);
+	SDL_FreeSurface(battery_fill_bad);
+	SDL_FreeSurface(battery_line_bad);
 	
 	TTF_CloseFont(font_s);
 	TTF_CloseFont(font_m);
@@ -666,8 +672,20 @@ SDL_Surface* GFX_getText(char* text, int size, int color) {
 }
 
 void GFX_blitBattery(SDL_Surface* surface, int x, int y) {
-	int charge = getSmoothBatteryLevel();
-	SDL_BlitSurface(battery[charge], NULL, surface, &(SDL_Rect){x,y});
+	if (isCharging()) SDL_BlitSurface(battery_charging, NULL, surface, &(SDL_Rect){x,y});
+	else {
+		int charge = getInt("/tmp/battery");
+		SDL_Surface* fill = charge<=17 ? battery_fill_bad : battery_fill;
+		SDL_Surface* line = charge<=10 ? battery_line_bad : battery_line;
+		SDL_BlitSurface(line, NULL, surface, &(SDL_Rect){x,y});
+		
+		x += 4;
+		y += 6;
+		
+		int h = fill->h * (float)charge / 100;
+		int oy = fill->h - h;
+		SDL_BlitSurface(fill, &(SDL_Rect){0,oy,fill->w,h}, surface, &(SDL_Rect){x,y+oy});
+	}
 }
 void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, int min_value, int max_value) {
 	if (x==Screen.menu.settings.x) GFX_blitWindow(surface, x,y,Screen.settings.width,Screen.settings.height, 0);
@@ -714,64 +732,8 @@ void fauxSleep(void) {
 	exitSleep();
 }
 
-static int was_charging = 0;
-int getSmoothBatteryLevel(void) {
-	int is_charging = isCharging();
-	if (is_charging) {
-		was_charging = 1;
-		return 6;
-	}
-	
-	#define kBatteryReadings 10
-	
-	static int values[kBatteryReadings];
-	static int total = 0;
-	static int i = 0;
-	static int ready = 0;
-	static unsigned long last_ticks = 0;
-	
-	int value = getBatteryLevel();
-	unsigned long now_ticks = SDL_GetTicks();
-	if (now_ticks-last_ticks>1000*10 || was_charging) {
-		ready = 0;
-		was_charging = 0;
-		last_ticks = now_ticks;
-	}
-
-	// first run (or first in the last 10 seconds), fill up the buffer
-	if (!ready) {
-		for (i=0; i<kBatteryReadings; i++) {
-			values[i] = value;
-		}
-		total = value * kBatteryReadings;
-		ready = 1;
-		i = 0;
-	}
-	// subsequent calls, update average
-	else {
-		total -= values[i];
-		values[i] = value;
-		total += value;
-		i += 1;
-		if (i>=kBatteryReadings) i -= kBatteryReadings;
-		value = roundf((float)total / kBatteryReadings);
-	}
-	if (value<0) value = 0;
-	if (value>5) value = 5;
-	return value;
-	#undef kBatteryReadings
-}
-
 int isCharging(void) {
 	return getInt("/sys/devices/gpiochip0/gpio/gpio59/value");
-}
-int getBatteryLevel(void) {
-	int min = 505; // was 439
-	int max = 546; // was 500
-	int value = getInt("/tmp/adc");
-	int scaled = (value - min) * 6 / (max - min);
-	if (scaled>5) return 5;
-	else return scaled;
 }
 
 // TODO: toggling this crashes gambatte in GB mode (but not GBC!), GBA, and FC but none of the others...
