@@ -1,0 +1,16 @@
+on:
+  pull_request:
+  workflow_dispatch:
+
+
+jobs:
+  close:
+    name: Close Pull Request
+    runs-on: ubuntu-latest
+    steps:
+    - name: Close Pull Request
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Find all open PRs, and close them.
+        gh pr list --repo=${{ github.repository }} --state=open --json=number | jq '.[].number' | xargs gh pr close --repo=${{ github.repository }} -d
