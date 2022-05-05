@@ -1,9 +1,12 @@
 [submodule "third-party/DinguxCommander"]
 	path = third-party/DinguxCommander
 	url = git@github.com:shauninman/DinguxCommander.git
+	branch = miniui-miyoomini
 [submodule "third-party/SDL-1.2"]
 	path = third-party/SDL-1.2
 	url = git@github.com:shauninman/SDL-1.2.git
+	branch = miniui-miyoomini
 [submodule "third-party/picoarch"]
 	path = third-party/picoarch
 	url = git@github.com:shauninman/picoarch.git
+	branch = miniui-miyoomini
