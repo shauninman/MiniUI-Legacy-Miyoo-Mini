@@ -2,31 +2,41 @@
 
 - added Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
 - fixed swapfile disabled after use
-- updated battery icon logic (thanks Totofaki!)
+- added more accurate battery logic  (thanks Totofaki!)
+- fixed crash in native scaler caused by portrait resolutions with landscape aspect (eg. Tekken 3)
 
 -------------------------------
+
+- disable menu in launcher in simple mode
+- disable sleep so I can test battery icon
+
+- try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
+
+- BUG: repo doesn't checkout correct branch for submodules when cloned...
 
 - check me_bind_action in overrides to make sure we're mapping all buttons by name
 	eg. gambatte is mapped, pokemini is not
 		because pokemini hasn't defined any :face_palm:
 		beetle-pce-fast might be looking for the wrong name because it's named mednafen_pce_fast_libretro.so
 
-- add Virtual Boy to extras?
-
 - picoarch
 	check emulator Player Controls for Fast Fwd and remove if present and doesn't work
+	see if rewind is easy to add
+	integrate cheat support into MiniUI
+	truncate the common parts of a group of options, not the (usually unique) ends
 
 - boot logo paks
+	don't automatically create hashes in case image is corrupted when checking out repo?
+			
+
 	is there a way to consolidate them? I don't like having the same source in two locations
 		maybe duped by the makefile?
-		need to insert unique md5sums for image1.jpg, (just the hash on macOS)
+		need to insert unique md5sums for image1.jpg
 		get just the hash
 			on Linux
 				MD5=($(md5sum ./image1.jpg)); echo $MD5 
 			on macOS
 				md5 -q ./image1.jpg
-
-- integrate picoarch cheat support into MiniUI
 
 - BUG: Sega CD might need a short delay to resume audio like pokemini
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
@@ -43,7 +53,6 @@
 	https://docs.libretro.com/development/cores/developing-cores/#retro_serialize_size-retro_serialize-and-retro_unserialize 
 
 - BUG: say doesn't seem to respect extra line returns at end of msg
-- BUG: repo doesn't checkout correct branch for submodules when cloned...
 
 - BUG: I think show et al need to make sure pan is set to 0,0?
 	using after progressui sometimes results in the image not showing
@@ -64,7 +73,6 @@
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
 - press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
 
-- picoarch should truncate the common parts of a group of options, not the (usually unique) ends
 
 - do another pass at defaults?
 	
