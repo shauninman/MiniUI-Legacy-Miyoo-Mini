@@ -99,8 +99,6 @@ static void checkADC(void) {
 
 	ioctl(sar_fd, IOCTL_SAR_SET_CHANNEL_READ_VALUE, &adc_config);
 	
-	// TODO: this needs to be recalcuated after sleep too (not just charging) :thinking_face:
-	// TODO: in a STOP signal handler?
 	int current_charge = 0;
 	if (adc_config.adc_value>=528) {
 		current_charge = adc_config.adc_value - 478;
@@ -130,7 +128,7 @@ static void checkADC(void) {
 	}
 	
 	// new implementation
-	int bat_fd = open("/tmp/battery", O_CREAT | O_WRONLY);
+	int bat_fd = open("/tmp/battery", O_CREAT | O_WRONLY | O_TRUNC);
 	if (bat_fd>0) {
 		char value[3];
 		sprintf(value, "%d", eased_charge);

@@ -7,12 +7,30 @@
 
 -------------------------------
 
+- change st8 ERROR to WARNING or INFO
+- BUG: vectorman 1 and 2 fail to load on MiniUI
+- BUG: battery icon is still doing some weird stuff
+	jumping from <=10 to >90
+	scanline pixels getting stuck when exiting the menu after opening while <=10
+	flicking on and off around the threshhold
+	/tmp/battery might be writing "09" "01"
+		I definitely saw "00"
+		could that be causing the jump to >90?
+	can still jump over 100 somehow
+		480
+		450
+		oh!, possibly because we cap at 100, then it drops to 99 but we only write the first to chars to the file resulting in 990?
+
 - disable menu in launcher in simple mode
 - disable sleep so I can test battery icon
 
 - try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
 
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
+	tried but didn't work
+		git submodule set-branch -b miniui-miyoomini third-party/picoarch
+	maybe
+		https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/18799234#18799234
 
 - check me_bind_action in overrides to make sure we're mapping all buttons by name
 	eg. gambatte is mapped, pokemini is not
