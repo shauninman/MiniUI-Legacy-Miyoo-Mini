@@ -4,25 +4,12 @@
 - fixed swapfile disabled after use
 - added more accurate battery logic  (thanks Totofaki!)
 - fixed crash in native scaler caused by portrait resolutions with landscape aspect (eg. Tekken 3)
+- hide MiniUI version info in simple mode
 
 -------------------------------
 
 - change st8 ERROR to WARNING or INFO
 - BUG: vectorman 1 and 2 fail to load on MiniUI
-- BUG: battery icon is still doing some weird stuff
-	jumping from <=10 to >90
-	scanline pixels getting stuck when exiting the menu after opening while <=10
-	flicking on and off around the threshhold
-	/tmp/battery might be writing "09" "01"
-		I definitely saw "00"
-		could that be causing the jump to >90?
-	can still jump over 100 somehow
-		480
-		450
-		oh!, possibly because we cap at 100, then it drops to 99 but we only write the first to chars to the file resulting in 990?
-
-- disable menu in launcher in simple mode
-- disable sleep so I can test battery icon
 
 - try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
 

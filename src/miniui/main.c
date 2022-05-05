@@ -319,6 +319,7 @@ static Directory* top;
 static Array* stack; // DirectoryArray
 static Array* recents; // RecentArray
 
+static int is_simple = 0;
 static int quit = 0;
 static int can_resume = 0;
 static int should_resume = 0; // set to 1 on kButtonResume but only if can_resume==1
@@ -598,7 +599,7 @@ static Array* getRoot(void) {
 	
 	char tools_path[256];
 	sprintf(tools_path, "%s/Tools", Paths.rootDir);
-	if (!exists(kEnableSimpleModePath) && exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
+	if (!is_simple && exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
 
 	return entries;
 }
@@ -1031,6 +1032,8 @@ static void Menu_quit(void) {
 int main (int argc, char *argv[]) {
 	if (autoResume()) return 0; // nothing to do
 	
+	is_simple = exists(kEnableSimpleModePath);
+	
 	puts("MiniUI");
 	fflush(stdout);
 	
@@ -1085,7 +1088,7 @@ int main (int argc, char *argv[]) {
 			}
 		}
 		else {
-			if (Input_justPressed(kButtonMenu)) {
+			if (!is_simple && Input_justPressed(kButtonMenu)) {
 				show_version = 1;
 				dirty = 1;
 			}
