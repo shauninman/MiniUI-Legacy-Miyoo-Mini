@@ -25,8 +25,14 @@ say
 !say/
 blank
 !blank/
+
 screenshot
 !screenshot/
+logoread
+!logoread/
+logomake
+!logomake/
+logowrite
+!logowrite/
 
-# TODO: this eats miyoo/app/keymon, had to add extension then remove it in makefile
-
+# NOTE: this eats miyoo/app/keymon, had to add extension then remove it in makefile

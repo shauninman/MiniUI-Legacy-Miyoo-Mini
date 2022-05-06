@@ -4,9 +4,11 @@
 - fixed swapfile disabled after use
 - added more accurate battery logic  (thanks Totofaki!)
 - fixed crash in native scaler caused by portrait resolutions with landscape aspect (eg. Tekken 3)
-- hide MiniUI version info in simple mode
+- hid MiniUI version info while in simple mode
 
 -------------------------------
+
+
 
 - BUG: vectorman 1 and 2 fail to load on MiniUI
 
@@ -28,19 +30,6 @@
 	see if rewind is easy to add
 	integrate cheat support into MiniUI
 	truncate the common parts of a group of options, not the (usually unique) ends
-
-- boot logo paks
-	don't automatically create hashes in case image is corrupted when checking out repo?
-			
-
-	is there a way to consolidate them? I don't like having the same source in two locations
-		maybe duped by the makefile?
-		need to insert unique md5sums for image1.jpg
-		get just the hash
-			on Linux
-				MD5=($(md5sum ./image1.jpg)); echo $MD5 
-			on macOS
-				md5 -q ./image1.jpg
 
 - BUG: Sega CD might need a short delay to resume audio like pokemini
 	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch

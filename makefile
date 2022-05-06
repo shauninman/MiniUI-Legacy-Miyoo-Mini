@@ -64,6 +64,7 @@ tools:
 	cd ./third-party/logotweak/logowrite && make
 
 payload:
+	rm -rf ./build
 	mkdir -p ./releases
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
