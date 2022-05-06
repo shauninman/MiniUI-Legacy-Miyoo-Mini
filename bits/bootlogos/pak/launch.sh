@@ -1,15 +1,19 @@
 #!/bin/sh
 
-EXPECT1_MD5=32bfc3839b8fa8a0816030554506487f # MiniUI
+# used to generate the following paks
+
+# /Tools/Single-use/02) Add MiniUI Boot Logo.pak
+# /Tools/Single-use/02) Remove MiniUI Boot Logo.pak
 
 DIR=$(dirname "$0")
 cd "$DIR"
 
 {
 
+SUPPORTED_VERSION="202205010000"
+EXPECT1_MD5=`cat ./image1.txt`
 EXPECT2_MD5=64c9ec14d4c4995cb9681bba1eefaa34
 EXPECT3_MD5=6c0f4834b754a19ad578b39b3da03c95
-SUPPORTED_VERSION="202205010000"
 MAX_SUM=129732 # 12KB minus 1340b header
 
 bail()
@@ -38,10 +42,6 @@ if confirm; then
 	IMAGE2_MD5=$(md5sum ./image2.jpg | awk '{print $1}')
 	IMAGE3_MD5=$(md5sum ./image3.jpg | awk '{print $1}')
 	
-	echo $IMAGE1_MD5
-	echo $IMAGE2_MD5
-	echo $IMAGE3_MD5
-	
 	if [[ "$IMAGE1_MD5" != "$EXPECT1_MD5" ]]; then
 		bail "Image 1 failed verification"$'\n\n'"Aborted"$'\n'
 	elif [[ "$IMAGE2_MD5" != "$EXPECT2_MD5" ]]; then
@@ -53,14 +53,8 @@ if confirm; then
 	IMAGE1_SIZE=$(stat -c%s ./image1.jpg)
 	IMAGE2_SIZE=$(stat -c%s ./image2.jpg)
 	IMAGE3_SIZE=$(stat -c%s ./image3.jpg)
-	
-	echo $IMAGE1_SIZE
-	echo $IMAGE2_SIZE
-	echo $IMAGE3_SIZE
-	
+
 	SUM=$(expr $IMAGE1_SIZE + $IMAGE2_SIZE + $IMAGE3_SIZE)
-	
-	echo $SUM
 	
 	if [ $SUM -gt $MAX_SUM ]; then
 		bail "Sum of image file sizes"$'\n'"is greater than 128KB"$'\n\n'"Aborted"$'\n'
@@ -89,4 +83,4 @@ else
 	sleep 1
 fi
 
-} &> ./log.txt
+} &> "$LOGS_PATH/BootLogo.txt"

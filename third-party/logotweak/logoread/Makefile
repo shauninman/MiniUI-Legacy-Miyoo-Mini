@@ -1,5 +1,3 @@
-CROSS_COMPILE=/opt/miyoomini83/bin/arm-linux-gnueabihf-
-
 TARGET = logoread
 
 CC 	= $(CROSS_COMPILE)gcc
