@@ -9,7 +9,7 @@ update() {
         test -d "$d" -a \! -L "$d" || continue
         cd "$d"
         if [ -d ".git" ]; then
-            echo "$(git rev-parse --short HEAD) $(basename $PWD)"
+            echo "$(git rev-parse --short HEAD) $(basename $PWD)" # $(git config --get remote.origin.url)
         else
             update *
         fi
