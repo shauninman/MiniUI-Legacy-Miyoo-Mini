@@ -56,6 +56,7 @@ core:
 
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
+	./bits/cores.sh > ./cores.txt
 
 tools:
 	cd ./third-party/DinguxCommander && make -j
@@ -124,6 +125,7 @@ bundle:
 
 zip:
 	cd ./build/PAYLOAD/.system/paks/MiniUI.pak && echo "$(RELEASE_NAME).zip\n$(BUILD_HASH)" > version.txt
+	cp ./cores.txt ./build/PAYLOAD/.system/paks/MiniUI.pak
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system .tmp_update
 	mv ./build/PAYLOAD/MiniUI.zip ./build/PAYLOAD/miyoo/app/
 	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip Bios Roms Saves miyoo README.txt

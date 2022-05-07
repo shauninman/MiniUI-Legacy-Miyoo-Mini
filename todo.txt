@@ -9,7 +9,8 @@
 -------------------------------
 
 
-
+- log the commit of each core in each release so I can roll back if necessary
+- look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
 - BUG: vectorman 1 and 2 fail to load on MiniUI
 
 - try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
