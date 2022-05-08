@@ -1,15 +1,12 @@
 -------------------------------
 
-- added Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
-- fixed swapfile disabled after use
-- added more accurate battery logic  (thanks Totofaki!)
-- fixed crash in native scaler caused by portrait resolutions with landscape aspect (eg. Tekken 3)
-- hid MiniUI version info while in simple mode
+- 
 
 -------------------------------
 
 - look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
 - BUG: vectorman 1 and 2 fail to load on MiniUI
+- add Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
 
 - try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
 
