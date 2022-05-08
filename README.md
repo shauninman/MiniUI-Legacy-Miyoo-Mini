@@ -33,6 +33,17 @@ MiniUI maybe be simple but it's also extensible. See the [Extras readme](https:/
 - Sega Genesis
 - Sony PlayStation
 
+## Extras
+
+- Sega Game Gear
+- Sega Master System
+- Pokémon mini
+- TurboGrafx-16
+
+## Extra Extras
+
+tiduscrying has put together some [additional paks](https://github.com/tiduscrying/MiniUI-Extra-Extras) (based on additional cores available in Onion).
+
 ## What happened to Union?
 
 The Miyoo Mini happened. The idea behind [Union](https://github.com/shauninman/Union) was the result of having a few of these handhelds but never being fully happy with any one of them in every context. One had a beautiful screen but was too heavy to carry casually. One was perfectly pocketable and had amazingly clicky buttons but the tiny screen wasn't great for long play sessions. So Union allowed easily moving games and save data between devices depending on context. Literally just swapping the SD card from one device to the other. But the Miyoo Mini is pocketable enough, its screen gloriously 640 by 480 enough, that I stopped using the other devices supported by Union. In a past life I learned not to develop features I won't use. Maybe I'll revisit the Union idea in the future or maybe the Mini will remain enough for a long while.
