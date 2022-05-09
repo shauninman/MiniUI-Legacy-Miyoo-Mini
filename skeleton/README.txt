@@ -27,6 +27,8 @@ Features
 ----------------------------------------
 Install
 
+MiniUI works on all known versions of the official firmware, no need to upgrade. Save yourself a headache.
+
 Copy the contents of this archive to the root of a fresh FAT32 formatted SD card. Don't forget the "miyoo" folder. Insert your SD card into the device and power it on. MiniUI will install automatically and be ready to go in about 10 seconds.
 
 ----------------------------------------
