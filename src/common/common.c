@@ -736,31 +736,34 @@ int isCharging(void) {
 	return getInt("/sys/devices/gpiochip0/gpio/gpio59/value");
 }
 
-// TODO: toggling this crashes gambatte in GB mode (but not GBC!), GBA, and FC but none of the others...
 #define GOVERNOR_PATH "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
 static char governor[128];
 
 void enterSleep(void) {
 	SetRawVolume(-60);
-	SetRawBrightness(0);
+	// SetRawBrightness(0);
+	putInt("/sys/class/gpio/export", 4);
+	putFile("/sys/class/gpio/gpio4/direction", "out");
+	putInt("/sys/class/gpio/gpio4/value", 0);
 	
 	// save current governor (either ondemand or performance)
 	getFile(GOVERNOR_PATH, governor, 128);
 	trimTrailingNewlines(governor);
 
-	system("echo powersave > " GOVERNOR_PATH);
+	putFile(GOVERNOR_PATH, "powersave");
 	sync();
 }
 void exitSleep(void) {
+	putInt("/sys/class/gpio/gpio4/value", 1);
+	putInt("/sys/class/gpio/unexport", 4);
+	putInt("/sys/class/pwm/pwmchip0/export", 0);
+	putInt("/sys/class/pwm/pwmchip0/pwm0/enable",0);
+	putInt("/sys/class/pwm/pwmchip0/pwm0/enable",1);
+	// SetBrightness(GetBrightness());
 	SetVolume(GetVolume());
-	SetBrightness(GetBrightness());
 	
 	// restore previous governor
-	char cmd[128];
-	sprintf(cmd, "echo %s > %s", governor, GOVERNOR_PATH);
-	// fprintf(stdout, "restoring governor %s.\n", governor);
-
-	system(cmd);
+	putFile(GOVERNOR_PATH, governor);
 }
 
 int preventAutosleep(void) {
