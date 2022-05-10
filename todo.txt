@@ -2,17 +2,12 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- 
+- fixed native nerest neightbor scaler when aspect ratio produces an odd width (eg. FFVIII's post-battle spoils screen)
 
 -------------------------------
 
 - look into CamOS and MI_ERRs in MiniUI and picoarch
 	probably tied to both settings and SDL trying to restore audio volume?
-- disable screen for sleep
-	export gpio 4
-	set to 0 to sleep
-	to 1 on wake
-	unexport
 - look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
 - BUG: vectorman 1 and 2 fail to load on MiniUI
 - add Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
