@@ -2,7 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- fixed native nerest neightbor scaler when aspect ratio produces an odd width (eg. FFVIII's post-battle spoils screen)
+- fixed native nearest neighbor scaler when aspect ratio produces an odd width (eg. FFVIII's post-battle spoils screen)
 
 -------------------------------
 
