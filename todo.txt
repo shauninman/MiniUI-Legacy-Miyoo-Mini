@@ -3,16 +3,35 @@
 Please see the README.txt in the zip file for installation and update instructions.
 
 - fixed native nearest neighbor scaler when aspect ratio produces an odd width (eg. FFVIII's post-battle spoils screen)
+- updated Pokémon mini (adds optional 60Hz mode)
+- update PlayStation defaults (frameskip default to disabled)
 
 -------------------------------
 
-- look into CamOS and MI_ERRs in MiniUI and picoarch
-	probably tied to both settings and SDL trying to restore audio volume?
-- look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
-- BUG: vectorman 1 and 2 fail to load on MiniUI
-- add Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
+- added Sega CD to extras (see updated extras readme for required bios)
+	- pulled after reports of 
+		- crashes on autoresume and 
+		- extra slashes in .brm paths
+	- added to extras readme:
+		MCD: bios_CD_U.bin, bios_CD_E.bin, bios_CD_J.bin
+		
 
 - try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
+	- FFVI runs at 45fps at 3x or 4x
+
+- look into CamOS and MI_ERRs in MiniUI and picoarch
+	- probably tied to both settings and SDL trying to restore audio volume?
+	- add logging to try to bookend the errors to identify their source then untangle the cause
+- look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
+
+- BUG: vectorman 1 and 2 fail to load on MiniUI
+	Onion is using 688c90d5bd017d21b9bcee99a4aa83c5224711a0 (Dec 29 2021)
+	latest on libretro is 22 days ago https://github.com/libretro/picodrive/commit/7ff457f2f833570013f2a7e2608ac40632e0735d
+		it was fixed 19 days ago https://github.com/irixxxx/picodrive/commit/72c2a04a9d4ae0fe52383dbf4d680849036b48a1
+	plays fine on genesis_plus_gx
+
+- add Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
+
 
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
 	tried but didn't work
@@ -31,8 +50,6 @@ Please see the README.txt in the zip file for installation and update instructio
 	integrate cheat support into MiniUI
 	truncate the common parts of a group of options, not the (usually unique) ends
 
-- BUG: Sega CD might need a short delay to resume audio like pokemini
-	https://github.com/shauninman/picoarch/blob/miniui-miyoomini/patches/pokemini/0001-fix-resume-audio.patch
 
 - faqs
 - document auto.sh
@@ -53,7 +70,9 @@ Please see the README.txt in the zip file for installation and update instructio
 - use smsplus-gx for SMS/GG?
 - look into supafaust
 	is it just the new hotness or an actual improvement over snes9x
-	it might have MSU-1 support, which, eh, is fine for extras but not essential
+		is audio better or worse?
+	might have MSU-1 support, which, eh, is fine for extras but not essential
+	might have better SuperFX chip support
 
 
 - look into an audioserver-like approach to eliminating pop

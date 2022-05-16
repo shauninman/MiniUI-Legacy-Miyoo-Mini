@@ -102,6 +102,7 @@ payload:
 	cp ./third-party/screenshot/screenshot ./build/EXTRAS/Tools/Screenshots.pak/
 	cp ./third-party/picoarch/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
 	cp ./third-party/picoarch/pokemini_libretro.so ./build/EXTRAS/Emus/PKM.pak/
+	# cp ./third-party/picoarch/genesis-plus-gx/genesis_plus_gx_libretro.so ./build/EXTRAS/Emus/MCD.pak/
 	# cp -R ./bits/bootlogos/pak/. ./build/EXTRAS/Tools/Single-use/bootlogo.tmp
 	# cp ./third-party/logotweak/logomake/logomake ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/
 	# cp ./third-party/logotweak/logowrite/logowrite ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/
@@ -109,6 +110,7 @@ payload:
 	# cp -R ./bits/bootlogos/miniui/. ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/
 	# cd ./build/EXTRAS/Tools/Single-use/ && cp -R ./bootlogo.tmp/. "02) Add MiniUI Boot Logo.pak"
 	# rm -rf ./build/EXTRAS/Tools/Single-use/bootlogo.tmp
+	rm -rf ./build/EXTRAS/Emus/MCD.pak
 
 bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
