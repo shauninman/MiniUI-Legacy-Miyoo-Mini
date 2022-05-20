@@ -2,13 +2,14 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- 
+- fixed button names in Advaned > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
 
 -------------------------------
 
 - increase sleep after lcd init
 	doesn't prevent boot logo flicker
 	try undoing boot glitch fix
+		without the boot glitch fix the logo scrolls vertically
 - audio fix
 	- works! (on latest firmware)
 	- see egg's miniui_audioserver.zip
