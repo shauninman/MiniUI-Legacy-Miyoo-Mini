@@ -110,7 +110,6 @@ payload:
 	# cp -R ./bits/bootlogos/miniui/. ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/
 	# cd ./build/EXTRAS/Tools/Single-use/ && cp -R ./bootlogo.tmp/. "02) Add MiniUI Boot Logo.pak"
 	# rm -rf ./build/EXTRAS/Tools/Single-use/bootlogo.tmp
-	rm -rf ./build/EXTRAS/Emus/MCD.pak
 
 bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/ld-linux-armhf.so.3 ./build/PAYLOAD/.system/lib/
