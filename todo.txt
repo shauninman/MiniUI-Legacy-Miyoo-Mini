@@ -2,27 +2,21 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- fixed button names in Advaned > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
+- updated button names in Advaned > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
+- fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
 
 -------------------------------
 
-- increase sleep after lcd init
-	doesn't prevent boot logo flicker
+- look into Evil_Rob's performance regression
+	- he's concerned with an unofficial fba core but maybe this could explain random spell slowdowns in FFIX
+
+- reports of glitchy boot logo after applying glitch fix?
+	increase sleep after lcd init
+		doesn't prevent boot logo flicker
 	try undoing boot glitch fix
 		without the boot glitch fix the logo scrolls vertically
-- audio fix
-	- works! (on latest firmware)
-	- see egg's miniui_audioserver.zip
-		https://discord.com/channels/529983248114122762/926552349609164872/975922319484682260
-		includes latency_reduction, source here:
-			https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AABtSOygIX_e4mio3rkLetWTa?preview=latency_reduction.zip
 
 - picoarch
-	check emulator Player Controls for Fast Fwd and remove if present and doesn't work
-	check me_bind_action in overrides to make sure we're mapping all buttons by name
-		eg. gambatte is mapped, pokemini is not
-			because pokemini hasn't defined any :face_palm:
-			beetle-pce-fast might be looking for the wrong name because it's named mednafen_pce_fast_libretro.so
 	truncate the common parts of a group of options, not the (usually unique) ends
 	see if rewind is easy to add
 	integrate cheat support into MiniUI
@@ -34,7 +28,6 @@ Please see the README.txt in the zip file for installation and update instructio
 	- added to extras readme:
 		MCD: bios_CD_U.bin, bios_CD_E.bin, bios_CD_J.bin
 		
-
 - try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
 	- FFVI runs at 45fps at 3x or 4x
 
@@ -59,6 +52,9 @@ Please see the README.txt in the zip file for installation and update instructio
 		https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/18799234#18799234
 
 - faqs
+- known issues
+	- snes slowdown at non-native scales
+	- Vector Man 1 & 2
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
 	trap "sync && reboot && sleep 10" ERR && set -E # NO

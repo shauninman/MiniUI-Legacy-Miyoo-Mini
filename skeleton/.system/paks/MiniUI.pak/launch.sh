@@ -32,6 +32,11 @@ rm -f "$SDCARD_PATH/update.log"
 export LD_LIBRARY_PATH="/mnt/SDCARD/.system/lib:$LD_LIBRARY_PATH"
 export PATH="/mnt/SDCARD/.system/bin:$PATH"
 
+if [ -f /customer/lib/libpadsp.so ]; then
+    LD_PRELOAD=as_preload.so audioserver &
+    export LD_PRELOAD=libpadsp.so
+fi
+
 lumon & # adjust lcd luma and saturation
 
 CHARGING=`cat /sys/devices/gpiochip0/gpio/gpio59/value`
