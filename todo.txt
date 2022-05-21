@@ -2,19 +2,30 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- updated button names in Advaned > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
-- fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
+- updated button names in Advanced > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
+- fixed potential slowdowns caused by custom SDL audio implementation (thanks eggs!)
+- fixed frameskip in PlayStation core
 
 -------------------------------
 
+- fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
+	reverted because it comes at an unacceptable performance cost
+	eggs: "audioserver resamples all but 48k/stereo internally, so it is possible that different rates will result in lower performance."
+
 - look into Evil_Rob's performance regression
-	- he's concerned with an unofficial fba core but maybe this could explain random spell slowdowns in FFIX
+	he's concerned with an unofficial fba core but maybe this could explain random spell slowdowns in FFIX
+	see ~/Downloads/FBN.pak.zip
+	can't reproduce, steady 60fps with provided files
+
+- look into etra brightness from v2 screen
+	6 appears to be the minimum value there too
 
 - reports of glitchy boot logo after applying glitch fix?
 	increase sleep after lcd init
 		doesn't prevent boot logo flicker
 	try undoing boot glitch fix
 		without the boot glitch fix the logo scrolls vertically
+	eggs says nothing has changed and I'm inclined to defer to his judgement
 
 - picoarch
 	truncate the common parts of a group of options, not the (usually unique) ends
