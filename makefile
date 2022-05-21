@@ -32,7 +32,7 @@ ifeq "$(GCC_VER_GTE9_0)" "1"
   BUNDLE_LIBS=bundle
 endif
 
-all: lib sdl core emu payload $(BUNDLE_LIBS) zip
+all: lib sdl core emu tools payload $(BUNDLE_LIBS) zip
 
 extras: emu
 
