@@ -1,3 +1,4 @@
+4fa102b picoarch
 e880168 beetle-pce-fast
 b3c35b6 fceumm
 1553621 gambatte

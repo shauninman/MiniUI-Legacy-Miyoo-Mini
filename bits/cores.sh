@@ -2,6 +2,8 @@
 
 cd ./third-party/picoarch
 
+echo "$(git rev-parse --short HEAD) $(basename $PWD)" # $(git config --get remote.origin.url)
+
 shopt -s dotglob
 
 update() {
