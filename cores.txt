@@ -1,4 +1,4 @@
-4fa102b picoarch
+2ecde6e picoarch
 e880168 beetle-pce-fast
 b3c35b6 fceumm
 1553621 gambatte
@@ -6,7 +6,7 @@ b3c35b6 fceumm
 03fc2b7 gpsp
 5d48e07 mgba
 131a1b4 pcsx_rearmed
-7ff457f picodrive
+2ec448a picodrive
 684e7ea pokemini
 9de9847 smsplus-gx
 87b6523 snes9x2005
