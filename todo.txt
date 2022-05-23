@@ -4,9 +4,22 @@ Please see the README.txt in the zip file for installation and update instructio
 
 - updated button names in Advanced > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
 - fixed potential slowdowns caused by custom SDL audio implementation (thanks eggs!)
-- fixed frameskip in PlayStation core
+- fixed PlayStation frameskip
+- fixed crash in German version of Pokemon FireRed (thanks d30r!)
+- switched picoarch core to irixxxx's version for Vectorman fix (possibly only temporarily)
+- updated picoarch to warn when a core doesn't support save states, auto-poweroff, or quicksave and resume
 
 -------------------------------
+
+- i don't think picoarch has needed to use patch since I retired Union...
+- compare my core build flags to classic_armv7_a7 build flags
+
+- check AoS for ice judder result of changing from SDL_Delay back to usleep
+	- checked LA and DQ too, seems okay
+
+- can I move from snes9x2005_plus to just snes9x2005 without breaking save states
+	no
+	but I can provide plus as an extras pak for people who want to continue using it
 
 - fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
 	reverted because it comes at an unacceptable performance cost
@@ -65,7 +78,6 @@ Please see the README.txt in the zip file for installation and update instructio
 - faqs
 - known issues
 	- snes slowdown at non-native scales
-	- Vector Man 1 & 2
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
 	trap "sync && reboot && sleep 10" ERR && set -E # NO
@@ -73,6 +85,8 @@ Please see the README.txt in the zip file for installation and update instructio
 	eggs: It should be noted that in the new FW, reboot will terminate and continue to run for some time afterwards.
 
 - can picoarch detect if a core supports save states?
+	use state_allowed()
+		call a libmmenu function if not allowed, eg. ShowWarning()
 	StupidHoroscope: From my messing around with it, there's a method in libretro cores called retro_serialize_size(), and if that returns zero, save-states aren't supported.
 	https://docs.libretro.com/development/cores/developing-cores/#retro_serialize_size-retro_serialize-and-retro_unserialize 
 

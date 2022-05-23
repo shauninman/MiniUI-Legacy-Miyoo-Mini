@@ -42,6 +42,8 @@
 #define GRAY_TRIAD 0x66,0x66,0x66
 #define SHADOW25_TRIAD 0xa1,0x87,0x47
 #define SHADOW50_TRIAD 0x68,0x5a,0x35
+#define DISABLED_TRIAD 0xda,0xda,0xda
+#define DISABLED_SHADOW_TRIAD 0xc4,0xc4,0xc4
 
 typedef enum ButtonIndex {
 	kButtonUp = 0,
@@ -315,6 +317,7 @@ void enterSleep(void);
 void exitSleep(void);
 
 
+void disablePoweroff(void);
 int preventAutosleep(void);
 
 #endif

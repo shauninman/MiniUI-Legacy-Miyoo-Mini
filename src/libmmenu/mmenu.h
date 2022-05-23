@@ -23,6 +23,9 @@ typedef struct SDL_Surface SDL_Surface;
 typedef MenuReturnStatus (*ShowMenu_t)(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot, MenuRequestState requested_state, AutoSave_t autosave);
 MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot, MenuRequestState request_state, AutoSave_t autosave);
 
+typedef void (*ShowWarning_t)(void);
+void ShowWarning(void);
+
 typedef int (*ResumeSlot_t)(void);
 int ResumeSlot(void);
 

@@ -110,6 +110,41 @@ static SDL_Surface* createThumbnail(SDL_Surface* src_img) {
 	return dst_img;
 }
 
+static int state_support = 1;
+static int disable_poweroff = 0;
+void ShowWarning(void) {
+	state_support = 0;
+	disable_poweroff = 1;
+	disablePoweroff();
+	
+	screen = SDL_GetVideoSurface();
+	GFX_ready();
+	
+	SDL_Surface* okay = GFX_loadImage("okay.png");
+	SDL_BlitSurface(okay, NULL, screen, NULL);
+	GFX_blitBodyCopy(screen, "This pak does not support\nsave states, auto-power off\nor quicksave and resume.", 0,0,screen->w,406);
+	SDL_Flip(screen);
+
+	SDL_Event event;
+	int warned = 0;
+	while (!warned) {
+		while (SDL_PollEvent(&event)) {
+			if (event.type==SDL_KEYDOWN) {
+				SDLKey key = event.key.keysym.sym;
+				if (key==MINUI_A) {
+					warned = 1;
+					break;
+				}
+			}
+		}
+		SDL_Delay(200);
+	}
+	SDL_FreeSurface(okay);
+	
+	// TODO: show warning
+	// TODO: set a flag that saves aren't available
+	// TODO: disable auto-power off
+}
 
 MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot, MenuRequestState requested_state, AutoSave_t autosave) {
 	screen = SDL_GetVideoSurface();
@@ -249,6 +284,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	Input_reset();
 	
 	int gold_rgb = SDL_MapRGB(screen->format, GOLD_TRIAD);
+	int gray_rgb = SDL_MapRGB(screen->format, DISABLED_TRIAD);
 	SDL_Color gold = (SDL_Color){GOLD_TRIAD};
 	SDL_Color white = (SDL_Color){WHITE_TRIAD};
 	
@@ -269,6 +305,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	}
 	
 	if (requested_state!=kRequestMenu) { // sleep or poweroff
+		if (disable_poweroff && requested_state==kRequestPowerOff) return kStatusContinue;
 		SystemRequest(requested_state);
 		if (requested_state==kRequestPowerOff) return kStatusPowerOff;
 	}
@@ -343,7 +380,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			}
 		}
 		
-		if (dirty && (selected==kItemSave || selected==kItemLoad)) {
+		if (dirty && state_support && (selected==kItemSave || selected==kItemLoad)) {
 			sprintf(save_path, save_path_template, slot);
 			sprintf(bmp_path, "%s/%s.%d.bmp", mmenu_dir, rom_file, slot);
 			sprintf(txt_path, "%s/%s.%d.txt", mmenu_dir, rom_file, slot);
@@ -369,8 +406,10 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 					else {
 						status = kStatusContinue;
 					}
+					quit = 1;
 				break;
 				case kItemSave:
+				if (state_support) {
 					status = kStatusSaveSlot + slot;
 					SDL_Surface* preview = createThumbnail(optional_snapshot ? optional_snapshot : copy);
 					SDL_RWops* out = SDL_RWFromFile(bmp_path, "wb");
@@ -381,8 +420,12 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 					}
 					SDL_SaveBMP_RW(preview, out, 1);
 					SDL_FreeSurface(preview);
+					putInt(slot_path, slot);
+					quit = 1;
+				}
 				break;
 				case kItemLoad:
+				if (state_support) {
 					if (save_exists && total_discs) {
 						char slot_disc_name[256];
 						getFile(txt_path, slot_disc_name, 256);
@@ -395,20 +438,20 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 						}
 					}
 					status = kStatusLoadSlot + slot;
+					putInt(slot_path, slot);
+					quit = 1;
+				}
 				break;
 				case kItemAdvanced:
 					status = is_simple ? kStatusResetGame : kStatusOpenMenu;
+					quit = 1;
 				break;
 				case kItemExitGame:
 					status = kStatusExitGame;
+					quit = 1;
 				break;
 			}
-			
-			if (selected==kItemSave || selected==kItemLoad) {
-				putInt(slot_path, slot);
-			}
-			quit = 1;
-			break;
+			if (quit) break;
 		}
 		
 		unsigned long now = SDL_GetTicks();
@@ -424,7 +467,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			charge_start = now;
 		}
 
-		if (power_start && now-power_start>=1000) {
+		if (!disable_poweroff && power_start && now-power_start>=1000) {
 			SystemRequest(kRequestPowerOff);
 			status = kStatusPowerOff;
 			quit = 1;
@@ -473,16 +516,16 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 				GFX_blitSettings(screen, Screen.menu.settings.x, Screen.menu.settings.y, show_setting==1?0:(setting_value>0?1:2), setting_value,setting_min,setting_max);
 			}
 			
-			int state_support = 1; // TODO: 
-			
 			// list
 			SDL_Surface* text;
 			for (int i=0; i<kItemCount; i++) {
 				char* item = items[i];
-				int color = 1; // gold
+				int disabled = !state_support && (i==kItemSave || i==kItemLoad);
+				int color = disabled ? -1 : 1; // gray or gold
 				if (i==selected) {
-					SDL_FillRect(screen, &(SDL_Rect){Screen.menu.window.x,Screen.menu.list.y+(i*Screen.menu.list.line_height)-((Screen.menu.list.row_height-Screen.menu.list.line_height)/2),Screen.menu.window.width,Screen.menu.list.row_height}, gold_rgb);
-					color = 0; // white
+					int bg_color_rgb = disabled ? gray_rgb : gold_rgb;
+					SDL_FillRect(screen, &(SDL_Rect){Screen.menu.window.x,Screen.menu.list.y+(i*Screen.menu.list.line_height)-((Screen.menu.list.row_height-Screen.menu.list.line_height)/2),Screen.menu.window.width,Screen.menu.list.row_height}, bg_color_rgb);
+					if (!disabled) color = 0; // white
 				}
 				
 				GFX_blitText(screen, item, 2, Screen.menu.list.x, Screen.menu.list.y+(i*Screen.menu.list.line_height)+Screen.menu.list.oy, 0, color, i==selected);

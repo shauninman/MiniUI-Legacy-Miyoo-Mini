@@ -407,6 +407,8 @@ static SDL_Color white = {WHITE_TRIAD};
 static SDL_Color gray = {GRAY_TRIAD};
 static SDL_Color shadow25 = {SHADOW25_TRIAD};
 static SDL_Color shadow50 = {SHADOW50_TRIAD};
+static SDL_Color disabled = {DISABLED_TRIAD};
+static SDL_Color disabled_shadow = {DISABLED_SHADOW_TRIAD};
 
 static SDL_Surface* battery_charging;
 static SDL_Surface* battery_fill;
@@ -641,13 +643,17 @@ void GFX_blitBodyCopy(SDL_Surface* surface, char* str, int ox, int oy, int width
 	}
 }
 // this function is completely asinine, wtf was I thinking
+// TODO: this needs serious refactoring...I mean, yikes!
 int GFX_blitText(SDL_Surface* surface, char* str, int size, int x, int y, int width, int color, int has_shadow) {
-	// size=0:small,1:medium,2:large width=0:left,>0:center,<0:right, color=0:white,1:gold, no multiline
+	// size=0:small,1:medium,2:large width=0:left,>0:center,<0:right, color=-1:gray,0:white,1:gold, no multiline
 	SDL_Surface* text;
+	
+	SDL_Color shadow_color = (x==Screen.menu.list.x?(color==-1?disabled_shadow:shadow25):shadow50);
+	if (has_shadow && color==-1) color = 0;
 	
 	TTF_Font* font = size==0?font_s:(size==1?font_m:font_l);
 	int oy = size=0?Screen.font.small_oy:(size==1?Screen.font.medium_oy:Screen.font.large_oy);
-	text = TTF_RenderUTF8_Blended(font, str, has_shadow?(x==Screen.menu.list.x?shadow25:shadow50):(color?gold:white));
+	text = TTF_RenderUTF8_Blended(font, str, has_shadow?shadow_color:(color==-1?disabled:(color?gold:white)));
 	int w = text->w;
 	
 	if (width>0) x += (width - w) / 2;
@@ -656,7 +662,7 @@ int GFX_blitText(SDL_Surface* surface, char* str, int size, int x, int y, int wi
 	if (has_shadow) {
 		SDL_BlitSurface(text, NULL, surface, &(SDL_Rect){x+Screen.font.shadow.ox,y+Screen.font.shadow.oy}); 
 		SDL_FreeSurface(text);
-		text = TTF_RenderUTF8_Blended(font, str, color?gold:white);
+		text = TTF_RenderUTF8_Blended(font, str, color==-1?gray:(color?gold:white));
 	}
 	
 	// SDL_FillRect(surface, &(SDL_Rect){x,y,text->w,text->h}, white_rgb); // TODO: tmp
@@ -698,6 +704,11 @@ void GFX_blitSettings(SDL_Surface* surface, int x, int y, int icon, int value, i
 
 ///////////////////////////////////////
 
+static int can_poweroff = 1;
+void disablePoweroff(void) {
+	can_poweroff = 0;
+}
+
 void waitForWake(void) {
 	SDL_Event event;
 	int wake = 0;
@@ -713,7 +724,7 @@ void waitForWake(void) {
 			}
 		}
 		SDL_Delay(200);
-		if (SDL_GetTicks()-sleep_ticks>=120000) { // increased to two minutes
+		if (can_poweroff && SDL_GetTicks()-sleep_ticks>=120000) { // increased to two minutes
 			if (isCharging()) sleep_ticks += 60000; // check again in a minute
 			else powerOff();
 		}
@@ -771,10 +782,12 @@ int preventAutosleep(void) {
 }
 
 void powerOff(void) {
-	char* msg = exists(kAutoResumePath) ? "Quicksave created,\npowering off" : "Powering off";
-	SDL_FillRect(screen, NULL, 0);
-	GFX_blitBodyCopy(screen, msg, 0,0,Screen.width,Screen.height);
-	SDL_Flip(screen);
-	system("sync && reboot");
-	while (1) pause();
+	if (can_poweroff) {
+		char* msg = exists(kAutoResumePath) ? "Quicksave created,\npowering off" : "Powering off";
+		SDL_FillRect(screen, NULL, 0);
+		GFX_blitBodyCopy(screen, msg, 0,0,Screen.width,Screen.height);
+		SDL_Flip(screen);
+		system("sync && reboot");
+		while (1) pause();
+	}
 }
