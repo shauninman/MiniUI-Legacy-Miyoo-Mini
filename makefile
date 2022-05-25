@@ -56,6 +56,7 @@ core:
 
 emu:
 	cd ./third-party/picoarch && make platform=miyoomini -j
+	cd ./third-party/vvvvvv && make -j
 	./bits/cores.sh > ./cores.txt
 
 tools:
@@ -104,6 +105,8 @@ payload:
 	cp ./third-party/screenshot/screenshot ./build/EXTRAS/Tools/Screenshots.pak/
 	cp ./third-party/picoarch/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
 	cp ./third-party/picoarch/pokemini_libretro.so ./build/EXTRAS/Emus/PKM.pak/
+	cp ./third-party/picoarch/nxengine_libretro.so "./build/EXTRAS/Roms/Native Games (SH)/Cave Story/"
+	cp ./third-party/vvvvvv/vvvvvv "./build/EXTRAS/Roms/Native Games (SH)/VVVVVV/"
 	# cp ./third-party/picoarch/genesis-plus-gx/genesis_plus_gx_libretro.so ./build/EXTRAS/Emus/MCD.pak/
 	# cp -R ./bits/bootlogos/pak/. ./build/EXTRAS/Tools/Single-use/bootlogo.tmp
 	# cp ./third-party/logotweak/logomake/logomake ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/
