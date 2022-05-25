@@ -10,3 +10,7 @@
 	path = third-party/picoarch
 	url = git@github.com:shauninman/picoarch.git
 	branch = miniui-miyoomini
+[submodule "third-party/vvvvvv"]
+	path = third-party/vvvvvv
+	url = git@github.com:shauninman/VVVVVV.git
+	branch = miniui-miyoomini

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+show "okay.png"
+say "This pak does not support"$'\n'"save states, auto-power off"$'\n'"or quicksave and resume."$'\n'
+confirm only
