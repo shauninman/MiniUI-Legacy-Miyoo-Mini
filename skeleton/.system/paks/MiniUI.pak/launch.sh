@@ -32,11 +32,11 @@ rm -f "$SDCARD_PATH/update.log"
 export LD_LIBRARY_PATH="/mnt/SDCARD/.system/lib:$LD_LIBRARY_PATH"
 export PATH="/mnt/SDCARD/.system/bin:$PATH"
 
-# NOTE: causes performance issues on more demanding cores
-# if [ -f /customer/lib/libpadsp.so ]; then
-#     LD_PRELOAD=as_preload.so audioserver &
-#     export LD_PRELOAD=libpadsp.so
-# fi
+# NOTE: could cause performance issues on more demanding cores...maybe?
+if [ -f /customer/lib/libpadsp.so ]; then
+    LD_PRELOAD=as_preload.so audioserver &
+    export LD_PRELOAD=libpadsp.so
+fi
 
 lumon & # adjust lcd luma and saturation
 
