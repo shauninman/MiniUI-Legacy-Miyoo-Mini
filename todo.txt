@@ -6,32 +6,42 @@ Please see the README.txt in the zip file for installation and update instructio
 - fixed potential slowdowns caused by custom SDL audio implementation (thanks eggs!)
 - fixed PlayStation frameskip
 - fixed crash in German version of Pokemon FireRed (thanks d30r!)
-- switched picoarch core to irixxxx's version for Vectorman fix (possibly only temporarily)
+- switched Genesis picodrive core to irixxxx's version for Vectorman fix (possibly only temporarily)
 - updated picoarch to warn when a core doesn't support save states, auto-poweroff, or quicksave and resume
+- updated libmmenu to visually disable Save and Load if the core does not support save states
+- added Native Games to extras Roms, includes Cave Story and VVVVVV (both BYOD of course, see their individual readmes)
+- added warn binary to use when a native game doesn't support save states, auto-poweroff, or quicksave and resume
+- fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
 
 -------------------------------
 
-- i don't think picoarch has needed to use patch since I retired Union...
+===============================
+move ~/Downloads/tmp/miyoomini-toolchain-buildroot-aarch64/ somewhere permanent
+upload v0.0.3 to github release
+add libvorbis and libmad to non-arm miyoomini-toolchain-buildroot
+and upload comparable v0.0.3 there too
+for now I'm running the toolchain with a local v0.0.3 for vvvvvv
+===============================
+
+- changes cores.txt to commits.txt and note every submodule and sub-repo's commit at build time
+
+- check mystic quest after exiting in-game menu (not libmmenu)
+	- libretro/snes9x2005 doesn't have this issue
+
+- switch all cores to libretro?
+
 - compare my core build flags to classic_armv7_a7 build flags
 
-- check AoS for ice judder result of changing from SDL_Delay back to usleep
-	- checked LA and DQ too, seems okay
+- add an Extended Font.pak?
 
 - can I move from snes9x2005_plus to just snes9x2005 without breaking save states
 	no
 	but I can provide plus as an extras pak for people who want to continue using it
 
-- fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
-	reverted because it comes at an unacceptable performance cost
-	eggs: "audioserver resamples all but 48k/stereo internally, so it is possible that different rates will result in lower performance."
-
 - look into Evil_Rob's performance regression
 	he's concerned with an unofficial fba core but maybe this could explain random spell slowdowns in FFIX
 	see ~/Downloads/FBN.pak.zip
 	can't reproduce, steady 60fps with provided files
-
-- look into etra brightness from v2 screen
-	6 appears to be the minimum value there too
 
 - reports of glitchy boot logo after applying glitch fix?
 	increase sleep after lcd init
@@ -45,29 +55,12 @@ Please see the README.txt in the zip file for installation and update instructio
 	see if rewind is easy to add
 	integrate cheat support into MiniUI
 
-- added Sega CD to extras (see updated extras readme for required bios)
-	- pulled after reports of 
-		- crashes on autoresume and 
-		- extra slashes in .brm paths
-	- added to extras readme:
-		MCD: bios_CD_U.bin, bios_CD_E.bin, bios_CD_J.bin
-		
-- try removing 3x scaler, bumping to 4x where 3x is requested or down to 2x if 4x is too large
-	- FFVI runs at 45fps at 3x or 4x
-
 - look into CamOS and MI_ERRs in MiniUI and picoarch
 	- probably tied to both settings and SDL trying to restore audio volume?
 	- add logging to try to bookend the errors to identify their source then untangle the cause
 - look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
 
-- BUG: vectorman 1 and 2 fail to load on MiniUI
-	Onion is using 688c90d5bd017d21b9bcee99a4aa83c5224711a0 (Dec 29 2021)
-	latest on libretro is 22 days ago https://github.com/libretro/picodrive/commit/7ff457f2f833570013f2a7e2608ac40632e0735d
-		it was fixed 19 days ago https://github.com/irixxxx/picodrive/commit/72c2a04a9d4ae0fe52383dbf4d680849036b48a1
-	plays fine on genesis_plus_gx
-
 - add Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
-
 
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
 	tried but didn't work
@@ -77,18 +70,13 @@ Please see the README.txt in the zip file for installation and update instructio
 
 - faqs
 - known issues
-	- snes slowdown at non-native scales
+
 - document auto.sh
 	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
 	trap "sync && reboot && sleep 10" ERR && set -E # NO
 	see https://stackoverflow.com/questions/29427364/non-bash-equivalent-to-trap-err
 	eggs: It should be noted that in the new FW, reboot will terminate and continue to run for some time afterwards.
 
-- can picoarch detect if a core supports save states?
-	use state_allowed()
-		call a libmmenu function if not allowed, eg. ShowWarning()
-	StupidHoroscope: From my messing around with it, there's a method in libretro cores called retro_serialize_size(), and if that returns zero, save-states aren't supported.
-	https://docs.libretro.com/development/cores/developing-cores/#retro_serialize_size-retro_serialize-and-retro_unserialize 
 
 - BUG: say doesn't seem to respect extra line returns at end of msg
 
@@ -103,17 +91,11 @@ Please see the README.txt in the zip file for installation and update instructio
 	might have better SuperFX chip support
 
 
-- BUG: default st8 assumes first disc on multi-disc games
-	- leaving for now
-
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
 - press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
 
-
-- do another pass at defaults?
 	
-- help entry for confirm is inaccessible (args are optional so there's no good way to provide without testing for something like -h or --help)
 - auto-adjust brightness based on screen effect?
 
 change all logging from &> log to > log 2>&1
