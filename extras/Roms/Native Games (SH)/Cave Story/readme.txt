@@ -1,8 +1,4 @@
-Download either the Japanese:
-
-https://studiopixel.jp/binaries/dou_1006.zip
-
-or English game:
+Download the English translation (pre-patched) from:
 
 https://www.cavestory.org/downloads/cavestoryen.zip
 
