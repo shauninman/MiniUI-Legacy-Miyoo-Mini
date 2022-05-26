@@ -23,7 +23,8 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- changes cores.txt to commits.txt and note every submodule and sub-repo's commit at build time
+- look at the way eggs clockd works and see if we can do something similar to add libmmenu to standalones
+	- launch binary and pass it's pid to standalonemenu which listens for MENU and STOPs the previous binary?
 
 - check mystic quest after exiting in-game menu (not libmmenu)
 	- libretro/snes9x2005 doesn't have this issue
