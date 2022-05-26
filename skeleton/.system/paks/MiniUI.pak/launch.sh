@@ -1,15 +1,17 @@
 #!/bin/sh
 # MiniUI.pak
 
-# init_lcd
-cat /proc/ls
-sleep 0.5
+/mnt/SDCARD/.system/bin/blank
 
 # init backlight
 echo 0 > /sys/class/pwm/pwmchip0/export
 echo 800 > /sys/class/pwm/pwmchip0/pwm0/period
 echo 6 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+
+# init lcd
+cat /proc/ls
+sleep 0.5
 
 # init charger detection
 if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then

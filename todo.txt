@@ -12,6 +12,7 @@ Please see the README.txt in the zip file for installation and update instructio
 - added Native Games to extras Roms, includes Cave Story and VVVVVV (both BYOD of course, see their individual readmes)
 - added warn binary to use when a native game doesn't support save states, auto-poweroff, or quicksave and resume
 - fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
+- fixed post-boot logo graphical glitches
 
 -------------------------------
 
@@ -24,7 +25,7 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
 - look at the way eggs clockd works and see if we can do something similar to add libmmenu to standalones
-	- launch binary and pass it's pid to standalonemenu which listens for MENU and STOPs the previous binary?
+	- launch binary and pass it's pid to standalonemenu which listens for MENU and sends a sig STOP to the previous binary?
 
 - check mystic quest after exiting in-game menu (not libmmenu)
 	- libretro/snes9x2005 doesn't have this issue
