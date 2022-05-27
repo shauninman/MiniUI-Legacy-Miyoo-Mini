@@ -12,7 +12,8 @@ Please see the README.txt in the zip file for installation and update instructio
 - added Native Games to extras Roms, includes Cave Story and VVVVVV (both BYOD of course, see their individual readmes)
 - added warn binary to use when a native game doesn't support save states, auto-poweroff, or quicksave and resume
 - fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
-- fixed post-boot logo graphical glitches
+- fixed post-boot logo graphical glitches (may also require running the Fix Boot Graphics Glitch.pak from the extras zip)
+- switched Super Nintendo snes9x2005_plus core to libretro version
 
 -------------------------------
 
@@ -24,21 +25,44 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
+- supafaust is that good
+	eggs says non-plus 9x2005 is faster but I'm not seeing it in any meaningful way (outside fastforward speed)
+	
+	pros
+		supafaust: handles starfox, yoshi's island, ffvi without slowdown or audio crackling with aspect scaling
+		supafaust: good audio
+		snes9x2005: insane fast forward speed
+		snes9x2005_plus: good audio
+	cons
+		supafaust: fast forward is slower
+		supafaust: no frameskip
+		snes9x2005: can't handle starfox with aspect scaling (might be playing it too fast)
+		snes9x2005: less good audio
+		snes9x2005_plus: can't handle starfox at any scaling
+		
+	if I chose to switch:
+		add overrides to picoarch (settings are unreadable)
+		
+		move SFC.pak with snes9x2005_plus to extras/Emus
+		new SFC.pak with supafaust goes in .system/Emus
+		
+		if people want to continue using the original core they can add the extras version
+		this can even be done temporarily to convert states to in-game saves that the new stock version can use
+	
+
+- script checking core repos for newer commits?
+- add -base to end of main MiniUI zip file name for proper sorting in github releases
+
 - look at the way eggs clockd works and see if we can do something similar to add libmmenu to standalones
 	- launch binary and pass it's pid to standalonemenu which listens for MENU and sends a sig STOP to the previous binary?
 
-- check mystic quest after exiting in-game menu (not libmmenu)
-	- libretro/snes9x2005 doesn't have this issue
+- add snes9x2005 non-plus to Extras
 
 - switch all cores to libretro?
 
 - compare my core build flags to classic_armv7_a7 build flags
 
 - add an Extended Font.pak?
-
-- can I move from snes9x2005_plus to just snes9x2005 without breaking save states
-	no
-	but I can provide plus as an extras pak for people who want to continue using it
 
 - look into Evil_Rob's performance regression
 	he's concerned with an unofficial fba core but maybe this could explain random spell slowdowns in FFIX
@@ -86,12 +110,6 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 	using after progressui sometimes results in the image not showing
 
 - use smsplus-gx for SMS/GG?
-- look into supafaust
-	is it just the new hotness or an actual improvement over snes9x
-		is audio better or worse?
-	might have MSU-1 support, which, eh, is fine for extras but not essential
-	might have better SuperFX chip support
-
 
 - scroll long names
 	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
