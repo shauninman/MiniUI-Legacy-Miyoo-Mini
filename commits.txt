@@ -1,6 +1,6 @@
 5e600602  DinguxCommander
 56414aa0  SDL-1.2
-d5b72a89  picoarch
+d5a3cc23  picoarch
 e8801687  beetle-pce-fast
 b3c35b65  fceumm
 15536214  gambatte
