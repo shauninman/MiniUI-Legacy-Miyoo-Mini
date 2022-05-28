@@ -19,42 +19,17 @@ Please see the README.txt in the zip file for installation and update instructio
 -------------------------------
 
 ===============================
-move ~/Downloads/tmp/miyoomini-toolchain-buildroot-aarch64/ somewhere permanent
 upload v0.0.3 to github release
 add libvorbis and libmad to non-arm miyoomini-toolchain-buildroot
 and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
+- refactor picoarch
+	- add separate src and cores directories to simplify searching the source
+	
 - snes9x frameskip interval isn't hooked up to anything?
 	- restore auto frameskip (I've only observed an adverse effect with auto on SotN on PSX)
-
-- supafaust is that good
-	eggs says non-plus 9x2005 is faster but I'm not seeing it in any meaningful way (outside fastforward speed)
-	
-	pros
-		supafaust: handles starfox, yoshi's island, ffvi without slowdown or audio crackling with aspect scaling
-		supafaust: good audio
-		snes9x2005: insane fast forward speed
-		snes9x2005_plus: good audio
-	cons
-		supafaust: fast forward is slower
-		supafaust: no frameskip
-		snes9x2005: can't handle starfox with aspect scaling (might even be playing it too fast)
-		snes9x2005: less good audio
-		snes9x2005_plus: can't handle starfox at any scaling
-	
-	can I implement frameskip for better fast forward?
-		yes! how is that even possible?
-		
-	if I chose to switch:
-
-		move SFC.pak with snes9x2005_plus to extras/Emus
-		new SFC.pak with supafaust goes in .system/Emus
-		
-		if people want to continue using the original core they can add the extras version
-		this can even be done temporarily to convert states to in-game saves that the new stock version can use
-	
 
 - script checking core repos for newer commits?
 - add -base to end of main MiniUI zip file name for proper sorting in github releases
@@ -62,25 +37,13 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 - look at the way eggs clockd works and see if we can do something similar to add libmmenu to standalones
 	- launch binary and pass it's pid to standalonemenu which listens for MENU and sends a sig STOP to the previous binary?
 
-- add snes9x2005 non-plus to Extras
+- add snes9x2005 non-plus to Extras?
 
 - switch all cores to libretro?
 
 - compare my core build flags to classic_armv7_a7 build flags
 
 - add an Extended Font.pak?
-
-- look into Evil_Rob's performance regression
-	he's concerned with an unofficial fba core but maybe this could explain random spell slowdowns in FFIX
-	see ~/Downloads/FBN.pak.zip
-	can't reproduce, steady 60fps with provided files
-
-- reports of glitchy boot logo after applying glitch fix?
-	increase sleep after lcd init
-		doesn't prevent boot logo flicker
-	try undoing boot glitch fix
-		without the boot glitch fix the logo scrolls vertically
-	eggs says nothing has changed and I'm inclined to defer to his judgement
 
 - picoarch
 	truncate the common parts of a group of options, not the (usually unique) ends
