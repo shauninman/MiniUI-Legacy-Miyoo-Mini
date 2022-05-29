@@ -20,9 +20,8 @@ BUILD_GCC:=$(shell $(CROSS_COMPILE)gcc -dumpfullversion -dumpversion)
 
 RELEASE_TIME!=date +%Y%m%d
 RELEASE_BASE=MiniUI-$(RELEASE_TIME)
-RELEASE_DOT!=find ./releases/. -regex ".*/$(RELEASE_BASE)-[0-9]+\.zip" -printf '.' | wc -m
+RELEASE_DOT!=find ./releases/. -regex ".*/$(RELEASE_BASE)-[0-9]+-base\.zip" -printf '.' | wc -m
 RELEASE_NAME=$(RELEASE_BASE)-$(RELEASE_DOT)
-EXTRAS_NAME=$(RELEASE_NAME)-extras
 
 LIBC_LIB=/opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib
 BUNDLE_LIBS=
@@ -131,12 +130,12 @@ bundle:
 	cp -L /opt/miyoomini-toolchain/arm-none-linux-gnueabihf/libc/lib/libstdc++.so.6 ./build/PAYLOAD/.system/lib/
 
 zip:
-	cd ./build/PAYLOAD/.system/paks/MiniUI.pak && echo "$(RELEASE_NAME).zip\n$(BUILD_HASH)" > version.txt
+	cd ./build/PAYLOAD/.system/paks/MiniUI.pak && echo "$(RELEASE_NAME)-base.zip\n$(BUILD_HASH)" > version.txt
 	cp ./commits.txt ./build/PAYLOAD/.system/paks/MiniUI.pak
 	cd ./build/PAYLOAD && zip -r MiniUI.zip .system .tmp_update
 	mv ./build/PAYLOAD/MiniUI.zip ./build/PAYLOAD/miyoo/app/
-	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME).zip Bios Roms Saves miyoo README.txt
-	cd ./build/EXTRAS && zip -r ../../releases/$(EXTRAS_NAME).zip Bios Emus Roms Saves Tools README.txt
+	cd ./build/PAYLOAD && zip -r ../../releases/$(RELEASE_NAME)-base.zip Bios Roms Saves miyoo README.txt
+	cd ./build/EXTRAS && zip -r ../../releases/$(RELEASE_NAME)-extras.zip Bios Emus Roms Saves Tools README.txt
 	echo "$(RELEASE_NAME)" > ./build/latest.txt
 
 rezip: payload $(BUNDLE_LIBS) zip
