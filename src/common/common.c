@@ -289,7 +289,7 @@ void getDisplayName(const char* in_name, char* out_name) {
 	
 	// remove extension
 	tmp = strrchr(out_name, '.');
-	if (tmp) tmp[0] = '\0';
+	if (tmp && strlen(tmp)<=4) tmp[0] = '\0'; // 3 letter extension plus dot
 	
 	// remove trailing parens (round and square)
 	char safe_name[256];

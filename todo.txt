@@ -15,6 +15,7 @@ Please see the README.txt in the zip file for installation and update instructio
 - fixed post-boot logo graphical glitches (may also require running the Fix Boot Graphics Glitch.pak from the extras zip)
 - switched Super Nintendo snes9x2005_plus core to libretro version
 - added new Super Nintendo core to extras (this will replace the default emulator in a future update to MiniUI)
+- fixed display name generation for folders with periods in their name
 
 -------------------------------
 
