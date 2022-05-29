@@ -3,9 +3,7 @@
 # echo "$(git rev-parse --short=8 HEAD)  $(basename $PWD) ($(date "+%Y-%m-%d %H:%M:%S"))" # $(git config --get remote.origin.url)
 # echo "--------  ------"
 #
-cd ./third-party
 shopt -s dotglob
-
 update() {
     for d in "$@"; do
         test -d "$d" -a \! -L "$d" || continue
@@ -18,6 +16,10 @@ update() {
     done
 }
 
+cd ./third-party
+update *
+
+cd ./picoarch/cores
 update *
 
 echo "--------"

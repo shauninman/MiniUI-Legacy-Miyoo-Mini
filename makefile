@@ -92,22 +92,22 @@ payload:
 	cp ./src/blank/blank ./build/PAYLOAD/.system/bin/
 	cp ./src/say/say ./build/PAYLOAD/miyoo/app/
 	cp ./src/blank/blank ./build/PAYLOAD/miyoo/app/
-	cp ./third-party/picoarch/picoarch ./build/PAYLOAD/.system/bin/
-	cp ./third-party/picoarch/fceumm_libretro.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/picoarch/gambatte_libretro.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/picoarch/gpsp_libretro.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/picoarch/pcsx_rearmed_libretro.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/picoarch/picodrive_libretro.so ./build/PAYLOAD/.system/cores/
-	cp ./third-party/picoarch/snes9x2005_plus_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/output/picoarch ./build/PAYLOAD/.system/bin/
+	cp ./third-party/picoarch/output/fceumm_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/output/gambatte_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/output/gpsp_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/output/pcsx_rearmed_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/output/picodrive_libretro.so ./build/PAYLOAD/.system/cores/
+	cp ./third-party/picoarch/output/snes9x2005_plus_libretro.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/EXTRAS/Tools/Files.pak/
 	cp -r ./third-party/DinguxCommander/res ./build/EXTRAS/Tools/Files.pak/
 	cp ./third-party/screenshot/screenshot ./build/EXTRAS/Tools/Screenshots.pak/
-	cp ./third-party/picoarch/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
-	cp ./third-party/picoarch/pokemini_libretro.so ./build/EXTRAS/Emus/PKM.pak/
-	cp ./third-party/picoarch/supafaust_libretro.so ./build/EXTRAS/Emus/SFC.pak/
-	cp ./third-party/picoarch/nxengine_libretro.so "./build/EXTRAS/Roms/Native Games (SH)/Cave Story/"
+	cp ./third-party/picoarch/output/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
+	cp ./third-party/picoarch/output/pokemini_libretro.so ./build/EXTRAS/Emus/PKM.pak/
+	cp ./third-party/picoarch/output/supafaust_libretro.so ./build/EXTRAS/Emus/SFC.pak/
+	cp ./third-party/picoarch/output/nxengine_libretro.so "./build/EXTRAS/Roms/Native Games (SH)/Cave Story/"
 	cp ./third-party/vvvvvv/vvvvvv "./build/EXTRAS/Roms/Native Games (SH)/VVVVVV/"
-	# cp ./third-party/picoarch/genesis-plus-gx/genesis_plus_gx_libretro.so ./build/EXTRAS/Emus/MCD.pak/
+	# cp ./third-party/picoarch/output/genesis-plus-gx/genesis_plus_gx_libretro.so ./build/EXTRAS/Emus/MCD.pak/
 	# cp -R ./bits/bootlogos/pak/. ./build/EXTRAS/Tools/Single-use/bootlogo.tmp
 	# cp ./third-party/logotweak/logomake/logomake ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/
 	# cp ./third-party/logotweak/logowrite/logowrite ./build/EXTRAS/Tools/Single-use/bootlogo.tmp/

@@ -2,20 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- fixed audio popping when run on the 20220419 official firmware or later (thanks eggs!)
-- fixed potential slowdowns caused by custom SDL audio implementation (thanks eggs!)
-- fixed PlayStation frameskip
-- fixed crash in German version of Pokemon FireRed (thanks d30r!)
-- fixed post-boot logo graphical glitches (may also require running the Fix Boot Graphics Glitch.pak from the extras zip)
-- fixed display name generation for folders with periods in their name
-- updated Genesis picodrive core to irixxxx's version for Vectorman fix (possibly only temporarily)
-- updated Super Nintendo snes9x2005_plus core to libretro version
-- updated button names in Advanced > Options > Player controls (Pokémon mini, Game Boy Advance, TurboGrafx-16)
-- updated picoarch to warn when a core doesn't support save states, auto-poweroff, or quicksave and resume
-- updated libmmenu to visually disable Save and Load if the core does not support save states
-- added warn binary to use when a native game doesn't support save states, auto-poweroff, or quicksave and resume
-- added Native Games to extras Roms, includes Cave Story and VVVVVV (both BYOD of course, see their individual readmes)
-- added new SFC.pak to extras (this will replace the default Super Nintendo emulator in a future update to MiniUI)
+- 
 
 -------------------------------
 
@@ -26,19 +13,10 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- supafaust rename frameskip manual to auto_threshold 
-	or just threshold since we don't have separate value/display names for retro_variables?
-
 - refactor picoarch
 	separate src and cores directories to simplify searching the source
 	add core_override_fast_forward to cores I've added
 		research how this was added
-
-- snes9x frameskip interval isn't hooked up to anything?
-	- restore auto frameskip (I've only observed an adverse effect with auto on SotN on PSX)
-	- I hooked it back up but it's still not doing anything...
-		it's like frameskip_interval isn't being updated
-		it is being updated but during fastforware picoarch is overriding it to 5
 
 - script checking core repos for newer commits?
 
@@ -46,8 +24,6 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 	- launch binary and pass it's pid to standalonemenu which listens for MENU and sends a sig STOP to the previous binary?
 
 - add snes9x2005 non-plus to Extras?
-
-- switch all cores to libretro?
 
 - compare my core build flags to classic_armv7_a7 build flags
 
@@ -70,6 +46,7 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 		git submodule set-branch -b miniui-miyoomini third-party/picoarch
 	maybe
 		https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/18799234#18799234
+		this worked for everything but SDL I think
 
 - faqs
 - known issues
