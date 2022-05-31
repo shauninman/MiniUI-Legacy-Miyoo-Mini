@@ -3,7 +3,9 @@
 Please see the README.txt in the zip file for installation and update instructions.
 
 - updated hardware render path to greatly improve performance on more demanding cores with aspect or full screen scaling (thanks eggs!)
+- updated non-native scaling to even number scale factors when possible for crisper pixels (most noticeable on Super Nintendo)
 - updated frame limiting during fast forward to go even faster
+- added Reset binding to Emulator controls 
 
 -------------------------------
 
@@ -14,9 +16,8 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- picoarch non-native scaling fast-forward issues
-	tearing
-	draws over mmenu
+- block gambatte's resampler
+	default to not cos
 
 - test supafaust
 	- msu-1

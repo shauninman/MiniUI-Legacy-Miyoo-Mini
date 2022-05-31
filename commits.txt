@@ -1,6 +1,6 @@
 5e600602  DinguxCommander
 56414aa0  SDL-1.2
-bff0a5d3  picoarch
+da29f6d7  picoarch
 76e45c34  libpicofe
 88252880  libretro-common
 15e0485e  vvvvvv
