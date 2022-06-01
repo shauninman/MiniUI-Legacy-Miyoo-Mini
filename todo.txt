@@ -16,16 +16,15 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- block gambatte's resampler
-	default to not cos
+- reports of psx crashing after 15-20 minutes in 0529
+	audioserver-related?
+
+- pcsx is going through some serious changes (besides the update to v2 options)
+	wait for the dust to settle before considering updating
 
 - test supafaust
 	- msu-1
 	- marvelous
-
-- picoarch
-	add core_override_fast_forward to cores I've added
-		research how this was added
 
 - script checking core repos for newer commits?
 
