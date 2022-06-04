@@ -2,11 +2,6 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- updated hardware render path to greatly improve performance on more demanding cores with aspect or full screen scaling (thanks eggs!)
-- updated non-native scaling to even number scale factors when possible for crisper pixels (most noticeable on Super Nintendo)
-- updated frame limiting during fast forward to go even faster
-- added Reset binding to Emulator controls 
-
 -------------------------------
 
 ===============================
@@ -15,6 +10,30 @@ add libvorbis and libmad to non-arm miyoomini-toolchain-buildroot
 and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
+
+- address eggs supafaust renaming concerns
+	- figure out how to handle the difference between repo and product name
+		- this changes the name of the local repo folder 
+	- handle change in picoarch overrides and patches
+		- rename patch folder
+		- rename core_name in supafaust_overrides struct
+			- this didn't map (because the settings names changed?)
+			- no, probably becaues that change is in a header file and I didn't make clean before rebuilding (yes)
+		- will this break all settings names? :cold_sweat:
+			- no (phew!)
+	- handle change in MiniUI's makefile
+	- ugh, this will break the hidden .picoarch-SFC-supafaust config folder
+		- will need to address that in a post-update script?
+			- if old folder exists and renamed core exists rename folder to match renamed core
+			- no, won't work if they update out of order (eg. MiniUI then SFC.pak or if they have renamed the emu tag)
+		- perform update from the updated SFC.pak/launch.sh so
+			 - works if they update MiniUI on one boot and the SFC.pak on another
+			 - works if they've changed the name of the pak (eg. SUPA.pak)
+	- ugh, will this mess up save state resume paths?
+		- no (phew!)
+
+- left audioserver.mod name unchanged
+	test on April ofw
 
 - reports of psx crashing after 15-20 minutes in 0529
 	audioserver-related?
