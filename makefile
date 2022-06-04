@@ -78,7 +78,7 @@ payload:
 	cp ./src/libmsettings/libmsettings.so ./build/PAYLOAD/.system/lib/
 	cp ./src/libmmenu/libmmenu.so ./build/PAYLOAD/.system/lib/
 	cp ./third-party/latency_reduction/as_preload.so ./build/PAYLOAD/.system/lib/
-	cp ./third-party/latency_reduction/audioserver.mod ./build/PAYLOAD/.system/bin/audioserver
+	cp ./third-party/latency_reduction/audioserver.mod ./build/PAYLOAD/.system/bin/
 	cp ./third-party/SDL-1.2/build/.libs/libSDL-1.2.so.0.11.5 ./build/PAYLOAD/.system/lib/libSDL-1.2.so.0
 	cp ./src/batmon/batmon ./build/PAYLOAD/.system/bin/
 	cp ./src/keymon/keymon ./build/PAYLOAD/.system/bin/

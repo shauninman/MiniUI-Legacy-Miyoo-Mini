@@ -36,7 +36,7 @@ export PATH="/mnt/SDCARD/.system/bin:$PATH"
 
 # NOTE: could cause performance issues on more demanding cores...maybe?
 if [ -f /customer/lib/libpadsp.so ]; then
-    LD_PRELOAD=as_preload.so audioserver &
+    LD_PRELOAD=as_preload.so audioserver.mod &
     export LD_PRELOAD=libpadsp.so
 fi
 
