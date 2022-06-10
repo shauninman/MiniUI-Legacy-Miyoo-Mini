@@ -28,7 +28,7 @@ export LOGS_PATH=/mnt/SDCARD/.userdata/logs
 export CORES_PATH=/mnt/SDCARD/.system/cores
 export RES_PATH=/mnt/SDCARD/.system/res
 
-killall tee
+# killall tee # NOTE: killing tee is somehow responsible for audioserver crashes
 rm -f "$SDCARD_PATH/update.log"
 
 export LD_LIBRARY_PATH="/mnt/SDCARD/.system/lib:$LD_LIBRARY_PATH"
