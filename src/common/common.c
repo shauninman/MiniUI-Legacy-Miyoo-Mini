@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <math.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -349,6 +350,9 @@ void trimTrailingNewlines(char* line) {
 
 int exists(char* path) {
 	return access(path, F_OK)==0;
+}
+void touch(char* path) {
+	close(open(path, O_RDWR|O_CREAT, 0777));
 }
 void putFile(char* path, char* contents) {
 	FILE* file = fopen(path, "w");

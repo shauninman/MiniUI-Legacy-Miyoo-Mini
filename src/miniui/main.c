@@ -465,7 +465,7 @@ static int Entry_toggleAlt(Entry* self) {
 	char use_alt_path[256];
 	sprintf(use_alt_path, "%s/.mmenu/%s/%s.use-alt", Paths.userdataDir, emu_name, rom_name);
 	
-	if (self->use_alt) close(open(use_alt_path, O_RDWR|O_CREAT, 0777)); // basically touch
+	if (self->use_alt==1) touch(use_alt_path);
 	else unlink(use_alt_path);
 		
 	return 1;
@@ -759,21 +759,7 @@ static void readyResumePath(char* rom_path, int type) {
 	
 	can_resume = exists(slot_path);
 }
-// NOTE: this has been disabled, didn't feel right
-static void readyResumeRecent(void) {
-	for (int i=0; i<recents->count; i++) {
-		Recent* recent = recents->items[i];
-		if (!recent->available) continue;
-		
-		char sd_path[256];
-		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
-		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
-		readyResumePath(sd_path, type);
-		break;
-	}
-} 
 static void readyResume(Entry* entry) {
-	// if (exactMatch(Paths.fauxRecentDir, entry->path)) return readyResumeRecent(); // special case
 	readyResumePath(entry->path, entry->type);
 }
 
@@ -878,30 +864,7 @@ static void openRom(char* path, char* last) {
 	saveLast(last==NULL ? sd_path : last);
 	queueNext(cmd);
 }
-static int openRecent(void) {
-	// gotta look it up first (could we store this?)
-	for (int i=0; i<recents->count; i++) {
-		Recent* recent = recents->items[i];
-		if (!recent->available) continue;
-		
-		char sd_path[256];
-		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
-		
-		// if (suffixMatch(".pak", path)) {
-		// 	openPak(sd_path);
-		// }
-		// else {
-			openRom(sd_path, Paths.rootDir);
-		// }
-		return 1;
-	}
-	return 0;
-}
 static void openDirectory(char* path, int auto_launch) {
-	if (should_resume && exactMatch(Paths.fauxRecentDir, path)) {
-		if (openRecent()) return;
-	}
-	
 	char auto_path[256];
 	if (hasCue(path, auto_path) && auto_launch) {
 		openRom(auto_path, path);
