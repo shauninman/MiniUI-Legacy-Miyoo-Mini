@@ -3,6 +3,7 @@
 Please see the README.txt in the zip file for installation and update instructions.
 
 - renamed SFC.pak extras core (build process was stripping the mednafen_ prefix, change should have no impact on users)
+- fixed audioserver crashing after opening and closing a bunch of games (thanks eggs)
 
 -------------------------------
 
@@ -13,21 +14,6 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- MiniUI failing to boot on subsquent launches (unless powered?)
-	might be sd card related
-	https://www.reddit.com/r/MiyooMini/comments/v7plxb/miniui_does_not_consistently_load_when_powering/
-	eggs points out that even reboot && sleep 10 won't work if the shell crashes
-	add `killall main` to (could have bad repercussions, eg. a boot loop)
-		MiniUI.pak/launch.sh
-		/miyoo/app/MainUI
-	
-	is it related to the updated bootcmd in april ofw
-		does the Fix Boot Graphics Glitch patch also fix this issue (which might explain why I'm not encountering it)
-		
-	01 gpio output 85 1; bootlogo 0 0 0 0 0; gpio output 4 1; mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1;                                bootm 0x22000000
-	04 gpio output 85 1; bootlogo 0 0 0 0 0;                  mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1; sleepms 1000; gpio output 4 1; bootm 0x22000000
-	EG gpio output 85 1; bootlogo 0 0 0 0 0;                  mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1;               gpio output 4 1; bootm 0x22000000
-
 - picoarch
 	saves created with a custom binding aren't registered in MiniUI or libmmenu
 	that's going to be hard to fix...
@@ -35,10 +21,39 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 		maybe its only being reset in mmenu and not picoarch?
 
 - confirm that current time is written on power off
-
 - did I ever test low battery on new aspect/fullscreen?
 
+- Tools/
+	Scaling/
+		Pixel Perfectionist or Pixel Perfect
+		Aspect Aficionado	or Always Aspect
+		Fullscreen Fanatic  or Really? Fullscreen?
+
+- apply boot fix on install/update
+- make a shutdown script to
+	store datetime
+	sync
+	reboot
+	sleep
+
+- MiniUI failing to boot on subsquent launches (unless powered?)
+	might be sd card related
+	https://www.reddit.com/r/MiyooMini/comments/v7plxb/miniui_does_not_consistently_load_when_powering/
+	it was the sd card
+	
+	is it related to the updated bootcmd in april ofw
+		does the Fix Boot Graphics Glitch patch also fix this issue (which might explain why I'm not encountering it) probably not
+		might just be an incompatible SD card as it works fine with the stock card
+		doesn't seem to be tied to U3 vs U1 rating
+		
+	01 gpio output 85 1; bootlogo 0 0 0 0 0; gpio output 4 1; mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1;                                bootm 0x22000000
+	04 gpio output 85 1; bootlogo 0 0 0 0 0;                  mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1; sleepms 1000; gpio output 4 1; bootm 0x22000000
+	EG gpio output 85 1; bootlogo 0 0 0 0 0;                  mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1;               gpio output 4 1; bootm 0x22000000
+
+
+
 - reimplement compatiblity/performance core toggle
+	- I don't love the UI or complexity this introduces
 	- test the hell out of this
 		- eg. it's currently breaking resume, it loads in the default core even if it was powered off in the alt core
 	- should these be special paks in extras? probably since changing core could result in save data loss (or the appearance of)
@@ -70,24 +85,12 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 		- buttons too!
 	- patch in interval?
 
-- Tools/
-	Scaling/
-		Pixel Perfectionist or Pixel Perfect
-		Aspect Aficionado	or Always Aspect
-		Fullscreen Fanatic  or Really? Fullscreen?
-
 - can virtual boy be optimized at all?
 	- are both screens rendered even though only one is used?
 	- add frameskip?
 
-- left audioserver.mod name unchanged
-	test on April ofw
-
 - sm64 port?
 	https://github.com/FunKey-Project/sm64-port/commit/095739d30de69c8a2d852bd9166305a3d576e4c3
-
-- reports of psx crashing after 15-20 minutes in 0529
-	audioserver-related?
 
 - pcsx is going through some serious changes (besides the update to v2 options)
 	wait for the dust to settle before considering updating
