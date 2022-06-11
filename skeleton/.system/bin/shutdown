@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo `date +'%F %T'` > "$DATETIME_PATH"
+sync
+reboot
+sleep 10

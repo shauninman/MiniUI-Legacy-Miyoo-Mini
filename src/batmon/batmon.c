@@ -101,7 +101,7 @@ int main(void) {
 	close(fb0_fd);
 	
 	if (!launch) {
-		system("sync && reboot");
+		system("shutdown");
 		while (1) pause();
 	}
 	

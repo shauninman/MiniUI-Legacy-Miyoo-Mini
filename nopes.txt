@@ -26,6 +26,16 @@ add Time Limit.pak
 support paks in arbitrary folders?
 	eh, why?
 
+Tools
+	Scaling
+		Pixel Perfect
+		Always Aspect
+	no. overrides, especially in a completely different location from where they're normaly set is bad
+
+apply boot fix on install/update
+	I have reservations about this since it's a one time thing
+	we don't need to be touching nand every install/update
+		
 Settings
 	Version	(2022-02-22 12:34:56)
 	Automatic Update (when present on SD card)

@@ -2,8 +2,9 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- renamed SFC.pak extras core (build process was stripping the mednafen_ prefix, change should have no impact on users)
-- fixed audioserver crashing after opening and closing a bunch of games (thanks eggs)
+- fixed audioserver crashing after opening and closing multiple games (thanks eggs)
+- fixed saving datetime when powering off in game
+- updated extras SFC.pak, renamed core (build process was stripping the mednafen_ prefix)
 
 -------------------------------
 
@@ -16,74 +17,14 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 
 - picoarch
 	saves created with a custom binding aren't registered in MiniUI or libmmenu
-	that's going to be hard to fix...
-	if launched with slot 8 reset slot index to last used (I think it's supposed to be doing that)
-		maybe its only being reset in mmenu and not picoarch?
+		that's going to be hard to fix...
+		picoarch needs to be able to query last used slot and 
+			log a save to mmenu 
+				including passing an optional screenshot
+			even load requires mmenu in case they're are multiple discs involved
+		ffffffuuuuu
 
-- confirm that current time is written on power off
 - did I ever test low battery on new aspect/fullscreen?
-
-- Tools/
-	Scaling/
-		Pixel Perfectionist or Pixel Perfect
-		Aspect Aficionado	or Always Aspect
-		Fullscreen Fanatic  or Really? Fullscreen?
-
-- apply boot fix on install/update
-- make a shutdown script to
-	store datetime
-	sync
-	reboot
-	sleep
-
-- MiniUI failing to boot on subsquent launches (unless powered?)
-	might be sd card related
-	https://www.reddit.com/r/MiyooMini/comments/v7plxb/miniui_does_not_consistently_load_when_powering/
-	it was the sd card
-	
-	is it related to the updated bootcmd in april ofw
-		does the Fix Boot Graphics Glitch patch also fix this issue (which might explain why I'm not encountering it) probably not
-		might just be an incompatible SD card as it works fine with the stock card
-		doesn't seem to be tied to U3 vs U1 rating
-		
-	01 gpio output 85 1; bootlogo 0 0 0 0 0; gpio output 4 1; mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1;                                bootm 0x22000000
-	04 gpio output 85 1; bootlogo 0 0 0 0 0;                  mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1; sleepms 1000; gpio output 4 1; bootm 0x22000000
-	EG gpio output 85 1; bootlogo 0 0 0 0 0;                  mw 1f001cc0 11; gpio out 8 0; sf probe 0;sf read 0x22000000 ${sf_kernel_start} ${sf_kernel_size}; gpio out 8 1;               gpio output 4 1; bootm 0x22000000
-
-
-
-- reimplement compatiblity/performance core toggle
-	- I don't love the UI or complexity this introduces
-	- test the hell out of this
-		- eg. it's currently breaking resume, it loads in the default core even if it was powered off in the alt core
-	- should these be special paks in extras? probably since changing core could result in save data loss (or the appearance of)
-
-	- disable toggle in simple mode
-	- separate alt and primary .mmenu folders
-		- but use primary for .use-alt files
-	- add core name to picoarch main menu
-	- reconsider UI
-		- two dots?
-		- replace B instead off adding to left side buttons
-		- toggle is a one time thing, show a dialog instead of flare?
-			- can the pak provide a description of what each does? buttons are B:CANCEL or A:CHANGE? B:DEFAULT or A:ALT?
-			- eg. The default prioritizes compatibility while the alternate might offer better performance in certain games.
-			- or. The default prioritizes compatibility while the alternate supports rumble.
-			- or. The default prioritizes compatibliity while the alternate offers Super Game Boy borders.
-	- SFC
-		snes9x2005_plus
-		mednafen_supafaust
-	- GB/GBC
-		gambatte
-		mgba
-	- GBA
-		gpsp
-		mgba
-	- setup mgba overrides
-		- Skip BIOS Intro = enabled
-		- Frameskip Interval = 4 (or 3?)
-		- buttons too!
-	- patch in interval?
 
 - can virtual boy be optimized at all?
 	- are both screens rendered even though only one is used?

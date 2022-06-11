@@ -238,7 +238,7 @@ int main (int argc, char *argv[]) {
 		
 		if (menu_pressed && power_pressed) {
 			menu_pressed = power_pressed = 0;
-			system("sync && reboot");
+			system("shutdown");
 			while (1) pause();
 		}
 	}

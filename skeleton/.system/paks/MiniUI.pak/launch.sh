@@ -27,6 +27,7 @@ export USERDATA_PATH=/mnt/SDCARD/.userdata
 export LOGS_PATH=/mnt/SDCARD/.userdata/logs
 export CORES_PATH=/mnt/SDCARD/.system/cores
 export RES_PATH=/mnt/SDCARD/.system/res
+export DATETIME_PATH=$USERDATA_PATH/.miniui/datetime.txt # used by bin/shutdown
 
 # killall tee # NOTE: killing tee is somehow responsible for audioserver crashes
 rm -f "$SDCARD_PATH/update.log"
@@ -54,7 +55,6 @@ mkdir -p "$USERDATA_PATH/.mmenu"
 mkdir -p "$USERDATA_PATH/.miniui"
 
 # init datetime
-DATETIME_PATH=$USERDATA_PATH/.miniui/datetime.txt
 if [ -f "$DATETIME_PATH" ]; then
 	DATETIME=`cat "$DATETIME_PATH"`
 	date +'%F %T' -s "$DATETIME"
@@ -101,4 +101,4 @@ while [ -f "$EXEC_PATH" ]; do
 	fi
 done
 
-reboot # just in case
+shutdown # just in case
