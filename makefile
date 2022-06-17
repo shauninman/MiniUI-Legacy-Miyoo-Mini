@@ -63,6 +63,7 @@ tools:
 	cd ./third-party/screenshot && make
 	cd ./third-party/logotweak/logomake && make
 	cd ./third-party/logotweak/logowrite && make
+	cd ./src/clock && make
 
 payload:
 	rm -rf ./build
@@ -100,6 +101,7 @@ payload:
 	cp ./third-party/picoarch/output/picodrive_libretro.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/picoarch/output/snes9x2005_plus_libretro.so ./build/PAYLOAD/.system/cores/
 	cp ./third-party/DinguxCommander/output/DinguxCommander ./build/EXTRAS/Tools/Files.pak/
+	cp ./src/clock/clock ./build/EXTRAS/Tools/Clock.pak/
 	cp -r ./third-party/DinguxCommander/res ./build/EXTRAS/Tools/Files.pak/
 	cp ./third-party/screenshot/screenshot ./build/EXTRAS/Tools/Screenshots.pak/
 	cp ./third-party/picoarch/output/beetle-pce-fast_libretro.so ./build/EXTRAS/Emus/PCE.pak/mednafen_pce_fast_libretro.so
