@@ -16,6 +16,8 @@ typedef enum MenuRequestState {
 	kRequestMenu,
 	kRequestSleep,
 	kRequestPowerOff,
+	kRequestSave,
+	kRequestLoad,
 } MenuRequestState;
 
 typedef void (*AutoSave_t)(void);

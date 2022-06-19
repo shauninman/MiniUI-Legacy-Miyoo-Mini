@@ -140,13 +140,161 @@ void ShowWarning(void) {
 		SDL_Delay(200);
 	}
 	SDL_FreeSurface(okay);
+}
+
+// TODO: look at common data between SaveLoad and ShowMenu and determine which can be determined once and cached
+
+static MenuReturnStatus SaveLoad(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot, MenuRequestState requested_state, AutoSave_t autosave) {
+	int status = kStatusContinue;
+	if (!state_support) return status;
 	
-	// TODO: show warning
-	// TODO: set a flag that saves aren't available
-	// TODO: disable auto-power off
+	char *tmp;
+	char rom_file[256]; // with extension
+	char slot_path[256];
+	char emu_name[256];
+	char mmenu_dir[256];
+	char txt_path[256];
+	
+	tmp = strrchr(rom_path,'/');
+	if (tmp==NULL) tmp = rom_path;
+	else tmp += 1;
+	strcpy(rom_file, tmp);
+	
+	getEmuName(rom_path, emu_name);
+	sprintf(mmenu_dir, "%s/.mmenu/%s", getenv("USERDATA_PATH"), emu_name);
+	mkdir(mmenu_dir, 0755);
+	
+	sprintf(txt_path, "%s/%s.%d.txt", mmenu_dir, rom_file, slot);
+	
+	// does this game have an m3u?
+	int rom_disc = -1;
+	int disc = rom_disc;
+	int total_discs = 0;
+	char disc_name[16];
+	char* disc_paths[9]; // up to 9 paths, Arc the Lad Collection is 7 discs
+
+	// construct m3u path based on parent directory
+	// essentially hasM3u() from MiniUI but we use the building blocks as well
+	char m3u_path[256];
+	strcpy(m3u_path, rom_path);
+	tmp = strrchr(m3u_path, '/') + 1;
+	tmp[0] = '\0';
+
+	// path to parent directory
+	char base_path[256]; // used below too when status==kItemSave
+	strcpy(base_path, m3u_path);
+
+	tmp = strrchr(m3u_path, '/');
+	tmp[0] = '\0';
+
+	// get parent directory name
+	char dir_name[256];
+	tmp = strrchr(m3u_path, '/');
+	strcpy(dir_name, tmp);
+
+	// dir_name is also our m3u file name
+	tmp = m3u_path + strlen(m3u_path); 
+	strcpy(tmp, dir_name);
+
+	// add extension
+	tmp = m3u_path + strlen(m3u_path);
+	strcpy(tmp, ".m3u");
+	
+	if (exists(m3u_path)) {
+		// share saves across multi-disc games
+		strcpy(rom_file, dir_name);
+		tmp = rom_file + strlen(rom_file);
+		strcpy(tmp, ".m3u");
+		
+		//read m3u file
+		FILE* file = fopen(m3u_path, "r");
+		if (file) {
+			char line[256];
+			while (fgets(line,256,file)!=NULL) {
+				int len = strlen(line);
+				if (len>0 && line[len-1]=='\n') {
+					line[len-1] = 0; // trim newline
+					len -= 1;
+					if (len>0 && line[len-1]=='\r') {
+						line[len-1] = 0; // trim Windows newline
+						len -= 1;
+					}
+				}
+				if (len==0) continue; // skip empty lines
+		
+				char disc_path[256];
+				strcpy(disc_path, base_path);
+				tmp = disc_path + strlen(disc_path);
+				strcpy(tmp, line);
+				
+				// found a valid disc path
+				if (exists(disc_path)) {
+					disc_paths[total_discs] = strdup(disc_path);
+					// matched our current disc
+					if (exactMatch(disc_path, rom_path)) {
+						rom_disc = total_discs;
+						disc = rom_disc;
+						sprintf(disc_name, "Disc %i", disc+1);
+					}
+					total_discs += 1;
+				}
+			}
+			fclose(file);
+		}
+	}
+	
+	// m3u path may change rom_file
+	sprintf(slot_path, "%s/%s.txt", mmenu_dir, rom_file);
+	if (exists(slot_path)) slot = getInt(slot_path);
+	if (slot==8) slot = 0;
+	
+	if (requested_state==kRequestSave) {
+		if (!optional_snapshot) optional_snapshot = SDL_GetVideoSurface();
+
+		char bmp_path[256];
+		sprintf(bmp_path, "%s/%s.%d.bmp", mmenu_dir, rom_file, slot);
+	
+		status = kStatusSaveSlot + slot;
+		SDL_Surface* preview = createThumbnail(optional_snapshot);
+		SDL_RWops* out = SDL_RWFromFile(bmp_path, "wb");
+		if (total_discs) {
+			char* disc_path = disc_paths[disc];
+			putFile(txt_path, disc_path + strlen(base_path));
+			sprintf(bmp_path, "%s/%s.%d.bmp", mmenu_dir, rom_file, slot);
+		}
+		SDL_SaveBMP_RW(preview, out, 1);
+		SDL_FreeSurface(preview);
+		putInt(slot_path, slot);
+	}
+	else if (requested_state==kRequestLoad) {
+		char save_path[256];
+		sprintf(save_path, save_path_template, slot);
+		
+		if (exists(save_path) && total_discs) {
+			char slot_disc_name[256];
+			getFile(txt_path, slot_disc_name, 256);
+			char slot_disc_path[256];
+			if (slot_disc_name[0]=='/') strcpy(slot_disc_path, slot_disc_name);
+			else sprintf(slot_disc_path, "%s%s", base_path, slot_disc_name);
+			char* disc_path = disc_paths[disc];
+			if (!exactMatch(slot_disc_path, disc_path)) {
+				putFile(kChangeDiscPath, slot_disc_path);
+			}
+		}
+		status = kStatusLoadSlot + slot;
+		putInt(slot_path, slot);
+	}
+	
+	for (int i=0; i<total_discs; i++) {
+		free(disc_paths[i]);
+	}
+	
+	return status;
 }
 
 MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface* optional_snapshot, MenuRequestState requested_state, AutoSave_t autosave) {
+	if (requested_state==kRequestSave || requested_state==kRequestLoad) return SaveLoad(rom_path, save_path_template, optional_snapshot, requested_state, autosave);
+	
 	screen = SDL_GetVideoSurface();
 	
 	GFX_ready();
@@ -311,7 +459,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	}
 	
 	char save_path[256];
-	char bmp_path[324];
+	char bmp_path[256];
 	char txt_path[256];
 	int save_exists = 0;
 	int preview_exists = 0;
@@ -408,6 +556,8 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 					}
 					quit = 1;
 				break;
+				
+				// TODO: this code is duplicated in SaveLoad()
 				case kItemSave:
 				if (state_support) {
 					status = kStatusSaveSlot + slot;
