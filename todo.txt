@@ -2,9 +2,12 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- fixed audioserver crashing after opening and closing multiple games (thanks eggs)
+- fixed low battery icon flicker in game at non-native scales
 - fixed saving datetime when powering off in game
-- updated extras SFC.pak, renamed core (build process was stripping the mednafen_ prefix)
+- fixed audioserver crashing after opening and closing multiple games (thanks eggs)
+- fixed save states created with custom bindings (now behave like native MiniUI save states) 
+- updated SFC.pak in extras, renamed core (build process was stripping the mednafen_ prefix)
+- added Clock.pak to extras (view or set datetime in absence of an RTC)
 
 -------------------------------
 
@@ -15,23 +18,39 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- picoarch
-	saves created with a custom binding aren't registered in MiniUI or libmmenu
-		that's going to be hard to fix...
-		picoarch needs to be able to query last used slot and 
-			log a save to mmenu 
-				including passing an optional screenshot
-			even load requires mmenu in case they're are multiple discs involved
-		ffffffuuuuu
+- mmenu keyrepeat isn't working
 
-- did I ever test low battery on new aspect/fullscreen?
+- quicksave and power off when /tmp/battery hits 5?
+	change message when performing emergency power off
+	maybe handle in keymon? then signal picoarch to shutdown
+
+- maybe only change the bootcmd if "sleep" is present?
+
+- revisit defaults and overrides for gambatte and mgba
+	- mgba needs rumble strength setting
+
+- disable alt changing in Simple mode (but honor previously configured alts)
+
+- move Y:ALT logic into picoarch with a Cores option in the top level menu?
+	pass multiple cores (in quotes?) to picoarch 
+		split on space (or comma?)
+		if doesn't start with a slash then prefix with CORE_PATH
+		if doesn't end with _libretro.so add it
+	use_core value stored in .picoarch/GB/picoarch.core or gamename.core
+	this was a disaster see local aborted-cores branch of picoarch
+
+- move all picoarch userdata folders into: 
+	.picoarch/EMU_TAG/CORE_NAME/
+	still?
+
+- picoarch
+	limit ff speed?
+		poked at this, seemed simple enough but was more complicated when it came to actually implementing
+		look at retroarch for ideas?
 
 - can virtual boy be optimized at all?
 	- are both screens rendered even though only one is used?
 	- add frameskip?
-
-- sm64 port?
-	https://github.com/FunKey-Project/sm64-port/commit/095739d30de69c8a2d852bd9166305a3d576e4c3
 
 - pcsx is going through some serious changes (besides the update to v2 options)
 	wait for the dust to settle before considering updating
