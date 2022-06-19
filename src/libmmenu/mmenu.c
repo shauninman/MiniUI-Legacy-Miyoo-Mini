@@ -605,6 +605,9 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	SDL_EnableKeyRepeat(0,0);
 	
 	// if (SDL_MUSTLOCK(screen)) SDL_LockSurface(screen); // fix for regba?
+	for (int i=0; i<total_discs; i++) {
+		free(disc_paths[i]);
+	}
 	
 	return status;
 }
