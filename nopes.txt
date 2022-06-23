@@ -1,3 +1,9 @@
+alt core UI
+	I figured out what I don't like about this:
+		it forces a user to think about emulator meta in the launcher
+		and creates an opportunity for indecision instead of helping
+		them get out of their own way and just enjoy playing games
+
 Pak Management
 	installs/uninstalls paks?
 	nah, you have to do the SD card shuffle anyways to add roms and bios, just do it manually

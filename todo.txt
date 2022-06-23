@@ -14,9 +14,6 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- revisit alt UI
-	only make available in extras
-
 - mmenu keyrepeat isn't working
 
 - quicksave and power off when /tmp/battery hits 5?
