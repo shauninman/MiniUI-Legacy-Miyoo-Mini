@@ -10,12 +10,8 @@ see if we can get access to the dmg grid color somehow
 	limit dmg to just gambatte and pokemini?
 		would still available on GBC games 
 
-Native Games (PAK)
-	supports .pak/launch.sh
-		see Cave Story.pak (not great)
-	needs to disable SAVE/LOAD and auto power off (and no auto-save messages on manual power off)
-	also the m3u must be named Cave Story.pak.m3u but then only the m3u extension is removed in getDisplayName()
-	too much trouble
+when resuming a quicksave set previous path to Recently Played
+	it was disorienting in practice (because there's no current directory label)
 
 add Time Limit.pak
 	set duration
@@ -37,6 +33,8 @@ apply boot fix on install/update
 	we don't need to be touching nand every install/update
 		
 Settings
+	NO SETTINGS!
+
 	Version	(2022-02-22 12:34:56)
 	Automatic Update (when present on SD card)
 		Disabled

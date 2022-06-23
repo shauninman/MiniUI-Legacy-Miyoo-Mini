@@ -763,6 +763,9 @@ static void readyResume(Entry* entry) {
 	readyResumePath(entry->path, entry->type);
 }
 
+static void saveLast(char* path);
+static void loadLast(void);
+
 static int autoResume(void) {
 	// NOTE: bypasses recents
 
@@ -791,12 +794,10 @@ static int autoResume(void) {
 	sprintf(cmd, "\"%s\" \"%s\"", emu_path, sd_path);
 	putFile(kResumeSlotPath, kAutoResumeSlot);
 
+	// putFile(kLastPath, Paths.fauxRecentDir); // saveLast() will crash here because top is NULL
 	queueNext(cmd);
 	return 1;
 }
-
-static void saveLast(char* path);
-static void loadLast(void);
 
 static void openPak(char* path) {
 	char cmd[256];
