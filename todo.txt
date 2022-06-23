@@ -3,7 +3,7 @@
 Please see the README.txt in the zip file for installation and update instructions.
 
 - added "Max FF speed" to `Advanced > Options > Audio and video` (thanks eggs!)
-- 
+- fixed RESUME button hint appearing on version screen
 
 -------------------------------
 
