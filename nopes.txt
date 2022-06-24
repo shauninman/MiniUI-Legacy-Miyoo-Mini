@@ -1,3 +1,7 @@
+keyrepeat doesn't work in in-game menu
+	this is intentional so you can't accidentally choose 
+	Load instead of Save by holding the button too long
+
 alt core UI
 	I figured out what I don't like about this:
 		it forces a user to think about emulator meta in the launcher

@@ -1030,15 +1030,12 @@ int main (int argc, char *argv[]) {
 	int setting_value = 0;
 	int setting_min = 0;
 	int setting_max = 0;
-	int select_is_locked = 0; // rs90-only
-	int select_was_locked = 0;
 	int delay_start = 0;
 	int delay_select = 0;
 	unsigned long cancel_start = SDL_GetTicks();
 	unsigned long power_start = 0;
 	while (!quit) {
 		unsigned long frame_start = SDL_GetTicks();
-		int select_was_pressed = Input_isPressed(kButtonSelect); // rs90-only
 		
 		Input_poll();
 			
@@ -1112,8 +1109,7 @@ int main (int argc, char *argv[]) {
 				}
 			}
 			
-			// NOTE: && !Input_justReleased(kButtonSelect) is for RS90
-			if (!Input_isPressed(kButtonStart) && !Input_isPressed(kButtonSelect) && !Input_justReleased(kButtonSelect)) { 
+			if (!Input_isPressed(kButtonStart) && !Input_isPressed(kButtonSelect)) { 
 				if (Input_justRepeated(kButtonL)) { // previous alpha
 					Entry* entry = top->entries->items[selected];
 					int i = entry->alpha-1;
@@ -1217,7 +1213,7 @@ int main (int argc, char *argv[]) {
 			setting_min = MIN_BRIGHTNESS;
 			setting_max = MAX_BRIGHTNESS;
 		}
-		else if ((Input_isPressed(kButtonSelect) || select_is_locked) && !delay_select) {
+		else if (Input_isPressed(kButtonSelect) && !delay_select) {
 			show_setting = 2;
 			setting_value = GetVolume();
 			setting_min = MIN_VOLUME;

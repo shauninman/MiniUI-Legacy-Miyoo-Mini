@@ -4,6 +4,7 @@ Please see the README.txt in the zip file for installation and update instructio
 
 - added "Max FF speed" to `Advanced > Options > Audio and video` (thanks eggs!)
 - fixed RESUME button hint appearing on version screen
+- updated installer/updater to update the bootcmd if necessary
 
 -------------------------------
 
@@ -14,18 +15,13 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- mmenu keyrepeat isn't working
+- BUG: I think show et al need to make sure pan is set to 0,0?
+	using after progressui sometimes results in the image not showing
+	also affects https://github.com/schmurtzm/Miyoo-Mini-easy-logotweak/
 
 - quicksave and power off when /tmp/battery hits 5?
 	change message when performing emergency power off
 	maybe handle in keymon? then signal picoarch to shutdown
-
-- maybe only change the bootcmd if "sleep" is present? eg.
-
-	OLD_CMD=`/etc/fw_printenv bootcmd`
-	if [[ "$OLD_CMD" == *"sleepms"* ]]; then
-		echo "update bootcmd"
-	fi
 
 - revisit defaults and overrides for gambatte and mgba
 	- mgba needs rumble strength setting
@@ -88,9 +84,6 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 	eggs: It should be noted that in the new FW, reboot will terminate and continue to run for some time afterwards.
 
 - BUG: say doesn't seem to respect extra line returns at end of msg
-
-- BUG: I think show et al need to make sure pan is set to 0,0?
-	using after progressui sometimes results in the image not showing
 
 - use smsplus-gx for SMS/GG?
 

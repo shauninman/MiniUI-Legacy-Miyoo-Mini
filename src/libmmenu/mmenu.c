@@ -464,15 +464,12 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 	int save_exists = 0;
 	int preview_exists = 0;
 	
-	// TODO: remove is_locked logic
-	
 	int quit = 0;
 	int dirty = 1;
 	int show_setting = 0; // 1=brightness,2=volume
 	int setting_value = 0;
 	int setting_min = 0;
 	int setting_max = 0;
-	int select_is_locked = 0; // rs90-only
 	unsigned long cancel_start = SDL_GetTicks();
 	int was_charging = isCharging();
 	unsigned long charge_start = SDL_GetTicks();
@@ -482,14 +479,6 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 		int select_was_pressed = Input_isPressed(kButtonSelect); // rs90-only
 		
 		Input_poll();
-		
-		// rs90-only
-		if (select_was_pressed && Input_justReleased(kButtonSelect) && Input_justPressed(kButtonL)) {
-			select_is_locked = 1;
-		}
-		else if (select_is_locked && Input_justReleased(kButtonL)) {
-			select_is_locked = 0;
-		}
 		
 		if (Input_justPressed(kButtonUp)) {
 			selected -= 1;
@@ -649,7 +638,7 @@ MenuReturnStatus ShowMenu(char* rom_path, char* save_path_template, SDL_Surface*
 			setting_min = MIN_BRIGHTNESS;
 			setting_max = MAX_BRIGHTNESS;
 		}
-		else if (Input_isPressed(kButtonSelect) || select_is_locked) {
+		else if (Input_isPressed(kButtonSelect)) {
 			show_setting = 2;
 			setting_value = GetVolume();
 			setting_min = MIN_VOLUME;
