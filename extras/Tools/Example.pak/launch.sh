@@ -3,23 +3,21 @@
 DIR=$(dirname "$0")
 cd "$DIR"
 
-# TODO: something about this causes the next show to not actually show anything :thinking_face:
+progressui &
 
-# progressui &
-#
-# progress 0 "Sorry to make you wait"
-# sleep 0.5
-#
-# progress 33 "Practice makes progress"
-# sleep 0.5
-#
-# progress 66 "Not much longer now"
-# sleep 0.5
-#
-# progress 100 "That wasn't so bad"
-# sleep 1
-#
-# progress quit
+progress 0 "Sorry to make you wait"
+sleep 0.5
+
+progress 33 "Practice makes progress"
+sleep 0.5
+
+progress 66 "Not much longer now"
+sleep 0.5
+
+progress 100 "That wasn't so bad"
+sleep 1
+
+progress quit
 
 show confirm.png
 say "So, do you want to do the thing?"$'\n'

@@ -4,7 +4,7 @@ Please see the README.txt in the zip file for installation and update instructio
 
 - added "Max FF speed" to `Advanced > Options > Audio and video` (thanks eggs!)
 - fixed RESUME button hint appearing on version screen
-- updated installer/updater to update the bootcmd if necessary
+- updated installer/updater to update the bootcmd (only if necessary)
 
 -------------------------------
 
@@ -17,7 +17,9 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 
 - BUG: I think show et al need to make sure pan is set to 0,0?
 	using after progressui sometimes results in the image not showing
+		can no longer reproduce
 	also affects https://github.com/schmurtzm/Miyoo-Mini-easy-logotweak/
+		this was result of jpgr using SDL and calling SDL_Quit()
 
 - quicksave and power off when /tmp/battery hits 5?
 	change message when performing emergency power off
