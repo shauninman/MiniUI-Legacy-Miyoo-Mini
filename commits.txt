@@ -1,10 +1,11 @@
 5e600602  DinguxCommander
-5539e3e6  SDL-1.2
-b752a7e8  picoarch
+608ebfc1  SDL-1.2
+7bce77e5  picoarch
 76e45c34  libpicofe
 88252880  libretro-common
 15e0485e  vvvvvv
 e8801687  beetle-pce-fast
+0b9ea388  beetle-vb
 b3c35b65  fceumm
 15536214  gambatte
 73e64647  genesis-plus-gx

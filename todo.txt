@@ -2,9 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- added "Max FF speed" to `Advanced > Options > Audio and video` (thanks eggs!)
-- fixed RESUME button hint appearing on version screen
-- updated installer/updater to update the bootcmd (only if necessary)
+- 
 
 -------------------------------
 
@@ -15,11 +13,9 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- BUG: I think show et al need to make sure pan is set to 0,0?
-	using after progressui sometimes results in the image not showing
-		can no longer reproduce
-	also affects https://github.com/schmurtzm/Miyoo-Mini-easy-logotweak/
-		this was result of jpgr using SDL and calling SDL_Quit()
+- can virtual boy be optimized at all?
+	- add frameskip?
+		- tada! 39fps and stuttery audio to 50fps with skip-free audio
 
 - quicksave and power off when /tmp/battery hits 5?
 	change message when performing emergency power off
@@ -37,10 +33,6 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 		can't figure it out
 	allow audio while ff?
 		possible but after trying not actually desireable...
-
-- can virtual boy be optimized at all?
-	- are both screens rendered even though only one is used?
-	- add frameskip?
 
 - pcsx is going through some serious changes (besides the update to v2 options)
 	wait for the dust to settle before considering updating
