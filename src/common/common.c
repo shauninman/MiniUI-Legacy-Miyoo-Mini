@@ -180,6 +180,7 @@ UnionPaths Paths = {
 	.romsDir		= "/mnt/SDCARD/Roms",
 	.recentPath		= "/mnt/SDCARD/.userdata/.miniui/recent.txt",
 	.fauxRecentDir 	= "/mnt/SDCARD/Recently Played",
+	.collectionsDir = "/mnt/SDCARD/Collections",
 };
 
 ///////////////////////////////////////

@@ -229,6 +229,7 @@ static void Directory_index(Directory* self) {
 
 static Array* getRoot(void);
 static Array* getRecents(void);
+static Array* getCollection(char* path);
 static Array* getDiscs(char* path);
 static Array* getEntries(char* path);
 
@@ -244,6 +245,9 @@ static Directory* Directory_new(char* path, int selected) {
 	}
 	else if (exactMatch(path, Paths.fauxRecentDir)) {
 		self->entries = getRecents();
+	}
+	else if (!exactMatch(path, Paths.collectionsDir) && prefixMatch(Paths.collectionsDir, path)) {
+		self->entries = getCollection(path);
 	}
 	else if (suffixMatch(".m3u", path)) {
 		self->entries = getDiscs(path);
@@ -539,6 +543,20 @@ static int hasRecents(void) {
 	StringArray_free(parent_paths);
 	return has>0;
 }
+static int hasCollections(void) {
+	int has = 0;
+	if (!exists(Paths.collectionsDir)) return has;
+	
+	DIR *dh = opendir(Paths.collectionsDir);
+	struct dirent *dp;
+	while((dp = readdir(dh)) != NULL) {
+		if (hide(dp->d_name)) continue;
+		has = 1;
+		break;
+	}
+	closedir(dh);
+	return has;
+}
 static int hasRoms(char* dir_name) {
 	int has = 0;
 	char emu_name[256];
@@ -569,9 +587,8 @@ static Array* getRoot(void) {
 	
 	Array* entries = Array_new();
 	
-	int has_recents = hasRecents();
-	
-	if (has_recents) Array_push(entries, Entry_new(Paths.fauxRecentDir, kEntryDir));
+	if (hasRecents()) Array_push(entries, Entry_new(Paths.fauxRecentDir, kEntryDir));
+	if (hasCollections()) Array_push(entries, Entry_new(Paths.collectionsDir, kEntryDir));
 	
 	DIR *dh = opendir(Paths.romsDir);
 	if (dh!=NULL) {
@@ -613,6 +630,30 @@ static Array* getRecents(void) {
 		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
 		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
 		Array_push(entries, Entry_new(sd_path, type));
+	}
+	return entries;
+}
+static Array* getCollection(char* path) {
+	Array* entries = Array_new();
+	FILE* file = fopen(path, "r");
+	if (file) {
+		char line[256];
+		while (fgets(line,256,file)!=NULL) {
+			normalizeNewline(line);
+			trimTrailingNewlines(line);
+			if (strlen(line)==0) continue; // skip empty lines
+			
+			char sd_path[256];
+			sprintf(sd_path, "%s%s", Paths.rootDir, line);
+			if (exists(sd_path)) {
+				// char emu_name[256];
+				// getEmuName(sd_path, emu_name);
+				// if (hasEmu(emu_name)) {
+					Array_push(entries, Entry_new(sd_path, kEntryRom));
+				// }
+			}
+		}
+		fclose(file);
 	}
 	return entries;
 }
@@ -703,7 +744,12 @@ static Array* getEntries(char* path){
 				}
 			}
 			else {
-				type = kEntryRom;
+				if (prefixMatch(Paths.collectionsDir, full_path)) {
+					type = kEntryDir; // :shrug:
+				}
+				else {
+					type = kEntryRom;
+				}
 			}
 			Array_push(entries, Entry_new(full_path, type));
 		}
@@ -914,7 +960,19 @@ static void closeDirectory(void) {
 
 static void Entry_open(Entry* self) {
 	if (self->type==kEntryRom) {
-		openRom(self->path, NULL);
+		char *last = NULL;
+		if (prefixMatch(Paths.collectionsDir, top->path)) {
+			char* tmp;
+			char filename[256];
+			
+			tmp = strrchr(self->path, '/');
+			if (tmp) strcpy(filename, tmp+1);
+			
+			char last_path[256];
+			sprintf(last_path, "%s/%s", top->path, filename);
+			last = last_path;
+		}
+		openRom(self->path, last);
 	}
 	else if (self->type==kEntryPak) {
 		openPak(self->path);
@@ -942,6 +1000,14 @@ static void loadLast(void) { // call after loading root directory
 	char last_path[256];
 	getFile(kLastPath, last_path, 256);
 	
+	char full_path[256];
+	strcpy(full_path, last_path);
+	
+	char* tmp;
+	char filename[256];
+	tmp = strrchr(last_path, '/');
+	if (tmp) strcpy(filename, tmp);
+	
 	Array* last = Array_new();
 	while (!exactMatch(last_path, Paths.rootDir)) {
 		Array_push(last, strdup(last_path));
@@ -954,7 +1020,7 @@ static void loadLast(void) { // call after loading root directory
 		char* path = Array_pop(last);
 		for (int i=0; i<top->entries->count; i++) {
 			Entry* entry = top->entries->items[i];
-			if (exactMatch(entry->path, path)) {
+			if (exactMatch(entry->path, path) || (prefixMatch(Paths.collectionsDir, full_path) && suffixMatch(filename, entry->path))) {
 				top->selected = i;
 				if (i>=top->end) {
 					top->start = i;
@@ -964,7 +1030,7 @@ static void loadLast(void) { // call after loading root directory
 						top->start = top->end - Screen.main.list.row_count;
 					}
 				}
-				if (last->count==0 && !exactMatch(entry->path, Paths.fauxRecentDir)) break; // don't show contents of auto-launch dirs
+				if (last->count==0 && !exactMatch(entry->path, Paths.fauxRecentDir) && !(!exactMatch(entry->path, Paths.collectionsDir) && prefixMatch(Paths.collectionsDir, entry->path))) break; // don't show contents of auto-launch dirs
 				
 				if (entry->type==kEntryDir) {
 					openDirectory(entry->path, 0);

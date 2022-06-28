@@ -82,6 +82,7 @@ typedef struct UnionPaths {
 	char paksDir[256];
 	char recentPath[256];
 	char fauxRecentDir[256];
+	char collectionsDir[256];
 } UnionPaths;
 
 // TODO: pull paths out of Paths struct, remove unnecessary sprintf calls
