@@ -79,7 +79,7 @@ To streamline launching multi-file disc-based games with MiniUI place your bin/c
     Harmful Park (English v1.0).bin
     Harmful Park (English v1.0).cue
 
-For multi-disc games, put all the the discs files in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will launch the appropriate cue file, eg. For a Policenauts folder structured like this:
+For multi-disc games, put all the files for all the discs in a single folder and create an m3u file (just a text file containing the relative path to each disc's cue file on a separate line) with the same name as the folder. Instead of showing the entire messy contents of the folder, MiniUI will launch the appropriate cue file, eg. For a Policenauts folder structured like this:
 
   Policenauts (English v1.0)/
     Policenauts (English v1.0).m3u

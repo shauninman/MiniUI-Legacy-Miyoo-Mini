@@ -583,12 +583,14 @@ static int hasRoms(char* dir_name) {
 	return has;
 }
 static Array* getRoot(void) {
+	Array* root = Array_new();
+	
+	if (hasRecents()) Array_push(root, Entry_new(Paths.fauxRecentDir, kEntryDir));
+	
+	DIR *dh;
+	
 	Array* entries = Array_new();
-	
-	if (hasRecents()) Array_push(entries, Entry_new(Paths.fauxRecentDir, kEntryDir));
-	if (hasCollections()) Array_push(entries, Entry_new(Paths.collectionsDir, kEntryDir));
-	
-	DIR *dh = opendir(Paths.romsDir);
+	dh = opendir(Paths.romsDir);
 	if (dh!=NULL) {
 		struct dirent *dp;
 		char* tmp;
@@ -616,17 +618,47 @@ static Array* getRoot(void) {
 			Array_push(entries, entry);
 			prev_entry = entry;
 		}
-		Array_free(emus); // just free the array part, root now owns emus entries
+		Array_free(emus); // just free the array part, entries now owns emus entries
 		closedir(dh);
 	}
 	
+	if (hasCollections()) {
+		if (entries->count) Array_push(root, Entry_new(Paths.collectionsDir, kEntryDir));
+		else { // no visible systems, promote collections to root
+			dh = opendir(Paths.collectionsDir);
+			if (dh!=NULL) {
+				struct dirent *dp;
+				char* tmp;
+				char full_path[256];
+				sprintf(full_path, "%s/", Paths.collectionsDir);
+				tmp = full_path + strlen(full_path);
+				Array* collections = Array_new();
+				while((dp = readdir(dh)) != NULL) {
+					if (hide(dp->d_name)) continue;
+					strcpy(tmp, dp->d_name);
+					Array_push(collections, Entry_new(full_path, kEntryDir)); // yes, collections are fake directories
+				}
+				EntryArray_sort(collections);
+				for (int i=0; i<collections->count; i++) {
+					Array_push(entries, collections->items[i]);
+				}
+				Array_free(collections); // just free the array part, entries now owns emus entries
+				closedir(dh);
+			}
+		}
+	}
+	
+	// add systems to root
+	for (int i=0; i<entries->count; i++) {
+		Array_push(root, entries->items[i]);
+	}
+	Array_free(entries); // root now owns entries' entries
+	
 	char tools_path[256];
 	sprintf(tools_path, "%s/Tools", Paths.rootDir);
-	if (!is_simple && exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
+	if (!is_simple && exists(tools_path)) Array_push(root, Entry_new(tools_path, kEntryDir));
 	
-	fflush(stdout);
-	
-	return entries;
+	return root;
 }
 static Array* getRecents(void) {
 	Array* entries = Array_new();
