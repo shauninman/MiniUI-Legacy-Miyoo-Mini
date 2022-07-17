@@ -8,7 +8,7 @@ MiniUI is simple, some might say to a fault. That's okay. I think it's one of th
 
 MiniUI is defined by no. No boxart. No video previews. No background menu music. No custom themes. No runners-up. MiniUI wants to disappear and speed you on your way. MiniUI is unapologetically opinionated software. Sorry not sorry. 
 
-Check the [Releases](https://github.com/shauninman/MiniUI/releases) for the latest and if you want more info before downloading, the readme included in every release is also available [here](https://github.com/shauninman/MiniUI/tree/main/skeleton). 
+Check the [Releases](https://github.com/shauninman/MiniUI/releases) for the latest and if you want more info about features and setup before downloading, the readme included in every release is also available [here](https://github.com/shauninman/MiniUI/tree/main/skeleton) (without formatting).
 
 MiniUI maybe be simple but it's also extensible. See the [Extras readme](https://github.com/shauninman/MiniUI/tree/main/extras) for info on adding additional paks or creating your own.
 
