@@ -4,6 +4,7 @@ Please see the README.txt in the zip file for installation and update instructio
 
 - added Collections (see updated README.txt for info)
 - added collating Roms folders with matching display names (see updated README.txt for info)
+- changed default Screen size from Native to Aspect
 
 -------------------------------
 
@@ -14,7 +15,7 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- changed default Screen size to Aspect (from Native)
+- add MGBA.pak to extras?
 
 - SDL
 	- put libmsettings behind a build flag or dlopen/dlsym
@@ -34,7 +35,6 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 	- move all picoarch userdata folders into: 
 		.picoarch/EMU_TAG/CORE_NAME/
 	- still?
-	- default all paks to Aspect?
 
 - picoarch
 	hold to ff?
