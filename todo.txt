@@ -2,7 +2,8 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- 
+- added Collections (see updated README.txt for info)
+- added collating Roms folders with matching display names (see updated README.txt for info)
 
 -------------------------------
 
@@ -13,9 +14,15 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
+- changed default Screen size to Aspect (from Native)
+
+- SDL
+	- put libmsettings behind a build flag or dlopen/dlsym
+
 - can virtual boy be optimized at all?
 	- add frameskip?
 		- tada! 39fps and stuttery audio to 50fps with skip-free audio
+		- seems tempermental, sometimes a restart fixes framerate
 
 - quicksave and power off when /tmp/battery hits 5?
 	change message when performing emergency power off
@@ -25,8 +32,9 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 	- mgba needs rumble strength setting
 
 	- move all picoarch userdata folders into: 
-	.picoarch/EMU_TAG/CORE_NAME/
-	still?
+		.picoarch/EMU_TAG/CORE_NAME/
+	- still?
+	- default all paks to Aspect?
 
 - picoarch
 	hold to ff?
@@ -90,4 +98,4 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 change all logging from &> log to > log 2>&1
 
 - show, confirm, and say don't sleep (neither does Files.pak)
-	thinking face
+	:thinking_face: :shrug:

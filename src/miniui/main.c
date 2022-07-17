@@ -583,8 +583,6 @@ static int hasRoms(char* dir_name) {
 	return has;
 }
 static Array* getRoot(void) {
-	// TODO: finish!
-	
 	Array* entries = Array_new();
 	
 	if (hasRecents()) Array_push(entries, Entry_new(Paths.fauxRecentDir, kEntryDir));
@@ -606,9 +604,17 @@ static Array* getRoot(void) {
 			}
 		}
 		EntryArray_sort(emus);
+		Entry* prev_entry = NULL;
 		for (int i=0; i<emus->count; i++) {
-			Entry* emu = emus->items[i];
-			Array_push(entries, emus->items[i]);
+			Entry* entry = emus->items[i];
+			if (prev_entry!=NULL) {
+				if (exactMatch(prev_entry->name, entry->name)) {
+					Entry_free(entry);
+					continue;
+				}
+			}
+			Array_push(entries, entry);
+			prev_entry = entry;
 		}
 		Array_free(emus); // just free the array part, root now owns emus entries
 		closedir(dh);
@@ -617,7 +623,9 @@ static Array* getRoot(void) {
 	char tools_path[256];
 	sprintf(tools_path, "%s/Tools", Paths.rootDir);
 	if (!is_simple && exists(tools_path)) Array_push(entries, Entry_new(tools_path, kEntryDir));
-
+	
+	fflush(stdout);
+	
 	return entries;
 }
 static Array* getRecents(void) {
@@ -720,8 +728,8 @@ static int getFirstDisc(char* m3u_path, char* disc_path) { // based on getDiscs(
 	}
 	return found;
 }
-static Array* getEntries(char* path){
-	Array* entries = Array_new();
+
+static void addEntries(Array* entries, char* path) {
 	DIR *dh = opendir(path);
 	if (dh!=NULL) {
 		struct dirent *dp;
@@ -755,6 +763,42 @@ static Array* getEntries(char* path){
 		}
 		closedir(dh);
 	}
+}
+
+static Array* getEntries(char* path){
+	Array* entries = Array_new();
+
+	char* tmp;
+	char parent_dir[256];
+	strcpy(parent_dir, path);
+	tmp = strrchr(parent_dir, '/');
+	tmp[0] = '\0';
+	
+	if (exactMatch(parent_dir, Paths.romsDir)) { // top-level console folder
+		char twin_path[256];
+		strcpy(twin_path, path);
+		tmp = strrchr(twin_path, '(');
+		tmp[0] = '\0';
+
+		DIR *dh = opendir(Paths.romsDir);
+		if (dh!=NULL) {
+			struct dirent *dp;
+			char full_path[256];
+			sprintf(full_path, "%s/", Paths.romsDir);
+			tmp = full_path + strlen(full_path);
+			while((dp = readdir(dh)) != NULL) {
+				if (hide(dp->d_name)) continue;
+				if (dp->d_type!=DT_DIR) continue;
+				strcpy(tmp, dp->d_name);
+				
+				if (!prefixMatch(twin_path, full_path)) continue;
+				addEntries(entries, full_path);
+			}
+			closedir(dh);
+		}
+	}
+	else addEntries(entries, path); // just a subfolder
+	
 	EntryArray_sort(entries);
 	return entries;
 }

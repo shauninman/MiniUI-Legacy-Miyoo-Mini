@@ -31,7 +31,7 @@ ifeq "$(GCC_VER_GTE9_0)" "1"
   BUNDLE_LIBS=bundle
 endif
 
-all: lib sdl core emu tools payload $(BUNDLE_LIBS) zip
+all: lib sdl core emu tools payload readmes $(BUNDLE_LIBS) zip
 
 extras: emu
 
@@ -65,14 +65,16 @@ tools:
 	cd ./third-party/logotweak/logowrite && make
 	cd ./src/clock && make
 
+readmes:
+	fmt -w 40 -s ./skeleton//README.txt > ./build/PAYLOAD/README.txt
+	fmt -w 40 -s ./extras//README.txt > ./build/EXTRAS/README.txt
+
 payload:
 	rm -rf ./build
 	mkdir -p ./releases
 	mkdir -p ./build
 	cp -R ./skeleton/. ./build/PAYLOAD
 	cp -R ./extras/. ./build/EXTRAS
-	fmt -w 40 -s ./skeleton//README.txt > ./build/PAYLOAD/README.txt
-	fmt -w 40 -s ./extras//README.txt > ./build/EXTRAS/README.txt
 	mv ./build/PAYLOAD/miyoo/app/keymon.sh ./build/PAYLOAD/miyoo/app/keymon
 	cd ./build && find . -type f -name '.keep' -delete
 	cd ./build && find . -type f -name '.DS_Store' -delete
