@@ -53,9 +53,9 @@ Roms
 
 Included in this zip is a Roms folder containing folders for each console MiniUI currently supports. You can rename these folders but you must keep the uppercase tag name in parentheses in order to retain the mapping to the correct emulator (eg. "Nintendo Entertainment System (FC)" could be renamed to "Nintendo (FC)", "NES (FC)", or "Famicom (FC)"). 
 
-You should probably preload these foldrs with roms and copy each one to the Roms folder on your SD card before installing. Or not, I'm not the boss of you.
+You should probably preload these folders with roms and copy each one to the Roms folder on your SD card before installing. Or not, I'm not the boss of you.
 
-When one or more folder share the same display name (eg. "Game Boy Advance (GBA)" and "Game Boy Advance (MGBA)") they will be combined into a single folder containing the roms from both folders (continuing the previous example, "Game Boy Advance"). This allows opening specific roms with an alternate pak.
+When one or more folder share the same display name (eg. "Game Boy Advance (GBA)" and "Game Boy Advance (MGBA)") they will be combined into a single item containing the roms from both folders (continuing the previous example, "Game Boy Advance"). This allows opening specific roms with an alternate pak.
 
 ----------------------------------------
 Bios
