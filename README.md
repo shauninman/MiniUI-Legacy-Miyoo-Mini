@@ -6,7 +6,7 @@ _MiniUI is a custom launcher and integrated in-game menu for the [Miyoo Mini](ht
 
 MiniUI is simple, some might say to a fault. That's okay. I think it's one of those things where, if you like it, even just a little bit, you'll love it. (For the uninitiated, MiniUI is a direct descendent of [MinUI](https://github.com/shauninman/MinUI) which itself is a distillation of the stock launcher and menu of the [Trimui Model S](http://www.trimui.com).)
 
-MiniUI is defined by no. No boxart. No video previews. No background menu music. No custom themes. No also rans. MiniUI wants to disappear and speed you on your way. MiniUI is unapologetically opinionated software. Sorry not sorry. 
+MiniUI is defined by no. No boxart. No video previews. No background menu music. No custom themes. No runner-ups. MiniUI wants to disappear and speed you on your way. MiniUI is unapologetically opinionated software. Sorry not sorry. 
 
 Check the [Releases](https://github.com/shauninman/MiniUI/releases) for the latest and if you want more info before downloading, the readme included in every release is also available [here](https://github.com/shauninman/MiniUI/tree/main/skeleton). 
 
