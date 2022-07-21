@@ -15,6 +15,11 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
+- BUG: collated paths don't return to the collated folder after exiting rom
+	- something todo with last
+	- add an is_collated flag to collated entries? then pass the parent path to saveLast?
+		- how do I reconcile the 
+
 - add MGBA.pak to extras?
 
 - SDL

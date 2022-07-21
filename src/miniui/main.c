@@ -810,23 +810,25 @@ static Array* getEntries(char* path){
 		char twin_path[256];
 		strcpy(twin_path, path);
 		tmp = strrchr(twin_path, '(');
-		tmp[0] = '\0';
+		if (tmp) {
+			tmp[1] = '\0'; // 1 because we want to keep the opening parenthesis to avoid collating "Game Boy Color" and "Game Boy Advance" into "Game Boy"
 
-		DIR *dh = opendir(Paths.romsDir);
-		if (dh!=NULL) {
-			struct dirent *dp;
-			char full_path[256];
-			sprintf(full_path, "%s/", Paths.romsDir);
-			tmp = full_path + strlen(full_path);
-			while((dp = readdir(dh)) != NULL) {
-				if (hide(dp->d_name)) continue;
-				if (dp->d_type!=DT_DIR) continue;
-				strcpy(tmp, dp->d_name);
+			DIR *dh = opendir(Paths.romsDir);
+			if (dh!=NULL) {
+				struct dirent *dp;
+				char full_path[256];
+				sprintf(full_path, "%s/", Paths.romsDir);
+				tmp = full_path + strlen(full_path);
+				while((dp = readdir(dh)) != NULL) {
+					if (hide(dp->d_name)) continue;
+					if (dp->d_type!=DT_DIR) continue;
+					strcpy(tmp, dp->d_name);
 				
-				if (!prefixMatch(twin_path, full_path)) continue;
-				addEntries(entries, full_path);
+					if (!prefixMatch(twin_path, full_path)) continue;
+					addEntries(entries, full_path);
+				}
+				closedir(dh);
 			}
-			closedir(dh);
 		}
 	}
 	else addEntries(entries, path); // just a subfolder
@@ -1095,6 +1097,15 @@ static void loadLast(void) { // call after loading root directory
 	while (last->count>0) {
 		char* path = Array_pop(last);
 		for (int i=0; i<top->entries->count; i++) {
+			
+			
+			
+			
+			// TODO: handle collated folders similar to how we handle collections?
+			
+			
+			
+			
 			Entry* entry = top->entries->items[i];
 			if (exactMatch(entry->path, path) || (prefixMatch(Paths.collectionsDir, full_path) && suffixMatch(filename, entry->path))) {
 				top->selected = i;
