@@ -3,7 +3,7 @@
 Please see the README.txt in the zip file for installation and update instructions.
 
 - added Collections (see updated README.txt for info)
-- added collating Roms folders with matching display names (see updated README.txt for info)
+- added collated Roms folders with matching display names (see updated README.txt for info)
 - changed default Screen size from Native to Aspect
 
 -------------------------------

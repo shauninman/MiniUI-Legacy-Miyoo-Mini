@@ -115,9 +115,9 @@ enum EntryType {
 typedef struct Entry {
 	char* path;
 	char* name;
+	char* unique;
 	int type;
 	int alpha; // index in parent Directory's alphas Array, which points to the index of an Entry in its entries Array :sweat_smile:
-	int conflict;
 	
 	int has_alt;
 	int use_alt;
@@ -129,9 +129,9 @@ static Entry* Entry_new(char* path, int type) {
 	Entry* self = malloc(sizeof(Entry));
 	self->path = strdup(path);
 	self->name = strdup(display_name);
+	self->unique = NULL;
 	self->type = type;
 	self->alpha = 0;
-	self->conflict = 0;
 	self->has_alt = type!=kEntryRom?0:-1;
 	self->use_alt = type!=kEntryRom?0:-1;
 	return self;
@@ -139,6 +139,7 @@ static Entry* Entry_new(char* path, int type) {
 static void Entry_free(Entry* self) {
 	free(self->path);
 	free(self->name);
+	if (self->unique) free(self->unique);
 	free(self);
 }
 
@@ -205,6 +206,21 @@ static int getIndexChar(char* str) {
 	return i;
 }
 
+static void getUniqueName(Entry* entry, char* out_name) {
+	char* filename = strrchr(entry->path, '/')+1;
+	char emu_tag[256];
+	getEmuName(entry->path, emu_tag);
+	
+	char *tmp;
+	strcpy(out_name, entry->name);
+	tmp = out_name + strlen(out_name);
+	strcpy(tmp, " (");
+	tmp = out_name + strlen(out_name);
+	strcpy(tmp, emu_tag);
+	tmp = out_name + strlen(out_name);
+	strcpy(tmp, ")");
+}
+
 static void Directory_index(Directory* self) {
 	Entry* prior = NULL;
 	int alpha = -1;
@@ -212,8 +228,24 @@ static void Directory_index(Directory* self) {
 	for (int i=0; i<self->entries->count; i++) {
 		Entry* entry = self->entries->items[i];
 		if (prior!=NULL && exactMatch(prior->name, entry->name)) {
-			prior->conflict = 1;
-			entry->conflict = 1;
+			if (prior->unique) free(prior->unique);
+			if (entry->unique) free(entry->unique);
+			
+			char* prior_filename = strrchr(prior->path, '/')+1;
+			char* entry_filename = strrchr(entry->path, '/')+1;
+			if (exactMatch(prior_filename, entry_filename)) {
+				char prior_unique[256];
+				char entry_unique[256];
+				getUniqueName(prior, prior_unique);
+				getUniqueName(entry, entry_unique);
+				
+				prior->unique = strdup(prior_unique);
+				entry->unique = strdup(entry_unique);
+			}
+			else {
+				prior->unique = strdup(prior_filename);
+				entry->unique = strdup(entry_filename);
+			}
 		}
 		int a = getIndexChar(entry->name);
 		if (a!=alpha) {
@@ -1445,7 +1477,7 @@ int main (int argc, char *argv[]) {
 						Entry* entry = top->entries->items[i];
 						int has_alt = j==selected_row && Entry_hasAlt(entry);
 						int use_alt = has_alt && Entry_useAlt(entry);
-						GFX_blitMenu(screen, entry->name, entry->path, entry->conflict, j, selected_row, has_alt, use_alt);
+						GFX_blitMenu(screen, entry->name, entry->path, entry->unique, j, selected_row, has_alt, use_alt);
 					}
 				}
 				else {

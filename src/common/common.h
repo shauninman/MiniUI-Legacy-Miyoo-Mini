@@ -299,7 +299,7 @@ void GFX_blitRule(SDL_Surface* surface, int y);
 int GFX_blitHint(SDL_Surface* surface, char* htxt, int x, int y);
 int GFX_blitPill(SDL_Surface* surface, char* btxt, char* htxt, int x, int y);
 int GFX_blitButton(SDL_Surface* surface, char* btxt, char* htxt, int x, int y, int bx);
-void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, int row, int selected_row, int has_alt, int use_alt);
+void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, char* unique, int row, int selected_row, int has_alt, int use_alt);
 void GFX_blitWindow(SDL_Surface* surface, int x, int y, int width, int height, int color); // color=0:black,1:white
 void GFX_blitBodyCopy(SDL_Surface* surface, char* text, int x, int y, int width, int height); // gold, centered in rect, multiline okay!
 int GFX_blitText(SDL_Surface* surface, char* text, int size, int x, int y, int width, int color, int has_shadow); // size=0:small,1:medium,2:large width=0:left,>0:center,<0:right, color=0:white,1:gold, no multiline

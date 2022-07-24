@@ -552,12 +552,12 @@ static void trimSortingMeta(char** str) { // eg. `001) `
 	while(isblank(**str)) *str += 1; // ignore leading space
 }
 
-void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, int row, int selected_row, int has_alt, int use_alt) {
+void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, char* unique, int row, int selected_row, int has_alt, int use_alt) {
 	int max_width = Screen.width - (2 * Screen.main.list.ox);
 	SDL_Surface* text;
 	char* fullname = strrchr(path, '/')+1;
 	if (row==selected_row) {
-		char* display_name = conflict ? fullname : name;
+		char* display_name = unique ? unique : name;
 		trimSortingMeta(&display_name);
 
 		// bar
@@ -575,9 +575,9 @@ void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, int conflict, in
 		SDL_FreeSurface(text);
 	}
 	else {
-		if (conflict) {
-			trimSortingMeta(&fullname);
-			text = TTF_RenderUTF8_Blended(font_l, fullname, gray);
+		if (unique) {
+			trimSortingMeta(&unique);
+			text = TTF_RenderUTF8_Blended(font_l, unique, gray);
 			SDL_BlitSurface(text, &(SDL_Rect){0,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
 			SDL_FreeSurface(text);
 		}
