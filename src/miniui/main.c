@@ -797,19 +797,23 @@ static void addEntries(Array* entries, char* path) {
 	}
 }
 
-static Array* getEntries(char* path){
-	Array* entries = Array_new();
-
+static int isConsoleDir(char* path) {
 	char* tmp;
 	char parent_dir[256];
 	strcpy(parent_dir, path);
 	tmp = strrchr(parent_dir, '/');
 	tmp[0] = '\0';
 	
-	if (exactMatch(parent_dir, Paths.romsDir)) { // top-level console folder
-		char twin_path[256];
-		strcpy(twin_path, path);
-		tmp = strrchr(twin_path, '(');
+	return exactMatch(parent_dir, Paths.romsDir);
+}
+
+static Array* getEntries(char* path){
+	Array* entries = Array_new();
+
+	if (isConsoleDir(path)) { // top-level console folder, might collate
+		char collated_path[256];
+		strcpy(collated_path, path);
+		char* tmp = strrchr(collated_path, '(');
 		if (tmp) {
 			tmp[1] = '\0'; // 1 because we want to keep the opening parenthesis to avoid collating "Game Boy Color" and "Game Boy Advance" into "Game Boy"
 
@@ -819,12 +823,13 @@ static Array* getEntries(char* path){
 				char full_path[256];
 				sprintf(full_path, "%s/", Paths.romsDir);
 				tmp = full_path + strlen(full_path);
+				// while loop so we can collate paths, see above
 				while((dp = readdir(dh)) != NULL) {
 					if (hide(dp->d_name)) continue;
 					if (dp->d_type!=DT_DIR) continue;
 					strcpy(tmp, dp->d_name);
 				
-					if (!prefixMatch(twin_path, full_path)) continue;
+					if (!prefixMatch(collated_path, full_path)) continue;
 					addEntries(entries, full_path);
 				}
 				closedir(dh);
@@ -1096,31 +1101,35 @@ static void loadLast(void) { // call after loading root directory
 	
 	while (last->count>0) {
 		char* path = Array_pop(last);
-		for (int i=0; i<top->entries->count; i++) {
+		if (!exactMatch(path, Paths.romsDir)) { // romsDir is effectively root as far as restoring state after a game
+			char collated_path[256];
+			collated_path[0] = '\0';
+			if (suffixMatch(")", path) && isConsoleDir(path)) {
+				strcpy(collated_path, path);
+				tmp = strrchr(collated_path, '(');
+				if (tmp) tmp[1] = '\0'; // 1 because we want to keep the opening parenthesis to avoid collating "Game Boy Color" and "Game Boy Advance" into "Game Boy"
+			}
 			
+			for (int i=0; i<top->entries->count; i++) {
+				Entry* entry = top->entries->items[i];
 			
-			
-			
-			// TODO: handle collated folders similar to how we handle collections?
-			
-			
-			
-			
-			Entry* entry = top->entries->items[i];
-			if (exactMatch(entry->path, path) || (prefixMatch(Paths.collectionsDir, full_path) && suffixMatch(filename, entry->path))) {
-				top->selected = i;
-				if (i>=top->end) {
-					top->start = i;
-					top->end = top->start + Screen.main.list.row_count;
-					if (top->end>top->entries->count) {
-						top->end = top->entries->count;
-						top->start = top->end - Screen.main.list.row_count;
+				// NOTE: strlen() is required for collated_path, '\0' wasn't reading as NULL for some reason
+				if (exactMatch(entry->path, path) || (strlen(collated_path) && prefixMatch(collated_path, entry->path)) || (prefixMatch(Paths.collectionsDir, full_path) && suffixMatch(filename, entry->path))) {
+					top->selected = i;
+					if (i>=top->end) {
+						top->start = i;
+						top->end = top->start + Screen.main.list.row_count;
+						if (top->end>top->entries->count) {
+							top->end = top->entries->count;
+							top->start = top->end - Screen.main.list.row_count;
+						}
 					}
-				}
-				if (last->count==0 && !exactMatch(entry->path, Paths.fauxRecentDir) && !(!exactMatch(entry->path, Paths.collectionsDir) && prefixMatch(Paths.collectionsDir, entry->path))) break; // don't show contents of auto-launch dirs
+					if (last->count==0 && !exactMatch(entry->path, Paths.fauxRecentDir) && !(!exactMatch(entry->path, Paths.collectionsDir) && prefixMatch(Paths.collectionsDir, entry->path))) break; // don't show contents of auto-launch dirs
 				
-				if (entry->type==kEntryDir) {
-					openDirectory(entry->path, 0);
+					if (entry->type==kEntryDir) {
+						openDirectory(entry->path, 0);
+						break;
+					}
 				}
 			}
 		}
