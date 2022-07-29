@@ -674,7 +674,7 @@ static Array* getRoot(void) {
 				for (int i=0; i<collections->count; i++) {
 					Array_push(entries, collections->items[i]);
 				}
-				Array_free(collections); // just free the array part, entries now owns emus entries
+				Array_free(collections); // just free the array part, entries now owns collections entries
 				closedir(dh);
 			}
 		}
@@ -700,7 +700,7 @@ static Array* getRecents(void) {
 		
 		char sd_path[256];
 		sprintf(sd_path, "%s%s", Paths.rootDir, recent->path);
-		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom;
+		int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom; // ???
 		Array_push(entries, Entry_new(sd_path, type));
 	}
 	return entries;
@@ -718,10 +718,13 @@ static Array* getCollection(char* path) {
 			char sd_path[256];
 			sprintf(sd_path, "%s%s", Paths.rootDir, line);
 			if (exists(sd_path)) {
+				int type = suffixMatch(".pak", sd_path) ? kEntryPak : kEntryRom; // ???
+				Array_push(entries, Entry_new(sd_path, type));
+				
 				// char emu_name[256];
 				// getEmuName(sd_path, emu_name);
 				// if (hasEmu(emu_name)) {
-					Array_push(entries, Entry_new(sd_path, kEntryRom));
+					// Array_push(entries, Entry_new(sd_path, kEntryRom));
 				// }
 			}
 		}
@@ -1192,8 +1195,7 @@ int main (int argc, char *argv[]) {
 	
 	is_simple = exists(kEnableSimpleModePath);
 	
-	puts("MiniUI");
-	fflush(stdout);
+	dump("MiniUI");
 	
 	putenv("SDL_HIDE_BATTERY=1");
 	
@@ -1346,7 +1348,6 @@ int main (int argc, char *argv[]) {
 					dirty = 1;
 				}
 			}
-			
 			else if (total>0 && Input_justPressed(kButtonA)) {
 				Entry_open(top->entries->items[top->selected]);
 				total = top->entries->count;
