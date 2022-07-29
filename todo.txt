@@ -2,6 +2,8 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
+DO NOT RELEASE UNTIL YOU FIX LARGE COLLECTION BACK OUT BLACKOUTS
+
 - added Collections (see updated README.txt for info)
 - added collated Roms folders with matching display names (see updated README.txt for info)
 - changed default Screen size from Native to Aspect

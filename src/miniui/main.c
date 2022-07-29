@@ -222,6 +222,8 @@ static void getUniqueName(Entry* entry, char* out_name) {
 }
 
 static void Directory_index(Directory* self) {
+	int skip_index = exactMatch(Paths.fauxRecentDir, self->path) || prefixMatch(Paths.collectionsDir, self->path); // not alphabetized
+	
 	Entry* prior = NULL;
 	int alpha = -1;
 	int index = 0;
@@ -247,13 +249,16 @@ static void Directory_index(Directory* self) {
 				entry->unique = strdup(entry_filename);
 			}
 		}
-		int a = getIndexChar(entry->name);
-		if (a!=alpha) {
-			index = self->alphas->count;
-			IntArray_push(self->alphas, i);
-			alpha = a;
+
+		if (!skip_index) {
+			int a = getIndexChar(entry->name);
+			if (a!=alpha) {
+				index = self->alphas->count;
+				IntArray_push(self->alphas, i);
+				alpha = a;
+			}
+			entry->alpha = index;
 		}
-		entry->alpha = index;
 		
 		prior = entry;
 	}
