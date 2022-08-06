@@ -15,10 +15,6 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- scroll long names
-	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
-	not really, just use an extern for the scrolling offset :sweat_smile:
-
 - add MGBA.pak and SUPA.pak to extras?
 	- or add officially?
 		- remove SFC.pak from extras if so
