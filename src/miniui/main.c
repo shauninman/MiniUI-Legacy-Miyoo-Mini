@@ -888,6 +888,38 @@ static void queueNext(char* cmd) {
 	putFile("/tmp/next", cmd);
 	quit = 1;
 }
+static char* escapeSingleQuotes(char* str) {
+	// https://stackoverflow.com/a/31775567/145965
+	int replacestr(char *line, const char *search, const char *replace)
+	{
+	   char *sp; // start of pattern
+	   if ((sp = strstr(line, search)) == NULL) {
+	      return 0;
+	   }
+	   int count = 1;
+	   int sLen = strlen(search);
+	   int rLen = strlen(replace);
+	   if (sLen > rLen) {
+	      // move from right to left
+	      char *src = sp + sLen;
+	      char *dst = sp + rLen;
+	      while((*dst = *src) != '\0') { dst++; src++; }
+	   } else if (sLen < rLen) {
+	      // move from left to right
+	      int tLen = strlen(sp) - sLen;
+	      char *stop = sp + rLen;
+	      char *src = sp + sLen + tLen;
+	      char *dst = sp + rLen + tLen;
+	      while(dst >= stop) { *dst = *src; dst--; src--; }
+	   }
+	   memcpy(sp, replace, rLen);
+	   count += replacestr(sp + rLen, search, replace);
+	   return count;
+	}
+	
+	replacestr(str, "'", "'\\''");
+	return str;
+}
 
 ///////////////////////////////////////
 
@@ -960,7 +992,7 @@ static int autoResume(void) {
 	if (!exists(emu_path)) return 0;
 	
 	char cmd[256];
-	sprintf(cmd, "\"%s\" \"%s\"", emu_path, sd_path);
+	sprintf(cmd, "'%s' '%s'", escapeSingleQuotes(emu_path), escapeSingleQuotes(sd_path));
 	putFile(kResumeSlotPath, kAutoResumeSlot);
 
 	// putFile(kLastPath, Paths.fauxRecentDir); // saveLast() will crash here because top is NULL
@@ -970,7 +1002,7 @@ static int autoResume(void) {
 
 static void openPak(char* path) {
 	char cmd[256];
-	sprintf(cmd, "\"%s/launch.sh\"", path);
+	sprintf(cmd, "'%s/launch.sh'", escapeSingleQuotes(path));
 	
 	// if (prefixMatch(Paths.romsDir, path)) {
 	// 	addRecent(path);
@@ -1028,7 +1060,7 @@ static void openRom(char* path, char* last) {
 	getEmuPath(emu_name, emu_path);
 	
 	char cmd[256];
-	sprintf(cmd, "\"%s\" \"%s\"", emu_path, sd_path);
+	sprintf(cmd, "'%s' '%s'", escapeSingleQuotes(emu_path), escapeSingleQuotes(sd_path));
 
 	addRecent(recent_path);
 	saveLast(last==NULL ? sd_path : last);

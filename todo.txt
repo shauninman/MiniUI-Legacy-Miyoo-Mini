@@ -2,11 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-DO NOT RELEASE UNTIL YOU FIX LARGE COLLECTION BACK OUT BLACKOUTS
-
-- added Collections (see updated README.txt for info)
-- added collated Roms folders with matching display names (see updated README.txt for info)
-- changed default Screen size from Native to Aspect
+- 
 
 -------------------------------
 
@@ -17,12 +13,7 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- BUG: collated paths don't return to the collated folder after exiting rom
-	- something todo with last
-	- add an is_collated flag to collated entries? then pass the parent path to saveLast?
-		- how do I reconcile the 
-
-- add MGBA.pak to extras?
+- add MGBA.pak and SUPA.pak to extras?
 
 - SDL
 	- put libmsettings behind a build flag or dlopen/dlsym
