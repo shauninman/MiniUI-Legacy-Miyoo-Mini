@@ -586,6 +586,57 @@ void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, char* unique, in
 		SDL_FreeSurface(text);
 	}
 }
+// copy/paste/mod
+static int scroll_selected = -1;
+static int scroll_ticks = 0;
+static int scroll_delay = 30;
+static int scroll_ox = 0;
+int GFX_scrollMenu(SDL_Surface* surface, char* name, char* path, char* unique, int row, int selected, int reset, int force) {
+	// reset is used when changing directories (otherwise returning from the first row to the first row above wouldn't reset the scroll)
+	if (reset || selected!=scroll_selected) {
+		scroll_ticks = 0;
+		scroll_ox = 0;
+		scroll_selected = selected;
+	}
+	
+	scroll_ticks += 1;
+	if (scroll_ticks<scroll_delay) return 0; // nothing to do yet
+	scroll_ox += 1;
+	
+	int max_width = Screen.width - (2 * Screen.main.list.ox);
+	SDL_Surface* text;
+	
+	char* display_name = unique ? unique : name;
+	trimSortingMeta(&display_name);
+		
+	text = TTF_RenderUTF8_Blended(font_l, display_name, shadow50);
+	if (text->w<=max_width) {
+		SDL_FreeSurface(text);
+		return 0;
+	}
+	
+	// prevent overscroll
+	if (scroll_ox>text->w-max_width) {
+		scroll_ox = text->w-max_width;
+		if (!force) { // nothing to draw unless something outside of this function dirtied the screen
+			SDL_FreeSurface(text);
+			return 0;
+		}
+	}
+	
+	// bar
+	SDL_FillRect(surface, &(SDL_Rect){0,Screen.main.list.y+(row*Screen.main.list.row_height),Screen.width,Screen.main.list.row_height}, SDL_MapRGB(surface->format, GOLD_TRIAD));
+	
+	// shadow
+	SDL_BlitSurface(text, &(SDL_Rect){scroll_ox,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox+Screen.font.shadow.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy+Screen.font.shadow.oy});
+	SDL_FreeSurface(text);
+	
+	// actual text
+	text = TTF_RenderUTF8_Blended(font_l, display_name, white);
+	SDL_BlitSurface(text, &(SDL_Rect){scroll_ox,0,max_width,text->h}, surface, &(SDL_Rect){Screen.main.list.ox,Screen.main.list.y+(row*Screen.main.list.row_height)+Screen.main.list.oy});
+	SDL_FreeSurface(text);
+	return 1;
+}
 void GFX_blitWindow(SDL_Surface* surface, int x, int y, int width, int height, int color) {
 	SDL_Surface* bg = color ? bg_white : bg_black;
 	int color_rgb = color ? SDL_MapRGB(bg->format, WHITE_TRIAD) : 0;

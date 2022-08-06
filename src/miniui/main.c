@@ -1431,6 +1431,8 @@ int main (int argc, char *argv[]) {
 			dirty = 1;
 		}
 		
+		int was_dirty = dirty; // dirty list (not including settings/battery)
+		
 		int old_setting = show_setting;
 		int old_value = setting_value;
 		show_setting = 0;
@@ -1452,8 +1454,6 @@ int main (int argc, char *argv[]) {
 		if (old_setting!=show_setting || old_value!=setting_value) dirty = 1;
 		
 		if (dirty) {
-			dirty = 0;
-
 			SDL_FillRect(screen, NULL, 0);
 			SDL_BlitSurface(logo, NULL, screen, &(SDL_Rect){Screen.main.logo.x,Screen.main.logo.y});
 
@@ -1542,9 +1542,19 @@ int main (int argc, char *argv[]) {
 					GFX_blitButton(screen, "B", "BACK", -(Screen.buttons.right+button_width+Screen.buttons.gutter),Screen.buttons.top, Screen.button.text.ox_B);
 				}
 			}
-			SDL_Flip(screen);
 		}
 		
+		// scroll long names
+		if (total>0) {
+			int selected_row = top->selected - top->start;
+			Entry* entry = top->entries->items[top->selected];
+			if (GFX_scrollMenu(screen, entry->name, entry->path, entry->unique, selected_row, top->selected, was_dirty, dirty)) dirty = 1;
+		}
+		
+		if (dirty) {
+			SDL_Flip(screen);
+			dirty = 0;
+		}		
 		// slow down to 60fps
 		unsigned long frame_duration = SDL_GetTicks() - frame_start;
 		#define kTargetFrameDuration 17
