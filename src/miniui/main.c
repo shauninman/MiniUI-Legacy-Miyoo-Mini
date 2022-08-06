@@ -889,9 +889,8 @@ static void queueNext(char* cmd) {
 	quit = 1;
 }
 static char* escapeSingleQuotes(char* str) {
-	// https://stackoverflow.com/a/31775567/145965
-	int replacestr(char *line, const char *search, const char *replace)
-	{
+	// based on https://stackoverflow.com/a/31775567/145965
+	int replaceString(char *line, const char *search, const char *replace) {
 	   char *sp; // start of pattern
 	   if ((sp = strstr(line, search)) == NULL) {
 	      return 0;
@@ -913,11 +912,10 @@ static char* escapeSingleQuotes(char* str) {
 	      while(dst >= stop) { *dst = *src; dst--; src--; }
 	   }
 	   memcpy(sp, replace, rLen);
-	   count += replacestr(sp + rLen, search, replace);
+	   count += replaceString(sp + rLen, search, replace);
 	   return count;
 	}
-	
-	replacestr(str, "'", "'\\''");
+	replaceString(str, "'", "'\\''");
 	return str;
 }
 

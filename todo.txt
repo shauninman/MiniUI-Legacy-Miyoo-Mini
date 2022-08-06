@@ -2,7 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- 
+- fixed launching games with $ in filename (eg. "WarioWare, Inc. - Mega Microgame$! (USA).gba")
 
 -------------------------------
 
@@ -13,7 +13,16 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
+- scroll long names
+	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
+	not really, just use an extern for the scrolling offset :sweat_smile:
+
 - add MGBA.pak and SUPA.pak to extras?
+	- or add officially?
+		- remove SFC.pak from extras if so
+		- could then add SGB to extras (using mgba)
+
+- add Add/Remove MiniUI Boot Logo to extras Tools
 
 - SDL
 	- put libmsettings behind a build flag or dlopen/dlsym
@@ -50,13 +59,12 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 - script checking core repos for newer commits?
 
 - look at the way eggs clockd works and see if we can do something similar to add libmmenu to standalones
-	- launch binary and pass it's pid to standalonemenu which listens for MENU and sends a sig STOP to the previous binary?
+	- launch binary and pass its pid to standalonemenu which listens for MENU and sends a sig STOP to the previous binary?
 
 - add an Extended Font.pak?
 
 - picoarch
 	truncate the common parts of a group of options, not the (usually unique) ends
-	see if rewind is easy to add
 	integrate cheat support into MiniUI
 
 - look into CamOS and MI_ERRs in MiniUI and picoarch
@@ -64,8 +72,6 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 	- add logging to try to bookend the errors to identify their source then untangle the cause
 
 - look into removing trimui patches from picoarch cores, breaking on latest core commits, see pcsx_rearmed
-
-- add Single-use paks to extras Tools (Add/Remove MiniUI Boot Logo and Update Boot Command)
 
 - BUG: repo doesn't checkout correct branch for submodules when cloned...
 	tried but didn't work
@@ -77,18 +83,10 @@ for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 - faqs
 - known issues
 
-- document auto.sh
-	- can `trap "sync && reboot" EXIT` or similar be used to catch errors in auto.sh and prevent stock from polluting the SD card?
-	trap "sync && reboot && sleep 10" ERR && set -E # NO
-	see https://stackoverflow.com/questions/29427364/non-bash-equivalent-to-trap-err
-	eggs: It should be noted that in the new FW, reboot will terminate and continue to run for some time afterwards.
-
 - BUG: say doesn't seem to respect extra line returns at end of msg
 
 - use smsplus-gx for SMS/GG?
 
-- scroll long names
-	ugh, this will be harder than it needs to be because of the old Union cross-platform separation
 - press L on a save state to lock/unlock it? to make it the default state to open instead of a cold launch?
 
 - auto-adjust brightness based on screen effect?

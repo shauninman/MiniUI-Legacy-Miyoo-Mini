@@ -106,6 +106,13 @@ A collection is just a text file containing an ordered list of full paths to rom
   /Roms/GBA/Metroid Fusion.gba
 
 ----------------------------------------
+Advanced
+
+MiniUI can automatically run a user-authored shell script on boot (for starting daemons like screenshots). Just place a file named "auto.sh" to "/.userdata/".
+
+Just keep in mind, syntax errors in auto.sh may prevent MiniUI from launching which will allow the stock system to modify your SD card, polluting the root of the card and your Roms folder with unnecessary subfolders, and removing the hook that allows MiniUI to boot. If this happens you will need to reinstall MiniUI (well, really just its "./tmp_update/" folder). No userdata is lost when this happens, it's just kinda annoying.
+
+----------------------------------------
 Thanks
 
 To eggs for his example middleware code, countless bug fixes, neon scalers, and patience in the face of my endless questions.
