@@ -1511,9 +1511,7 @@ int main (int argc, char *argv[]) {
 					int selected_row = top->selected - top->start;
 					for (int i=top->start,j=0; i<top->end; i++,j++) {
 						Entry* entry = top->entries->items[i];
-						int has_alt = j==selected_row && Entry_hasAlt(entry);
-						int use_alt = has_alt && Entry_useAlt(entry);
-						GFX_blitMenu(screen, entry->name, entry->path, entry->unique, j, selected_row, has_alt, use_alt);
+						GFX_blitMenu(screen, entry->name, entry->path, entry->unique, j, selected_row);
 					}
 				}
 				else {

@@ -551,11 +551,9 @@ static void trimSortingMeta(char** str) { // eg. `001) `
 	
 	while(isblank(**str)) *str += 1; // ignore leading space
 }
-
-void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, char* unique, int row, int selected_row, int has_alt, int use_alt) {
+void GFX_blitMenu(SDL_Surface* surface, char* name, char* path, char* unique, int row, int selected_row) {
 	int max_width = Screen.width - (2 * Screen.main.list.ox);
 	SDL_Surface* text;
-	char* fullname = strrchr(path, '/')+1;
 	if (row==selected_row) {
 		char* display_name = unique ? unique : name;
 		trimSortingMeta(&display_name);
