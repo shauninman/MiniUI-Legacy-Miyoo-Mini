@@ -25,8 +25,10 @@ Bios files
 
 You'll need to BYOB for these emulator paks included in this zip file.
 
-PCE: syscard3.pce
-PKM: bios.min
+ MGBA: gba_bios.bin (Game Boy Advance)
+       sgb_bios.bin (Super Game Boy)
+  PCE: syscard3.pce
+  PKM: bios.min
 
 ----------------------------------------
 Creating a tool pak
