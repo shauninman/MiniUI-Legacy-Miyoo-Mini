@@ -8,6 +8,7 @@ Please see the README.txt in the zip file for installation and update instructio
 - extras: added MGBA.pak (for use with collated folders)
 - extras: added SGB.pak (Super Game Boy core, mgba)
 - extras: renamed SFC.pak to SUPA.pak (for use with collated folders)
+- extras: added Random Game.pak to tools (launches a random game)
 
 -------------------------------
 

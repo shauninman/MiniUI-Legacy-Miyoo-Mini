@@ -29,9 +29,9 @@ while :; do
 	fi
 done
 
-# the shell isn't likeing parameter replacements 
-# when the var contains spaces so we have to pop 
-# the directories manually
+# the shell isn't liking parameter expansion 
+# when the var contains spaces so we have to 
+# pop the directories manually
 TMP="$FILE"
 EMU_TAG="$TMP"
 while :; do
