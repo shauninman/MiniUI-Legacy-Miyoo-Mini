@@ -42,7 +42,11 @@ MiniUI maybe be simple but it's also extensible. See the [Extras readme](https:/
 
 ## Extra Extras
 
-tiduscrying has put together some [additional paks](https://github.com/tiduscrying/MiniUI-Extra-Extras) (based on additional cores available in Onion). eggs has also created [a few paks](https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AABtSOygIX_e4mio3rkLetWTa?preview=MiniUI_Tools.zip).
+The community has created a bunch of additional paks, some tools and utilities, others paks based on cores created for Onion. I do not support these paks, nor have I done any sort of quality checks on them. They may lack the polish, features, and performance of my official stock and extras paks.
+
+- [tiduscrying](https://github.com/tiduscrying/MiniUI-Extra-Extras)
+- [westoncampbell](https://github.com/westoncampbell/MiyooMini/releases/tag/MiniUI-OnionPAKs)
+- [eggs](https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AABtSOygIX_e4mio3rkLetWTa?preview=MiniUI_Tools.zip)
 
 ## What happened to Union?
 

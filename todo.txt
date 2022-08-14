@@ -12,7 +12,7 @@ Please see the README.txt in the zip file for installation and update instructio
 -------------------------------
 
 ===============================
-upload v0.0.3 to github release
+upload toolchain v0.0.3 to github release
 add libvorbis and libmad to non-arm miyoomini-toolchain-buildroot
 and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
@@ -95,3 +95,5 @@ change all logging from &> log to > log 2>&1
 
 - show, confirm, and say don't sleep (neither does Files.pak)
 	:thinking_face: :shrug:
+
+- find . -name ".DS_Store" -type f -print -delete

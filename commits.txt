@@ -1,6 +1,6 @@
 5e600602  DinguxCommander
 608ebfc1  SDL-1.2
-694a1970  picoarch
+259066e7  picoarch
 76e45c34  libpicofe
 88252880  libretro-common
 15e0485e  vvvvvv
@@ -11,7 +11,7 @@ b3c35b65  fceumm
 73e64647  genesis-plus-gx
 03fc2b7d  gpsp
 85b55272  mednafen_supafaust
-5d48e074  mgba
+3990558e  mgba
 fc102fa3  nxengine
 131a1b41  pcsx_rearmed
 2ec448a8  picodrive
