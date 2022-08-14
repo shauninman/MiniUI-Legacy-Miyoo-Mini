@@ -15,12 +15,11 @@ and upload comparable v0.0.3 there too
 for now I'm running the toolchain with a local v0.0.3 for vvvvvv
 ===============================
 
-- add MGBA.pak and SUPA.pak to extras?
-	- or add officially?
-		- remove SFC.pak from extras if so
-		- could then add SGB to extras (using mgba)
-
 - add Add/Remove MiniUI Boot Logo to extras Tools
+
+- pcsx can't select analog or dualshock controller
+	- see picoarch/source/core.c#714
+	- might be able to special case a place for this in Emulator controls?
 
 - SDL
 	- put libmsettings behind a build flag or dlopen/dlsym
