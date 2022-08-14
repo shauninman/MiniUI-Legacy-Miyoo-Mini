@@ -5,6 +5,9 @@ Please see the README.txt in the zip file for installation and update instructio
 - added autoscrolling of long file names
 - fixed launching games with $ in filename (eg. "WarioWare, Inc. - Mega Microgame$! (USA).gba")
 - documented "/.userdata/auto.sh" (see updated README.txt)
+- extras: added MGBA.pak (for use with collated folders)
+- extras: added SGB.pak (Super Game Boy core, mgba)
+- extras: renamed SFC.pak to SUPA.pak (for use with collated folders)
 
 -------------------------------
 
