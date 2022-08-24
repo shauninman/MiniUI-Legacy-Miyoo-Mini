@@ -7,6 +7,9 @@ Features
 
 - No settings or configuration
 - Simple launcher, simple SD card
+- Automatically hides extension 
+  and region/version cruft in 
+  display names
 - Consistent in-emulator menu with
   quick access to save states, disc
   changing, and emulator options

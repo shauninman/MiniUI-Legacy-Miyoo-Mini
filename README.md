@@ -16,6 +16,7 @@ MiniUI maybe be simple but it's also extensible. See the [Extras readme](https:/
 
 - Simple launcher, simple SD card
 - No launcher settings or configuration
+- Automatically hides extension and region/version cruft in display names
 - Consistent in-emulator menu with quick access to save states, disc changing, and emulator options
 - Automatically sleeps after 30 seconds or press POWER to sleep (and later, wake)
 - Automatically powers off while asleep after two minutes or hold POWER for one second
