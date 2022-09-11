@@ -2,14 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- added autoscrolling of long file names
-- fixed launching games with $ in filename (eg. "WarioWare, Inc. - Mega Microgame$! (USA).gba")
-- documented "/.userdata/auto.sh" (see updated README.txt)
-- fixed corrupted save states when invoking save/load via shortcut while fastforwarding
-- extras: added MGBA.pak (for use with collated folders)
-- extras: added SGB.pak (Super Game Boy core, mgba)
-- extras: renamed SFC.pak to SUPA.pak (for use with collated folders)
-- extras: added Random Game.pak to tools (launches a random game)
+- 
 
 -------------------------------
 
