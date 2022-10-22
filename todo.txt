@@ -7,6 +7,16 @@ Please see the README.txt in the zip file for installation and update instructio
 
 -------------------------------
 
+- Pico-8 (P8) using fake-08
+	runs
+	manual save and load state work
+	resume doesn't work (will need patch similar to other cores that need a moment to initialize)
+	needs overrides for buttons
+	some weirdness when opening the menu/saving
+		buttons get stuck in the down state
+		menu button stops working
+		not sure how a core could be causing this issue...
+
 - gpsp has issues closing when a ~12MB zipped rom is loaded
 - add Add/Remove MiniUI Boot Logo to extras Tools
 
