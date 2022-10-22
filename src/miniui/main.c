@@ -989,23 +989,25 @@ static int autoResume(void) {
 	
 	if (!exists(emu_path)) return 0;
 	
+	// putFile(kLastPath, Paths.fauxRecentDir); // saveLast() will crash here because top is NULL
+
 	char cmd[256];
 	sprintf(cmd, "'%s' '%s'", escapeSingleQuotes(emu_path), escapeSingleQuotes(sd_path));
 	putFile(kResumeSlotPath, kAutoResumeSlot);
-
-	// putFile(kLastPath, Paths.fauxRecentDir); // saveLast() will crash here because top is NULL
 	queueNext(cmd);
 	return 1;
 }
 
 static void openPak(char* path) {
-	char cmd[256];
-	sprintf(cmd, "'%s/launch.sh'", escapeSingleQuotes(path));
-	
+	// NOTE: escapeSingleQuotes() modifies the passed string 
+	// so we need to save the path before we call that
 	// if (prefixMatch(Paths.romsDir, path)) {
 	// 	addRecent(path);
 	// }
 	saveLast(path);
+	
+	char cmd[256];
+	sprintf(cmd, "'%s/launch.sh'", escapeSingleQuotes(path));
 	queueNext(cmd);
 }
 static void openRom(char* path, char* last) {
@@ -1057,11 +1059,13 @@ static void openRom(char* path, char* last) {
 	char emu_path[256];
 	getEmuPath(emu_name, emu_path);
 	
-	char cmd[256];
-	sprintf(cmd, "'%s' '%s'", escapeSingleQuotes(emu_path), escapeSingleQuotes(sd_path));
-
+	// NOTE: escapeSingleQuotes() modifies the passed string 
+	// so we need to save the path before we call that
 	addRecent(recent_path);
 	saveLast(last==NULL ? sd_path : last);
+	
+	char cmd[256];
+	sprintf(cmd, "'%s' '%s'", escapeSingleQuotes(emu_path), escapeSingleQuotes(sd_path));
 	queueNext(cmd);
 }
 static void openDirectory(char* path, int auto_launch) {

@@ -2,7 +2,7 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- 
+- fixed issue selecting the previously launched game on exit when name contains a single quote
 - extras: fixed hang in Random Game.pak (it could get lost in empty folders, poor guy)
 
 -------------------------------
