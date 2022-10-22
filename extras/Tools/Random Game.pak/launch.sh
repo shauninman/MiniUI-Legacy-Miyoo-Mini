@@ -2,9 +2,13 @@
 
 # TODO: write a daemon that binds this to Y?
 
+say "Finding a random game..."
+sleep 1
+
 cd $SDCARD_PATH
 ROMS="$SDCARD_PATH/Roms"
 FILE="$ROMS"
+LOOPS=0
 while :; do
 	if [[ ! -d "$FILE" ]]; then
 		break
@@ -12,6 +16,15 @@ while :; do
 	
 	LINES=`find "$FILE" -maxdepth 1 -not -path '*/.*'`
 	TOTAL=`echo -n "$LINES" | grep -c '^'`
+	if [[ "$TOTAL" -le "1" ]]; then # the current directory seems to be listed first
+		FILE="$ROMS" # take it again from the top?
+		LOOPS=`expr ${LOOPS} + 1`
+		if [[ "$LOOPS" -ge "16" ]]; then
+			FILE=""
+			break
+		fi
+	fi
+	
 	R=`expr ${RANDOM} % ${TOTAL} + 1`
 	FILE=`echo "$LINES" | head -n $R | tail -1`
 	
@@ -28,6 +41,14 @@ while :; do
 		break
 	fi
 done
+
+if [[ -z "$FILE" ]]; then
+	show okay.png
+	say "Could not find any games."$'\n'"(Too many empty folders?)"$'\n'
+	sleep 0.1
+	confirm only
+	exit
+fi
 
 # the shell isn't liking parameter expansion 
 # when the var contains spaces so we have to 
