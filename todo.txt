@@ -2,11 +2,19 @@
 
 Please see the README.txt in the zip file for installation and update instructions.
 
-- fixed issue selecting the previously launched game on exit when name contains a single quote
-- extras: fixed hang in Random Game.pak (it could get lost in empty folders, poor guy)
-- extras: added P8.pak (PICO-8 core, jtothebell's fake-08)
+- (unsupported) cheat support simplified by https://github.com/belak
+- extras: added Cheats folders for all official base and extra emulators
+
+> This makes it possible to put cheats in (as an example) "/Cheats/GBC" rather than "/.userdata/.picoarch-gambatte-GBC/cheats".
+
+Many cheat files can be found here: https://github.com/libretro/libretro-database/tree/master/cht
+
+Please note that this is an unsupported feature in MinUI inherited from upstream picoarch, I don't personally use cheats so I won't be able to help troubleshoot any issues you run into.
 
 -------------------------------
+
+- recents don't handle the same rom in collated folders (should add emu tag to differentiate)
+	- collections are probably similarly affected
 
 - can we auto-resume fastfoward after hotkey save/load?
 
